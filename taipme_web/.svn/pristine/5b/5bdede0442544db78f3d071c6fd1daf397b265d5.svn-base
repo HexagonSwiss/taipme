@@ -1,0 +1,62 @@
+<header id="header"  xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:s="http://www.springframework.org/tags"	
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:input="urn:jsptagdir:/WEB-INF/tags/input"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	
+	<jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat" />
+<jsp:directive.page contentType="text/html;charset=UTF-8" />
+<jsp:directive.page pageEncoding="UTF-8" />
+
+<!-- Google tag (gtag.js) -->
+<![CDATA[
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-LB5FMC0YBM"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	
+	  gtag('config', 'G-LB5FMC0YBM');
+	</script>	
+]]>
+			
+	<table border="0" style="width: 99%;">
+		<tr>
+			<!-- visualizza messaggio conferma operazione oppure titolo del messaggio -->			
+			<td>							
+			   <c:if test="${not empty messages}">
+			   		<!-- messaggio presente - no titolo  -->
+			   		<div style="margin-left: 2em;">
+						<util:message message="${message}" messages="${messages}" />
+					</div>
+			   </c:if>			   
+			   <c:if test="${empty messages}">
+			   		<!-- messaggio assente - visualizza titolo messaggio -->
+			   		<c:if test="${not empty messaggio.titMsg and !isMessaggioadmin}">
+			   			<div style="margin-left: 1.7em;" >			   														
+							<span class="titolosgHeader">${messaggio.titMsg}</span>
+						</div>
+					</c:if>
+					
+					<!-- se presente, visualizza titolo messaggio admin per readmsgadmin.jspx -->
+					<c:if test="${not empty messaggioadmin.titMsg}">
+						<div style="margin-left: 1.7em;" >
+							<span class="titolosgHeader">${messaggioadmin.titMsg}</span>
+						</div>
+					</c:if>
+					
+			   </c:if>
+			</td>			
+			
+			<td width="25%" style="vertical-align: top; text-align: right;">								
+				<!--  menu  -->					
+				<jsp:include page="menu.jspx" />									
+			</td>
+		</tr>		
+	</table>
+	
+</header>

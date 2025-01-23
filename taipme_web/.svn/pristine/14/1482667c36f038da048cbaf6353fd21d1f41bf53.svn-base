@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:s="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" 
+     xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:input="urn:jsptagdir:/WEB-INF/tags/input" 
+	 xmlns:security="http://www.springframework.org/security/tags"
+	 xmlns:spring="http://www.springframework.org/tags"
+	 xmlns:display="urn:jsptagdir:/WEB-INF/tags/display"	 		  
+     version="2.0">     
+     
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+<jsp:output omit-xml-declaration="yes"/>
+
+	
+	<div id="col-right-main" class="col-right">	
+		<div class="container-fluid primary-content">			
+			
+			<!-- lettura messaggi utenti -->
+			<div id="idDivMsgUte">
+				<c:import url="../views/typewriter/readmsg.jspx"></c:import>
+			</div>
+			
+			
+		</div> <!-- end div container-fluid primary-content -->
+	</div> <!-- enddiv  col-right-main -->		
+	
+	
+<script  type="text/javascript">
+
+	$(document).ready(function() {
+		
+		
+		
+		
+				
+	});
+	 
+</script>
+</div>
+
+

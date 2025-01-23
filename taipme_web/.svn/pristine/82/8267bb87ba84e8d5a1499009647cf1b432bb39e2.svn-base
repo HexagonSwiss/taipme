@@ -1,0 +1,36 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" 
+  xmlns:spring="http://www.springframework.org/tags"     
+  xmlns:s="http://www.springframework.org/tags" 
+  xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+
+  <jsp:output omit-xml-declaration="yes" />
+  
+	<s:url value="/" var="url_home" />
+	<div class="container  page-404" style="background-color: black">
+	<br/><br/><br/><br/><br/><br/>
+		<div class="row">
+			<div class="col-md-2">&#160;</div>
+				<div class="col-md-8">
+				
+					<span class="titoloMsg">OOPS! ACCESSO NEGATO</span>				
+				
+					<c:if test='${ msg!=null and msg!="" }'>
+						<br></br>
+						<span class="textMsgHomePage">${msg}</span>
+					</c:if>
+					<c:if test='${ msg==null }'>					
+						<p class="textMsgHomePage">Pagina non disponibile</p>
+					</c:if>
+					<br></br>
+					<br></br>				
+					<a href="${url_home}" title="homepage" class="labellink">meglio tornare in homepage :-(</a>
+				
+
+			</div>
+			<div class="col-md-2">&#160;</div>
+		</div>
+	</div>	
+	
+
+</div>

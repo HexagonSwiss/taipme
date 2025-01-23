@@ -1,0 +1,11 @@
+<Context path="/whitepaperds">
+    
+  
+  <ResourceLink name="jdbc/WhitePaperDS"
+                global="jdbc/WhitepaperdsDS"
+                auth="Container"
+                type="javax.sql.DataSource" />
+                
+              
+ 
+</Context>

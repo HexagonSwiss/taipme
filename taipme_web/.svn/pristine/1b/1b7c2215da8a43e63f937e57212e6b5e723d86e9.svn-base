@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:s="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" 
+     xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:input="urn:jsptagdir:/WEB-INF/tags/input" 
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:spring="http://www.springframework.org/tags"
+     version="2.0">
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+<jsp:output omit-xml-declaration="yes"/>
+
+<s:message code="defaultDateTimeFormatDrscr"  var="defaultDateTimeFormatDrscr" />
+<s:message code="defaultDateTimeFormatShort"  var="defaultDateTimeFormatShort" />
+<spring:url value="/images" var="base_url_images" />
+
+<style type="text/css">
+
+
+.modal-dialog{
+    position: relative;
+    display: table; /* This is important */ 
+    overflow-y: auto;    
+    overflow-x: auto;
+    width: auto;
+    min-width: 300px;            
+    top: calc(50% - 200px) !important;    
+}
+
+
+</style>
+				
+		<!-- Modal --> 
+		  <div class="modal fade" id="idmodalconfdel" role="dialog">
+		    <div class="modal-dialog"  style="display:table;" >
+		
+		      <!-- Modal content -->
+		      <div class="modal-content" style="background-color: white;">		        
+		        <div class="modal-body">
+					<div class="row">			          
+				          <div class="col-md-12">																
+							<div class="widget">
+								<div class="widget-content">
+									<div class="clearfix textTitoloHeader	"><h3><b>strappa foglio</b></h3></div>									
+								</div>
+							</div>
+							<div class="textMsg" style="color: black;">
+								 confermi la cancellazione della conversazione?
+							</div>																
+						</div><!-- enddiv col12 -->
+	          		</div> <!-- end div row -->		          			          		          
+		        </div>
+		        <div class="modal-footer">
+		        	<button type="link" class="btn-link labellink" data-dismiss="modal"><font color="black">_annullo</font></button>		          	
+		          	<s:url var="deleteButtonURL" value="/reg/strappamsg/${messaggio.idMsg}" />
+					<a  href="${deleteButtonURL}" class="labellink"><font color="black">&#160;&#160;&#160;&#160;_confermo</font></a>
+					&#160;&#160;&#160;
+		        </div>
+		      </div>
+		      
+		    </div>
+		  </div>
+		  
+
+<script  type="text/javascript">
+	//<![CDATA[
+$(document).ready(function() {  
+	//$('#idmodalconfdel').modal('show');
+    
+});
+	//]]>	
+	</script>
+	 
+</div> <!--  enddiv widget -->	
