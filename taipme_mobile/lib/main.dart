@@ -11,17 +11,17 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Taipme',
       theme: TaipmeTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Center(
-          child: Column(
-            children: [
-              Image.asset('taipme_mobile/assets/logo/taipme.jpg'),
-              SizedBox(height: 20),
-              Text('Taipme è ancora in lavorazine 🚧', style: TextStyle(fontSize: 30)),
-            ],
-          ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/logo/taipme.jpg'),
+            SizedBox(height: 20),
+            Text('Taipme è ancora in lavorazine 🚧', style: TextStyle(fontSize: 24)),
+          ],
         ),
       ),
     );

@@ -1,3 +1,3 @@
-# taipme_mobile
+# taipme
 
 A new Flutter project.
