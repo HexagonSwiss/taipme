@@ -1,5 +1,5 @@
 name: taipme_mobile
-description: "A new Flutter project."
+description: "antisocial media"
 publish_to: 'none'
 version: 0.1.0
 
@@ -10,6 +10,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+# Navigation
+go_router: ^14.3.0
+
+# Logo
+flutter_launcher_icons: ^0.14.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -17,3 +23,45 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets: 
+    - assets/
+    - assets/logo/
+    - assets/image/
+    - assets/fonts/
+
+  fonts:
+    - family: JosefinSlab
+      fonts:
+        - asset: assets/fonts/JosefinSlab-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/JosefinSlab-ThinItalic.ttf
+          weight: 100
+          style: italic
+        - asset: assets/fonts/JosefinSlab-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/JosefinSlab-ExtraLightItalic.ttf
+          weight: 200
+          style: italic
+        - asset: assets/fonts/JosefinSlab-Light.ttf
+          weight: 300
+        - asset: assets/fonts/JosefinSlab-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/JosefinSlab-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/JosefinSlab-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/JosefinSlab-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/JosefinSlab-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/JosefinSlab-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/JosefinSlab-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/JosefinSlab-Bold.ttf
+          weight: 700
