@@ -10,11 +10,11 @@ dependencies:
   flutter:
     sdk: flutter
 
-# Navigation
-go_router: ^14.3.0
+  # Navigation
+  go_router: ^14.3.0
 
-# Logo
-flutter_launcher_icons: ^0.14.1
+  # Logo
+  flutter_launcher_icons: ^0.14.1
 
 dev_dependencies:
   flutter_test:
