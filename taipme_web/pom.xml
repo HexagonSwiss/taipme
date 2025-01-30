@@ -1,4 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.whitepaper</groupId>
@@ -50,7 +51,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.3.1.Final</version> 
+			<version>6.0.20.Final</version> 
 		</dependency>
 		
 		<!-- Dependencies for Unit Testing -->
@@ -146,7 +147,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId> <!-- org.hibernate.ejb.* -->
-			<version>4.2.2.Final</version>
+			<version>5.4.32.Final</version>
 		</dependency>
 
 
@@ -313,7 +314,13 @@
             <artifactId>spring-social-twitter</artifactId>
             <version>${spring.social.twitter.version}</version>
         </dependency>
-    
+    	<!-- MySQL ** Diego -->
+	    <dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.33</version>
+		</dependency>
+		
 	</dependencies>
 
 
