@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:s="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" 
+     xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:input="urn:jsptagdir:/WEB-INF/tags/input" 
+	 xmlns:security="http://www.springframework.org/security/tags"
+	 xmlns:spring="http://www.springframework.org/tags"
+	 xmlns:display="urn:jsptagdir:/WEB-INF/tags/display"	 		  
+     version="2.0">
+     
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+<jsp:output omit-xml-declaration="yes"/>
+	
+	 <div id="col-rightsss" class="col-right">
+			<div class="container-fluid primary-content"> 				
+							 
+				<div class="row divHeightFixPub">			
+					<div class="col-md-12">		
+								
+						<c:if test='${ null==theListFaq or theListFaq.size()==0 }'>
+							<h2>Nessuna FAQ disponibile</h2>
+						</c:if>	
+						<c:if test='${ null!=theListFaq and theListFaq.size()>0 }'>
+							<div class="panel-group panel-group-faq top-faq">
+							<c:forEach items="${theListFaq}" var="faqI" varStatus="numFaq"  >						
+								
+									<div class="panel panel-minimal">
+										<div class="panel-heading">
+											<h4 class="panel-title">
+												<a data-toggle="collapse" data-parent="#accordion" href="#top-faq${numFaq.index}" class="collapsed">
+													<span class="number pull-left">${numFaq.index+1}</span> 
+													<div class="labellink">${faqI.domFaq}</div>
+												</a>
+											</h4>
+										</div>
+										<div id="top-faq${numFaq.index}" class="panel-collapse collapse">
+											<div class="panel-body">
+												<p class="labellink">${faqI.risFaq}</p>								
+											</div>
+										</div>
+									</div>
+								
+							</c:forEach>
+							</div>
+						</c:if>
+					</div>
+				</div>
+				<br></br>
+				<br></br>
+				<div class="row">		
+					<div class="col-md-12">
+						<spring:url value="/info/contatti" var="url_contatti" />
+						<a href="${url_contatti}" class="btn labellink">_contatti</a>															
+						<spring:url value="/login" var="url_entra" />
+						&#160;&#160;<a href="${url_entra}" class="btn labellink">_entra</a>
+					</div>													
+				</div>							
+		</div>
+	</div>
+</div>
+
+
+

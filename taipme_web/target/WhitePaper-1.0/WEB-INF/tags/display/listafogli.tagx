@@ -1,0 +1,87 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+	xmlns:s="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:joda="http://www.joda.org/joda/time/tags"
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+
+	<jsp:directive.attribute name="listFogli" type="java.util.List" required="false" rtexprvalue="true" description="pattern" />
+		
+	
+	<!-- elenco fogli disponibili -->	
+	<c:if test="${ listFogli!=null }">	
+						
+		<hr></hr>
+		<c:set var="idFoglioCorrente" value="${messaggio.idFoglio}" />
+		<c:if test='${ messaggio.idFoglioOrig!=null }'>
+			<c:set var="idFoglioCorrente" value="${messaggio.idFoglioOrig}" />
+		</c:if>
+		<!--  IDFOGLIOCORRENTE: ${idFoglioCorrente} --> 
+		
+		 
+		
+		
+		<div class="row" align="center">							
+			<c:forEach items="${listFogli}" var="foglio" varStatus="posiz" begin="0" >
+				
+				<c:set var="i" value="${posiz.index+1}" />				
+				<s:url value="/reg/${i}" var="url_foglio" />				
+						
+			 	<c:set var="charAsterisco" value="" />	
+			 	<c:set var="cssRisposta" value="" />
+			  	<c:if test='${ foglio.isPresenteRisposta() or foglio.isSendReply() }'>
+			  		<c:set var="charAsterisco" value="*" />	
+			  		<c:set var="cssRisposta" value="foglioConRisposta" />		  		
+			 	</c:if>	
+			 	<div class="col-sm-2">		
+			 							 					 			 		
+					<a href="${url_foglio}" class="labelFoglioIndicelink">						
+						<!-- foglio corrente sottolineato -->										
+						<c:if test='${ i==idFoglioCorrente }'>						 								
+							<span class="${cssRisposta} custom-border"><b>${i}${charAsterisco}</b></span>							
+						</c:if>										
+						<c:if test='${ i!=idFoglioCorrente }'>
+							<span class="${cssRisposta}">${i}${charAsterisco}</span>							
+						</c:if>																							
+					</a>
+				</div>			
+			</c:forEach>
+			   
+			
+			<!--aggiungi nuovo foglio	 		 
+				AGGIUNGI NUOVO FOGLIO ${isPossibleAddNewFoglio} - ${ isScriviNewMsg }
+				-->			 
+			<c:set var="numMaxFogli" value="${numMaxFogli}" />
+			<c:set var="numFogliCorr" value="${listFogli.size()}" />			
+			<c:if test='${ !isScriviNewMsg and numFogliCorr lt numMaxFogli and isPossibleAddNewFoglio }'>
+				<div class="col-sm-2">					
+					<s:url value="/reg/addNewFoglio/${numFogliCorr}" var="url_form_submit_addnewfoglio" />
+					<a href="${url_form_submit_addnewfoglio}" class="labellink" id="idBtnAddFoglio" title="passa a foglio ${numFogliCorr+1} (max ${numMaxFogli})"><b>+</b></a>
+				</div>
+			</c:if>											
+		</div><!-- enddiv row -->				
+		
+	</c:if>
+			
+	
+	
+		
+<script  type="text/javascript">
+	
+	$(document).ready(function() {
+		
+
+	});	
+
+</script>
+		
+	<style>
+    
+    .custom-border {
+      border: 2px solid white; /* Imposta il colore della cornice su bianco */
+      padding: 10px; /* Aggiungi spaziatura interna se necessario */
+    }
+  </style>
+		
+		
+</jsp:root>
