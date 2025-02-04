@@ -35,7 +35,7 @@ class TaipmeStyle {
   static const double atomIconSize = 8;
 
 // COLOR
-  static const Color primaryColor = Color(0xFF62C6C9);
+  static const Color primaryColor = Color(0xFF000000);
   static const Color primaryColorWithOpacity = Color(0x3B62C6C9);
   static const Color lightPrimaryColor = Color(0xFFAFDEDC);
   static const Color secondaryColor = Color(0xFF3B9FDF);

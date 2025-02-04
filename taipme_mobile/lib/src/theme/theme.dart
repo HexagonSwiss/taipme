@@ -3,7 +3,7 @@ import 'package:taipme_mobile/src/theme/styles.dart';
 
 class TaipmeTheme {
   static ThemeData lightTheme = ThemeData(
-      brightness: Brightness.light,
+      //brightness: Brightness.light,
       fontFamily: TaipmeStyle.primaryFont,
       colorSchemeSeed: TaipmeStyle.primaryColor,
       progressIndicatorTheme: const ProgressIndicatorThemeData(
