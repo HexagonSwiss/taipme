@@ -4,12 +4,12 @@ class TaipmeStyle {
 // ------------------ GLOBAL ------------------
 
 // FONT
-  static const String primaryFont = 'JosefinSlab';
+  static const String primaryFont = 'Lucida';
 
 // TEXT SIZE
   static const double giantTextSize = 40;
   static const double extraLargeTextSize = 30;
-  static const double largeTextSize = 25;
+  static const double largeTextSize = 26;
   static const double standardTextSize = 18;
   static const double smallTextSize = 16;
   static const double miniTextSize = 14;
@@ -35,21 +35,15 @@ class TaipmeStyle {
   static const double atomIconSize = 8;
 
 // COLOR
-  static const Color primaryColor = Color(0xFF000000);
-  static const Color primaryColorWithOpacity = Color(0x3B62C6C9);
-  static const Color lightPrimaryColor = Color(0xFFAFDEDC);
-  static const Color secondaryColor = Color(0xFF3B9FDF);
-  static const Color backgroundColor = Color(0xFFFEFEFE);
-  static const Color slightlyDarkerBackgroundColor = Color(0xFFFCFCFC);
-  static const Color lightBackgroundColor = Color(0xFFFFFFFF);
-  static const Color borderColor = Color(0xFFF3F3F3);
-  static const Color lightBorderColor = Color(0xEEEEEEEE);
-  static const Color lightTextColor = Color(0x464F524D);
-  static const Color defaultTextColor = Color(0xFF464F52);
-  static const Color darkTextColor = Color(0xFF000000);
-  static const Color successColor = Color(0xFF00BCA5);
+  // ----------------- MAIN COLORS -----------------
+  static const Color primaryColor = Color(0xFFFEFEFE);
+  static const Color backgroundColor = Color(0xFF000000);
   static const Color removeColor = Color(0xFFD95F5F);
   static const Color errorColor = Color(0xFFFD6E35);
+
+  // ----------------- TEXT COLOR -----------------
+  static const Color inputFieldTextColor = Color(0xFFFEFEFE); // Used in Destination, Activity, etc
+  static const Color inputFieldLightTextColor = Color(0xFFFEFEFE); // Used in Destination, Activity, etc
 
 // GRADIENT COLORS
 
