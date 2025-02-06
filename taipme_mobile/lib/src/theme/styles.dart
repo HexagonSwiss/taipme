@@ -39,8 +39,9 @@ class TaipmeStyle {
   static const Color primaryColor = Color(0xFFFEFEFE);
   static const Color backgroundColor = Color(0xFF000000);
   static const Color removeColor = Color(0xFFD95F5F);
-  static const Color errorColor = Color(0xFFFD6E35);
-
+  static const Color errorColor = Color(0xFFFA7777);
+  static const Color borderInput = Color(0xFF5B5B5B);
+  static const Color backgroundColorInput = Color(0xFF191919);
   // ----------------- TEXT COLOR -----------------
   static const Color inputFieldTextColor = Color(0xFFFEFEFE); // Used in Destination, Activity, etc
   static const Color inputFieldLightTextColor = Color(0xFFFEFEFE); // Used in Destination, Activity, etc

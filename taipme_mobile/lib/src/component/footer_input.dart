@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
@@ -21,11 +22,15 @@ class _FooterInputState extends ConsumerState<FooterInput> {
    
   @override
   Widget build(BuildContext context) {
+    if (kDebugMode) {
+      print("ChatHomePAGE!");
+    } // Log durante il build
     return Column(
       children: [
         TextButton(
           onPressed: () => ref.read(goRouterProvider).go(widget.titleLink),
           child: Text(
+            textAlign: TextAlign.center, 
             widget.title,
             style: TextStyle(
               color: TaipmeStyle.primaryColor,

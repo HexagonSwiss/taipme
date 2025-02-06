@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/src/component/footer_input.dart';
+import 'package:taipme_mobile/src/component/text_input.dart';
 import 'package:taipme_mobile/src/component/titlle_input.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
@@ -14,6 +15,23 @@ final String token;
 }
 
 class _ForgotPasswordCOnfirmationPageState extends ConsumerState<ForgotPasswordConfirmationPage> {
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+
+  bool _isEmailValid = true;
+  bool _isPasswordValid = true;
+
+  @override
+  void dispose() {
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,38 +58,45 @@ class _ForgotPasswordCOnfirmationPageState extends ConsumerState<ForgotPasswordC
   Widget _buildForm() {
     return Column(
       children: [
-        TextField(
-          obscureText: true,
-          style: const TextStyle(color: TaipmeStyle.primaryColor),
-          decoration: const InputDecoration(
-            labelText: 'nuova password',
-            labelStyle: TextStyle(color: TaipmeStyle.primaryColor),
-            suffixIcon: Icon(Icons.lock, color: TaipmeStyle.primaryColor),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: TaipmeStyle.primaryColor),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: TaipmeStyle.primaryColor),
-            ),
-          ),
+        TextInput(
+          hintText: 'nuova password',
+          icon: Icons.visibility,
+          controller: _emailController,
+          focusNode: _emailFocusNode,
+          isValid: _isEmailValid,
+          onFocusLost: _validateEmail,
         ),
         const SizedBox(height: 16),
-        TextField(
-          obscureText: true,
-          style: const TextStyle(color: TaipmeStyle.primaryColor),
-          decoration: const InputDecoration(
-            labelText: 'conferma nuova password',
-            labelStyle: TextStyle(color: TaipmeStyle.primaryColor),
-            suffixIcon: Icon(Icons.visibility, color: TaipmeStyle.primaryColor),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: TaipmeStyle.primaryColor),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: TaipmeStyle.primaryColor),
-            ),
-          ),
+        TextInput(
+          hintText: 'conferma nuova password',
+          icon: Icons.visibility,
+          controller: _emailController,
+          focusNode: _emailFocusNode,
+          isValid: _isEmailValid,
+          onFocusLost: _validateEmail,
         ),
       ],
     );
   }
+
+    bool _validateForm() {
+    setState(() {
+      _isEmailValid = _emailController.text.contains('@');
+      _isPasswordValid = _passwordController.text.isNotEmpty;
+    });
+    return _isEmailValid && _isPasswordValid;
+  }
+
+  void _validateEmail() {
+    setState(() {
+      _isEmailValid = _emailController.text.contains('@');
+    });
+  }
+
+  void _validatePassword() {
+    setState(() {
+      _isPasswordValid = _passwordController.text.isNotEmpty;
+    });
+  }
+
 }

@@ -13,6 +13,7 @@ import 'package:taipme_mobile/src/page/authentication/login_or_register_page.dar
 import 'package:taipme_mobile/src/page/registration/registration_page.dart';
 //import 'package:taipme_mobile/src/page/registration/registration_confirmation_page.dart';
 import 'package:taipme_mobile/src/page/registration/registration_sent_page.dart';
+import 'package:taipme_mobile/src/page/chat/chat_home_page.dart';
 // import 'package:taiptaipme_mobileme/src/page/result_page.dart';
 // import 'package:taipme_mobile/src/page/settings/settings_page.dart';
 //import 'package:taipme_mobile/src/util/key/key.dart';
@@ -75,6 +76,10 @@ GoRouter goRouter(Ref ref) {
           final token = state.uri.queryParameters['token'];
           return MaterialPage(child: ForgotPasswordConfirmationPage(token: token!));
         },
+      ),
+      GoRoute(
+        path: '/chat-home-page',
+        pageBuilder: (context, state) => const MaterialPage(child: ChatHomePage()),
       ),
     ],
   );

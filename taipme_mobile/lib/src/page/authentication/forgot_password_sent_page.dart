@@ -38,6 +38,7 @@ Widget _buildForm() {
       children: [
         Text(
           'Controlla la tua casella postale e segui il link per reimpostare la tua password!',
+          textAlign: TextAlign.center, 
           style: TextStyle(
             fontSize: TaipmeStyle.miniTextSize,
             color: TaipmeStyle.primaryColor,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/src/component/footer_input.dart';
+import 'package:taipme_mobile/src/component/text_input.dart';
 import 'package:taipme_mobile/src/component/titlle_input.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
@@ -12,6 +13,15 @@ class RegistrationPage extends ConsumerStatefulWidget {
 }
 
 class _RegistrationPageState extends ConsumerState<RegistrationPage> {
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+
+  bool _isEmailValid = true;
+  bool _isPasswordValid = true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -37,53 +47,53 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   Widget _buildForm() {
     return Column(
       children: [
-        TextField(
-          style: const TextStyle(color: TaipmeStyle.primaryColor),
-          decoration: const InputDecoration(
-            labelText: 'e-mail',
-            labelStyle: TextStyle(color: TaipmeStyle.primaryColor),
-            suffixIcon: Icon(Icons.person, color: TaipmeStyle.primaryColor),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: TaipmeStyle.primaryColor),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: TaipmeStyle.primaryColor),
-            ),
-          ),
+        TextInput(
+          hintText: 'e-mail',
+          icon: Icons.person,
+          controller: _emailController,
+          focusNode: _emailFocusNode,
+          isValid: _isEmailValid,
+          onFocusLost: _validateEmail,
         ),
         const SizedBox(height: 16),
-        TextField(
-          obscureText: true,
-          style: const TextStyle(color: TaipmeStyle.primaryColor),
-          decoration: const InputDecoration(
-            labelText: 'password',
-            labelStyle: TextStyle(color: TaipmeStyle.primaryColor),
-            suffixIcon: Icon(Icons.visibility, color: TaipmeStyle.primaryColor),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: TaipmeStyle.primaryColor),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: TaipmeStyle.primaryColor),
-            ),
-          ),
+        TextInput(
+          hintText: 'password',
+          icon: Icons.visibility,
+          controller: _emailController,
+          focusNode: _emailFocusNode,
+          isValid: _isEmailValid,
+          onFocusLost: _validateEmail,
         ),
         const SizedBox(height: 16),
-        TextField(
-          obscureText: true,
-          style: const TextStyle(color: TaipmeStyle.primaryColor),
-          decoration: const InputDecoration(
-            labelText: 'conferma password',
-            labelStyle: TextStyle(color: TaipmeStyle.primaryColor),
-            suffixIcon: Icon(Icons.visibility, color: TaipmeStyle.primaryColor),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: TaipmeStyle.primaryColor),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: TaipmeStyle.primaryColor),
-            ),
-          ),
+        TextInput(
+          hintText: 'conferma password',
+          icon: Icons.visibility,
+          controller: _emailController,
+          focusNode: _emailFocusNode,
+          isValid: _isEmailValid,
+          onFocusLost: _validateEmail,
         ),
       ],
     );
+  }
+
+    bool _validateForm() {
+    setState(() {
+      _isEmailValid = _emailController.text.contains('@');
+      _isPasswordValid = _passwordController.text.isNotEmpty;
+    });
+    return _isEmailValid && _isPasswordValid;
+  }
+
+  void _validateEmail() {
+    setState(() {
+      _isEmailValid = _emailController.text.contains('@');
+    });
+  }
+
+  void _validatePassword() {
+    setState(() {
+      _isPasswordValid = _passwordController.text.isNotEmpty;
+    });
   }
 }

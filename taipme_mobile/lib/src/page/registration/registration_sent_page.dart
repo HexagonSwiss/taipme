@@ -38,6 +38,7 @@ Widget _buildForm() {
       children: [
         Text(
           'Registrazione avvenuta! Controlla la tua casella postale e segui il link per accedere',
+          textAlign: TextAlign.center, 
           style: TextStyle(
             fontSize: TaipmeStyle.miniTextSize,
             color: TaipmeStyle.primaryColor,
