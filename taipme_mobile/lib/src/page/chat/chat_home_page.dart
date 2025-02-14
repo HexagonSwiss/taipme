@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:taipme_mobile/route/route.dart';
-import 'package:taipme_mobile/src/component/custom_header.dart';
 import 'package:taipme_mobile/src/component/custom_footer.dart';
+import 'package:taipme_mobile/src/component/custom_header.dart';
+import 'package:taipme_mobile/src/component/menu.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
 class ChatHomePage extends StatelessWidget {
@@ -34,9 +34,7 @@ class _MainScreenState extends State<MainScreen> {
 
   int _currentIndex = 0;
   final List<Widget> swiperItems = [
-    MessageCard(
-        message:
-            "Quando meno te l’aspetti, tutto cambia all’improvviso #ottimismo"),
+    MessageCard(message: "Quando meno te l’aspetti, tutto cambia all’improvviso #ottimismo"),
     MessageCard(message: "Le sfide rendono la vita interessante."),
     MessageCard(message: "Con pazienza tutto arriva al momento giusto."),
   ];
@@ -46,18 +44,20 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       backgroundColor: TaipmeStyle.backgroundColor,
       appBar: const CustomHeader(),
+      endDrawer: const Menu(),
       body: Column(
         children: [
           Padding(
-              padding: const EdgeInsets.all(26), // Padding intorno al TextField
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: '#cerca',
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: TaipmeStyle.borderInput),
-                  ),
+            padding: const EdgeInsets.all(26), // Padding intorno al TextField
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: '#cerca',
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: TaipmeStyle.borderInput),
                 ),
-              )),
+              ),
+            ),
+          ),
           Expanded(
             child: PageView.builder(
               itemCount: swiperItems.length,
@@ -67,22 +67,22 @@ class _MainScreenState extends State<MainScreen> {
                 });
               },
               itemBuilder: (context, index) {
+                // Aggiungi margine destro per far vedere la card successiva
                 return swiperItems[index];
               },
+              // Impostiamo il viewportFraction per far vedere una porzione della card successiva
+              controller: PageController(viewportFraction: 0.85),  // 85% della larghezza per ogni card
             ),
           ),
           Container(
-            margin: const EdgeInsets.all(16),
+            margin: const EdgeInsets.only(top: 16, right: 0, bottom: 43, left: 0),
             padding: const EdgeInsets.all(0),
             child: Column(
-              mainAxisSize:
-                  MainAxisSize.min, // Minimizza l'altezza del container
+              mainAxisSize: MainAxisSize.min, // Minimizza l'altezza del container
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset(
                   'assets/logo/swiper.png',
-
-                  ///Users/diegoalbini/Desktop/Project/taipme/taipme_mobile/assets/images/swiper.png
                   width: 50,
                   height: 50,
                 ),
@@ -112,16 +112,10 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
       bottomNavigationBar: CustomFooter(
-          isChatSelected: false,  // Imposta quale icona è selezionata
-          isHomeSelected: true,
-          isSettingsSelected: false,
+        isChatSelected: false,  // Imposta quale icona è selezionata
+        isHomeSelected: true,
+        isSettingsSelected: false,
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: TaipmeStyle.backgroundColorInput,
-      //   onPressed: () => updateImage('home'),
-      //   child: const Icon(Icons.home_outlined, color: TaipmeStyle.primaryColor),
-      // ),
     );
   }
 }
@@ -134,8 +128,9 @@ class MessageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(16),
+      margin: const EdgeInsets.all(16,),
       padding: const EdgeInsets.all(20),
+      width: MediaQuery.of(context).size.width * 0.85,  // 85% della larghezza della schermata
       decoration: BoxDecoration(
         border: Border.all(
           color: TaipmeStyle.borderInput,
@@ -146,8 +141,7 @@ class MessageCard extends StatelessWidget {
         children: [
           Text(
             message,
-            style:
-                const TextStyle(color: TaipmeStyle.primaryColor, fontSize: 16),
+            style: const TextStyle(color: TaipmeStyle.primaryColor, fontSize: 16),
             textAlign: TextAlign.center,
           ),
           const Spacer(), // Spinge il bottone verso il basso
@@ -170,8 +164,7 @@ class MessageCard extends StatelessWidget {
                       ),
                       const Spacer(), // Spaziatore per spingere l'icona a destra
                       Transform.rotate(
-                        angle: -45 *
-                            (3.14159 / 180), // 45 gradi convertiti in radianti
+                        angle: -45 * (3.14159 / 180), // 45 gradi convertiti in radianti
                         child: const Icon(
                           Icons.send,
                           color: TaipmeStyle.primaryColor,

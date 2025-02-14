@@ -6,7 +6,7 @@ import 'package:taipme_mobile/src/theme/styles.dart';
 class Menu extends ConsumerWidget {
   const Menu({super.key});
 
-final double spaceBetweenItems = 15;
+  final double spaceBetweenItems = 15;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,7 +17,7 @@ final double spaceBetweenItems = 15;
         ),
       ),
       shadowColor: TaipmeStyle.backgroundColor,
-      backgroundColor: TaipmeStyle.backgroundColor,
+      backgroundColor: TaipmeStyle.primaryColor,
       width: 230,
       child: Container(
         height: MediaQuery.of(context)
@@ -32,130 +32,112 @@ final double spaceBetweenItems = 15;
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      GestureDetector(
+                        onTap: () {
+                          ref.read(goRouterProvider).go('/chat-home-page');
+                        },
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.only(right: 12.0),
+                          child: Image.asset(
+                            'assets/logo/taipme_bianco.png',
+                            width: 150,
+                            height: 150,
+                            color: TaipmeStyle.backgroundColor,
+                          ),
+                        ),
+                      ),
                       IconButton(
-                        onPressed: () => ref.read(goRouterProvider).pop(),
+                        onPressed: () => Scaffold.of(context).closeEndDrawer(),
                         icon: const Icon(Icons.close,
                             color: TaipmeStyle.backgroundColor, size: 30),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 40),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 8.0),
-                          decoration: BoxDecoration(
-                            color: TaipmeStyle.backgroundColorInput,
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          child: Text(
-                            'Pippo',
-                            style: TextStyle(
-                              color: Color(0xFFFDD26A),
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 40),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Text(
-                          'PLuto',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
-                            color: TaipmeStyle.backgroundColor,
-                          ),
-                        ),
-                      ),
                       const SizedBox(height: 40),
                       TextButton(
                           onPressed: () {
-                            ref.read(goRouterProvider).go('/');
+                            ref.read(goRouterProvider).go('/faq-page');
                           },
                           child: Row(
                             children: [
-                              Icon(Icons.home_outlined,
-                                  color: Colors.white, size: 25),
-                              SizedBox(width: 8.0),
                               Text(
-                                'Test',
+                                'FAQ',
                                 style: TextStyle(
-                                    fontSize: TaipmeStyle.atomIconSize,
-                                    fontWeight: FontWeight.w600,
+                                    fontSize: TaipmeStyle.miniTextSize,
+                                    fontWeight: TaipmeStyle.lightFontWeight,
                                     color: TaipmeStyle.backgroundColor),
                               ),
                             ],
                           )),
                       SizedBox(height: spaceBetweenItems),
                       TextButton(
-                        onPressed: () {
-                          debugPrint('View: navigating to /profile');
-                          ref.read(goRouterProvider).go('/profile');
-                        },
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons
-                                  .account_circle, // Usa l'icona passata come parametro
-                              color: Colors.white,
-                              size:
-                                  25, // Opzionale: imposta la dimensione in base alla dimensione del testo
-                            ),
-                            SizedBox(
-                                width: 8.0), // Spaziatura tra testo e icona
-                            Text(
-                              'Other Test',
-                              style: TextStyle(
-                                fontSize: TaipmeStyle.extraLargeTextSize,
-                                fontWeight: TaipmeStyle.lightFontWeight,
-                                color: TaipmeStyle.backgroundColorInput,
+                          onPressed: () {
+                            ref.read(goRouterProvider).go('/contact-us-page');
+                          },
+                          child: Row(
+                            children: [
+                              Text(
+                                'Contattaci',
+                                style: TextStyle(
+                                    fontSize: TaipmeStyle.miniTextSize,
+                                    fontWeight: TaipmeStyle.lightFontWeight,
+                                    color: TaipmeStyle.backgroundColor),
                               ),
-                            )
-                          ],
-                        ),
-                      ),
+                            ],
+                          )),
+                      SizedBox(height: spaceBetweenItems),
+                      TextButton(
+                          onPressed: () {
+                            ref.read(goRouterProvider).go('/what-is-page');
+                          },
+                          child: Row(
+                            children: [
+                              Text(
+                                'cos’è Taipme',
+                                style: TextStyle(
+                                    fontSize: TaipmeStyle.miniTextSize,
+                                    fontWeight: TaipmeStyle.lightFontWeight,
+                                    color: TaipmeStyle.backgroundColor),
+                              ),
+                            ],
+                          )),
+                      SizedBox(height: spaceBetweenItems),
+                      TextButton(
+                          onPressed: () {
+                            ref.read(goRouterProvider).go('/faq-page');
+                          },
+                          child: Row(
+                            children: [
+                              Text(
+                                'telegram',
+                                style: TextStyle(
+                                    fontSize: TaipmeStyle.miniTextSize,
+                                    fontWeight: TaipmeStyle.lightFontWeight,
+                                    color: TaipmeStyle.backgroundColor),
+                              ),
+                            ],
+                          )),
+                      SizedBox(height: spaceBetweenItems),
+                      TextButton(
+                          onPressed: () {
+                            ref.read(goRouterProvider).go('/faq-page');
+                          },
+                          child: Row(
+                            children: [
+                              Text(
+                                'whatsapp',
+                                style: TextStyle(
+                                    fontSize: TaipmeStyle.miniTextSize,
+                                    fontWeight: TaipmeStyle.lightFontWeight,
+                                    color: TaipmeStyle.backgroundColor),
+                              ),
+                            ],
+                          )),
                     ],
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: 40,
-              left: 0,
-              right: 0,
-              child: Column(
-                children: [
-                  const Divider(
-                    color: Colors.grey,
-                    thickness: 1.0,
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      // await ref.read(firebaseAuthInstanceProvider).signOut();
-                      ref.read(goRouterProvider).go('/login');
-                    },
-                    child: Row(
-                      children: [
-                        Icon(Icons.logout_outlined,
-                            color: Colors.white, size: 25),
-                        SizedBox(width: 8.0),
-                        Text(
-                          'Logout',
-                          style: TextStyle(
-                              fontSize: TaipmeStyle.extraLargeIconSize,
-                              fontWeight: FontWeight.w600,
-                              color: TaipmeStyle.backgroundColor),
-                        ),
-                      ],
-                    ),
                   ),
                 ],
               ),

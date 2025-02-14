@@ -1,5 +1,5 @@
 flutter_launcher_icons:
-  image_path: "assets/logo/taipme.jpg"
+  image_path: "assets/logo/taipme.png"
   android: true
   ios: true
   remove_alpha_ios: true

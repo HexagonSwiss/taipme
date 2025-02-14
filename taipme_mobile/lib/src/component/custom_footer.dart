@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
-class CustomFooter extends StatelessWidget {
+class CustomFooter extends ConsumerWidget {
   
   final bool isChatSelected;
   final bool isHomeSelected;
@@ -12,7 +14,7 @@ class CustomFooter extends StatelessWidget {
     required this.isSettingsSelected});
   
 @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
 
       decoration: BoxDecoration(
@@ -63,7 +65,7 @@ class CustomFooter extends StatelessWidget {
               ),
               padding: EdgeInsets.all(13),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () => ref.read(goRouterProvider).go('/chat-home-page'),
                 icon: Icon(
                   Icons.home,
                   color: Colors.white,
@@ -74,7 +76,7 @@ class CustomFooter extends StatelessWidget {
           ),
           // Icon Settings
           Transform.translate(
-            offset: isSettingsSelected ? Offset(0, -10) : Offset(0, 0), // Sposta l'icona verso l'alto se selezionata
+            offset: isSettingsSelected ? Offset(0, -40) : Offset(0, 0), // Sposta l'icona verso l'alto se selezionata
             child: Container(
               decoration: BoxDecoration(
                 color: TaipmeStyle.backgroundColorInput, // Colore di sfondo
@@ -86,7 +88,7 @@ class CustomFooter extends StatelessWidget {
               ),
               padding: EdgeInsets.all(13),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () => ref.read(goRouterProvider).go('/settings-page'),
                 icon: Icon(
                   Icons.settings_outlined,
                   color: Colors.white,

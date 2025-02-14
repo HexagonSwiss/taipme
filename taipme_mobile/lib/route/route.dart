@@ -1,27 +1,20 @@
 import 'package:taipme_mobile/src/controller/route_controller/route_controller.dart';
-// import 'package:taipme_mobile/src/page/activtiy_page.dart';
-// import 'package:taipme_mobile/src/page/app_initialization/app_error_page.dart';
-// import 'package:taipme_mobile/src/page/app_initialization/app_splash_page.dart';
 import 'package:taipme_mobile/src/page/authentication/forgot_password_confirmation_page.dart';
 import 'package:taipme_mobile/src/page/authentication/forgot_password_page.dart';
 import 'package:taipme_mobile/src/page/authentication/forgot_password_sent_page.dart';
 import 'package:taipme_mobile/src/page/authentication/login_or_register_page.dart';
-// import 'package:taipme_mobile/src/page/authentication/login_page.dart';
-// import 'package:taipme_mobile/src/page/category_page.dart';
-// import 'package:taipme_mobile/src/page/debug_page.dart';
-// import 'package:taipme_mobile/src/page/destination_page.dart';
 import 'package:taipme_mobile/src/page/registration/registration_page.dart';
-//import 'package:taipme_mobile/src/page/registration/registration_confirmation_page.dart';
 import 'package:taipme_mobile/src/page/registration/registration_sent_page.dart';
 import 'package:taipme_mobile/src/page/chat/chat_home_page.dart';
-// import 'package:taiptaipme_mobileme/src/page/result_page.dart';
-// import 'package:taipme_mobile/src/page/settings/settings_page.dart';
-//import 'package:taipme_mobile/src/util/key/key.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:taipme_mobile/src/page/home_page.dart';
+import 'package:taipme_mobile/src/page/faq/faq_page.dart';
+import 'package:taipme_mobile/src/page/contact_us/contact_us_page.dart';
+import 'package:taipme_mobile/src/page/what_is/what_is_page.dart';
+import 'package:taipme_mobile/src/page/settings/settings_page.dart';
 
 part 'route.g.dart';
 
@@ -80,6 +73,22 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         path: '/chat-home-page',
         pageBuilder: (context, state) => const MaterialPage(child: ChatHomePage()),
+      ),
+      GoRoute(
+        path: '/faq-page',
+        pageBuilder: (context, state) => const MaterialPage(child: FaqPage()),
+      ),
+      GoRoute(
+        path: '/contact-us-page', 
+        pageBuilder: (context, state) => const MaterialPage(child: ContactUsPage())
+      ),
+      GoRoute(
+        path: '/what-is-page', 
+        pageBuilder: (context, state) => const MaterialPage(child: WhatIsPage())
+      ),
+      GoRoute(
+        path: '/settings-page', 
+        pageBuilder: (context, state) => const MaterialPage(child: SettingsPage())
       ),
     ],
   );

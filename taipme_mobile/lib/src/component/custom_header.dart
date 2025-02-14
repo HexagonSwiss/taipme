@@ -34,8 +34,15 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
         ),
         elevation: 0,
       ),
-      endDrawer: const Menu(),
-      body: Center(child: Text('Contenuto principale')),
+body: Column(
+        children: [
+          // Aggiungi un SizedBox per separare la AppBar dal resto del contenuto
+          SizedBox(height: 150), // Puoi regolare questa altezza come preferisci
+          Center(
+            child: Text("Content goes here"),
+          ),
+        ],
+      ),
     );
   }
 
