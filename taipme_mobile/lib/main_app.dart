@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'package:app_links/app_links.dart';
 import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/controller/instance_controller/instance_controller.dart';
 import 'package:taipme_mobile/src/theme/theme.dart';
@@ -15,30 +13,6 @@ class MainApp extends ConsumerStatefulWidget {
 }
 
 class _MainAppState extends ConsumerState<MainApp> {
-  StreamSubscription<Uri>? _linkSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-    initDeepLinks();
-  }
-
-  @override
-  void dispose() {
-    _linkSubscription?.cancel();
-    super.dispose();
-  }
-
-  Future<void> initDeepLinks() async {
-    debugPrint('View: initDeepLinks');
-    final appLinks = AppLinks();
-    _linkSubscription = appLinks.uriLinkStream.listen((uri) {
-      debugPrint('View: onAppLink: $uri');
-      ref.read(goRouterProvider).go(uri.toString());
-    }, onError: (error) {
-      debugPrint('View: AppLink error: $error');
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

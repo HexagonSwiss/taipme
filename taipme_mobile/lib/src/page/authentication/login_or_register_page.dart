@@ -3,8 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/component/titlle_input.dart';
 import 'package:taipme_mobile/src/component/footer_input.dart';
+import 'package:taipme_mobile/src/controller/form_controller/form_controller.dart';
+import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:taipme_mobile/src/component/text_input.dart';
+import 'package:taipme_mobile/src/util/key/key.dart';
 
 class LoginOrRegisterPage extends ConsumerStatefulWidget {
   const LoginOrRegisterPage({super.key});
@@ -37,21 +40,44 @@ class _LoginOrRegisterPage extends ConsumerState<LoginOrRegisterPage> {
       backgroundColor: TaipmeStyle.backgroundColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
+        child: Form(
+                  key: loginKey,
+                  child: Column(
           children: [
             const Spacer(flex: 2), // Spazio in cima
             TitleInput(title: 'accedi'),
             const Spacer(flex: 1), // Spazio tra titolo e form
             _buildForm(),
             const Spacer(flex: 2), // Spazio tra form e footer
+            TextButton(
+           onPressed: () async {
+                        await ref.read(formControllerProvider.notifier).handleForm(
+                          route: '/',
+                          globalKey: loginKey,
+                          context: context,
+                          actions: [
+                            () async => await ref.read(userControllerProvider.notifier).loginUser(email: _emailController.text, password: _passwordController.text),
+                          ],
+                        );
+                      },
+          child: Text(
+            textAlign: TextAlign.center, 
+            '_accedi',
+            style: TextStyle(
+              color: TaipmeStyle.primaryColor,
+              fontSize: TaipmeStyle.miniTextSize,
+            ),
+          ),
+        ),
             const FooterInput(
-                title: '_accedi',
-                titleLink: '/chat-home-page',
+                title: '',
+                titleLink: '',
                 state: 'Non hai ancora un account?',
                 action: '_registrati',
                 actionLink: '/register'),
             const Spacer(flex: 1), // Spazio inferiore
           ],
+                  )
         ),
       ),
     );

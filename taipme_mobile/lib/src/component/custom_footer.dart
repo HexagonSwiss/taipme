@@ -54,7 +54,8 @@ class CustomFooter extends ConsumerWidget {
           // Icon Settings
           Transform.translate(
             offset: isHomeSelected ? Offset(0, -40) : Offset(0, 0), // Sposta l'icona verso l'alto se selezionata
-            child: Container(
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 300),
               decoration: BoxDecoration(
                 color: TaipmeStyle.backgroundColorInput, // Colore di sfondo
                 shape: BoxShape.circle, // Forma circolare
@@ -77,7 +78,8 @@ class CustomFooter extends ConsumerWidget {
           // Icon Settings
           Transform.translate(
             offset: isSettingsSelected ? Offset(0, -40) : Offset(0, 0), // Sposta l'icona verso l'alto se selezionata
-            child: Container(
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 300),
               decoration: BoxDecoration(
                 color: TaipmeStyle.backgroundColorInput, // Colore di sfondo
                 shape: BoxShape.circle, // Forma circolare

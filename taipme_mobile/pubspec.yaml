@@ -1,7 +1,7 @@
 name: taipme_mobile
 description: "antisocial media"
 publish_to: 'none'
-version: 0.1.0
+version: 0.2.0
 
 environment:
   sdk: ^3.6.1
@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  cupertino_icons: ^1.0.6 # Use the latest version
+
 
 # Translations
   flutter_localizations:
@@ -16,7 +18,7 @@ dependencies:
   intl: any
 
 # Security
-  firebase_app_check: ^0.3.1+3 # OK
+  # firebase_app_check: ^0.3.1+3 # OK
   flutter_dotenv: ^5.1.0 # OK
 
  # Models / Immutability
@@ -28,7 +30,7 @@ dependencies:
   flutter_riverpod: ^2.5.3 # OK
 
   # Deep Links
-  app_links: ^6.3.3 
+  # app_links: ^6.3.3 
 
   # Utility
   collection: ^1.18.0 # OK

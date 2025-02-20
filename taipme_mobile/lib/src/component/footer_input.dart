@@ -28,7 +28,7 @@ class _FooterInputState extends ConsumerState<FooterInput> {
     return Column(
       children: [
         TextButton(
-          onPressed: () => ref.read(goRouterProvider).go(widget.titleLink),
+           onPressed: () => ref.read(goRouterProvider).go(widget.titleLink),
           child: Text(
             textAlign: TextAlign.center, 
             widget.title,

@@ -1,33 +1,25 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'dart:ui';
-import 'package:taipme_mobile/src/theme/styles.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+part 'key.g.dart';
 
-enum AppFilterEnum {
-  @JsonValue("destination")
-  destination,
-  @JsonValue("none")
-  none,
-}
+// GO_ROUTER KEY
 
-extension AppFilterToPath on AppFilterEnum {
-  String get path {
-    switch (this) {
-      case AppFilterEnum.destination:
-        return "assets/category/destination.png";
-      case AppFilterEnum.none:
-        return "";
-    }
-  }
-}
+@Riverpod(keepAlive: true)
+GlobalKey<NavigatorState> navigatorKey(Ref ref) => GlobalKey<NavigatorState>();
 
-extension AppFilterToColor on AppFilterEnum {
-  Color get color {
-    switch (this) {
-      case AppFilterEnum.destination:
-        return TaipmeStyle.primaryColor;
-      case AppFilterEnum.none:
-        return TaipmeStyle.primaryColor;
-    }
-  }
-}
+// FORM KEYS
+
+// LOGIN
+GlobalKey<FormState> loginKey = GlobalKey<FormState>();
+
+// FORGOT PASSWORD
+GlobalKey<FormState> forgotPasswordKey = GlobalKey<FormState>();
+GlobalKey<FormState> forgotPasswordUpdateKey = GlobalKey<FormState>();
+
+// REGISTRATION
+GlobalKey<FormState> registrationKey = GlobalKey<FormState>();
+
+// SEARCH
+GlobalKey<FormState> searchKey = GlobalKey<FormState>();

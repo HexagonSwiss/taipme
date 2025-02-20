@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:taipme_mobile/route/route.dart';
+import 'package:taipme_mobile/src/component/typingeffect/typing_effect_widget.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -11,12 +12,37 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  int _clickCount =
-      0; // Variabile per tenere traccia delle volte che è stato cliccato il pulsante
+  int _clickCount = 0; // Variabile per tenere traccia delle volte che è stato cliccato il pulsante
+  bool isTypingComplete = false; // Stato per tenere traccia se il testo è completo
 
   void _nextText() {
+    if (mounted && isTypingComplete) { // Verifica che il testo sia completo prima di incrementare
+      setState(() {
+        _clickCount++; // Aumenta il contatore ogni volta che il pulsante è premuto
+        isTypingComplete = false; // Resetta lo stato per indicare che il testo non è ancora completo
+      });
+    }
+  }
+
+void _goLogin() {
+    if (mounted && isTypingComplete) { // Verifica che il testo sia completo prima di incrementare
+      setState(() {
+        ref
+            .read(goRouterProvider)
+            .go('/login-or-register');
+      });
+    }
+  }
+  void _goRegister() {
+    if (mounted && isTypingComplete) { // Verifica che il testo sia completo prima di incrementare
+      setState(() {
+            ref.read(goRouterProvider).go('/register');
+      });
+    }
+  }
+  void onTypingComplete() {
     setState(() {
-      _clickCount++; // Aumenta il contatore ogni volta che il pulsante è premuto
+      isTypingComplete = true; // Imposta su true quando il testo è stato scritto
     });
   }
 
@@ -48,20 +74,24 @@ class _HomePageState extends ConsumerState<HomePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  
                   Image.asset('assets/logo/taipme.jpg',
                       width: 250, height: 250),
 
                   Container(
-                    height: 150.0, // Imposta l'altezza fissa che desideri
+                    height: 150.0,
                     padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      displayedText,
+                    child: TypingEffectWidget(
+                      key: ValueKey(
+                          _clickCount), // Forza la ricostruzione del widget
+                      fullText: displayedText, // Passa il testo da scrivere
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      textStyle: TextStyle(
                         color: TaipmeStyle.inputFieldTextColor,
                         fontSize: TaipmeStyle.miniTextSize,
                       ),
+                      typingSpeed: Duration(milliseconds: 90), // Personalizza la velocità
+                      onTypingComplete: onTypingComplete, // Imposta il callback quando il testo è completo
+
                     ),
                   ),
 
@@ -99,7 +129,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     Column(
                       children: [
                         TextButton(
-                          onPressed: () => ref.read(goRouterProvider).go('/login-or-register'),
+                          onPressed: () => _goLogin(),
                           child: Text(
                             '_accedi',
                             style: TextStyle(
@@ -109,7 +139,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () => ref.read(goRouterProvider).go('/register'),
+                          onPressed: () =>
+                              _goRegister(),
                           child: Text(
                             '_registrati',
                             style: TextStyle(

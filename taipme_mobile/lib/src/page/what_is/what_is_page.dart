@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
+import 'package:taipme_mobile/src/component/typingeffect/typing_effect_widget.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
 class WhatIsPage extends ConsumerStatefulWidget {
@@ -11,14 +12,23 @@ class WhatIsPage extends ConsumerStatefulWidget {
 }
 
 class _WhatIsPageState extends ConsumerState<WhatIsPage> {
-  int _clickCount = 0; // Variabile per tenere traccia delle volte che è stato cliccato il pulsante
+  int _clickCount =  0; // Variabile per tenere traccia delle volte che è stato cliccato il pulsante
+  bool isTypingComplete = false; // Stato per tenere traccia se il testo è completo
 
-  void _nextText() {
-    setState(() {
-      _clickCount++; // Aumenta il contatore ogni volta che il pulsante è premuto
-    });
+ void _nextText() {
+    if (mounted && isTypingComplete) { // Verifica che il testo sia completo prima di incrementare
+      setState(() {
+        _clickCount++; // Aumenta il contatore ogni volta che il pulsante è premuto
+        isTypingComplete = false; // Resetta lo stato per indicare che il testo non è ancora completo
+      });
+    }
   }
 
+  void onTypingComplete() {
+    setState(() {
+      isTypingComplete = true; // Imposta su true quando il testo è stato scritto
+    });
+  }
   @override
   Widget build(BuildContext context) {
     String displayedText;
@@ -39,13 +49,13 @@ class _WhatIsPageState extends ConsumerState<WhatIsPage> {
       backgroundColor: TaipmeStyle.backgroundColor,
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start, // Centra gli elementi orizzontalmente
+          mainAxisAlignment:
+              MainAxisAlignment.start, // Centra gli elementi orizzontalmente
           children: <Widget>[
             // Contenitore dell'immagine, con altezza fissa
-            Container(
+            SizedBox(
               height: 450.0, // Altezza fissa dell'immagine
-              child: Image.asset('assets/logo/taipme.jpg',
-                      width: 250),
+              child: Image.asset('assets/logo/taipme.jpg', width: 250),
             ),
 
             // Usa SingleChildScrollView per gestire il testo e i bottoni
@@ -56,15 +66,19 @@ class _WhatIsPageState extends ConsumerState<WhatIsPage> {
                   child: Column(
                     children: [
                       Container(
-                        height: 150.0, // Imposta l'altezza fissa che desideri
+                        height: 150.0,
                         padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          displayedText,
+                        child: TypingEffectWidget(
+                          key: ValueKey(
+                              _clickCount), // Forza la ricostruzione del widget
+                          fullText: displayedText, // Passa il testo da scrivere
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          textStyle: TextStyle(
                             color: TaipmeStyle.inputFieldTextColor,
                             fontSize: TaipmeStyle.miniTextSize,
                           ),
+                          typingSpeed: Duration(milliseconds: 90), // Personalizza la velocità
+                          onTypingComplete: onTypingComplete, // Imposta il callback quando il testo è completo
                         ),
                       ),
 
@@ -102,7 +116,9 @@ class _WhatIsPageState extends ConsumerState<WhatIsPage> {
                         Column(
                           children: [
                             TextButton(
-                              onPressed: () => ref.read(goRouterProvider).go('/chat-home-page'),
+                              onPressed: () => ref
+                                  .read(goRouterProvider)
+                                  .go('/chat-home-page'),
                               child: Text(
                                 '_fine',
                                 style: TextStyle(
