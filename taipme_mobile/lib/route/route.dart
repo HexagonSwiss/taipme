@@ -30,6 +30,9 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         path: '/',
         pageBuilder: (context, state) => const MaterialPage(child: HomePage()),
+        redirect: (context, state) async {
+          //return '/login-or-register';
+        }
       ),
       GoRoute(
         path: '/login-or-register',

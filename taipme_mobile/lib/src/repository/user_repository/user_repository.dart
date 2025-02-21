@@ -23,7 +23,7 @@ class UserRepository  extends _$UserRepository{
     final http.Response response;
     final dynamic decodedResponse;
     final String body;
-    final Uri uri = Uri.parse('http://localhost:8080/WhitePaper/hello');
+    final Uri uri = Uri.parse('http://127.0.0.1:8080/WhitePaper/hello');
 
 
     final Map<String, String> headers = {
@@ -38,9 +38,10 @@ class UserRepository  extends _$UserRepository{
         'password': password,
       });
 
-      response = await http.get(uri);
+      response = await http.post(uri, headers: headers, body: body);
 
-      debugPrint("Repository: loginUser response is ${response.body}");
+      //debugPrint("Repository: loginUser response is $response");
+      debugPrint("Repository: loginUser response body is ${response.body}");
 
       decodedResponse = jsonDecode(response.body);
 
