@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:s="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" 
+     xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:input="urn:jsptagdir:/WEB-INF/tags/input" 
+	 xmlns:security="http://www.springframework.org/security/tags"
+	 xmlns:spring="http://www.springframework.org/tags"
+	 xmlns:display="urn:jsptagdir:/WEB-INF/tags/display"	 		  
+     version="2.0">     
+     
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+<jsp:output omit-xml-declaration="yes"/>
+					
+					
+	<div id="col-rightsss" class="col-right">
+		<div class="container-fluid primary-content">
+										
+	<s:url value="/reg/inviasegnalazione" var="url_form_submit" />
+	<form:form id="idFormSegnalaMsg"  class="form-horizontal"  modelAttribute="messaggio" method="POST" action="${url_form_submit}">
+			  						
+		<form:hidden path="idMsg" />					  					
+		<form:hidden path="idFoglioOrig" />
+			  						
+		<div class="row divHeightFix">			
+			<div class="col-md-12  textMsg">
+				
+  				<!-- effetto typewriter -->  																	
+				<div id="typed-strings">				    
+				    <span>${messaggio.desMsg}</span>				    
+				</div>			
+				<span id="typed" style="white-space:normal;" class="textMsg"></span>						   							
+			</div>			
+		</div>
+		<br></br>		
+		<div class="row">					
+			<div class="col-md-12">				
+				<form:textarea id="idDesMot" path="desMot" class="form-control newtextareasegnala" maxLength="250" rows="5" placeholder="motivazione (opzionale)" />								
+			</div>			
+		</div>
+		
+		<!-- bottoniera -->
+		<div class="row" >									 
+			<div class="col-md-12">
+				<button type="submit" id="btnInviaSegnalazione" class="btn btn-link labellink">_invia</button>
+			</div>
+		</div>
+		
+	</form:form> 		
+	
+		</div>
+	
+	</div>
+	
+	
+<script  type="text/javascript">
+
+
+$(document).ready(function() {
+	
+	//focus
+	$("#idDesMot").focus();
+					
+	//effetto typewriter
+	var typed = new Typed("#typed", {
+	    stringsElement: '#typed-strings',
+	    contentType: 'html',
+	    typeSpeed: 50,
+	    backSpeed: 25,
+	    backDelay: 500,
+	    startDelay: 1000,
+	    loop: false		    
+	  });		  
+	
+});
+
+
+ 
+</script>
+	
+
+
+
+</div>
+
+
