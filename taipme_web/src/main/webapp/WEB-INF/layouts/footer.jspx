@@ -1,0 +1,82 @@
+<footer id="footer"  
+	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:s="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" 
+     xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:input="urn:jsptagdir:/WEB-INF/tags/input" 
+	 xmlns:security="http://www.springframework.org/security/tags"
+	 xmlns:spring="http://www.springframework.org/tags"
+	 xmlns:display="urn:jsptagdir:/WEB-INF/tags/display"	 		  
+     version="2.0">
+<jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat" />
+<jsp:directive.page contentType="text/html;charset=UTF-8" />
+<jsp:directive.page pageEncoding="UTF-8" />
+
+	<security:authorize access="isAuthenticated()">	
+		<div class="row">
+			<div class="col-md-12">
+				<!-- elenco fogli disponibili -->											
+				<display:listafogli listFogli="${listFogliIndice}"></display:listafogli>
+				<c:if test='${ isLeggiAltriMsg }'>
+					<s:url value="/reg/search" var="url_form_submit_search" />
+					<form:form id="idFormReadMsgFooter" class="form-horizontal"  modelAttribute="messaggio" method="POST" action="${url_form_submit_search}">
+						<div align="right">
+							<form:input id="idHashtag" path="hashtag" maxLength="15" class="textinputcss" size="10" title="hashtag per ricerca" placeholder="#cerca" />
+							<a href="#" id="idBtnSearch" class="btn labellink" title="cerca per hashtag (almeno tre caratteri)" >_cerca</a>
+							<labelHashTag id="idSearchHashtagOff" class="btn btn-link labellink" title="cerca per hashtag (almeno tre caratteri)" >&#160;</labelHashTag>
+						</div>
+					</form:form>					
+				</c:if>					
+			</div>									
+		</div>
+	</security:authorize>
+
+	
+	
+	
+<script  type="text/javascript">
+	
+	
+	$(document).ready(function() {
+		
+		//disabilitazione ricerca hashtag		
+		disabilitaCerca();
+	
+		
+		$("#idFormReadMsgFooter").on("keypress", function (event) {             
+            
+			//stop submit tasto INVIO
+			var keyPressed = event.keyCode || event.which; 
+            if (keyPressed === 13) { 
+                //alert("You pressed the Enter key!!"); 
+                event.preventDefault();                 
+                //var hastagJS = $('#idHashtag').val();            		
+    			//searchmsgbyhashtag("/reg/searchmsgbyhashtag/"+hastagJS) ;
+            	return false; 
+            } 
+        }); 
+		
+		$('#idHashtag').keyup(function() {
+			
+			  //abilitazione bottone con almeno tre caratteri
+			  var text_length = $('#idHashtag').val().length;
+			  //disabilitazione ricerca hashtag		
+			  disabilitaCerca();		  
+			  if ( text_length>2 ) {			  
+				   //abilitazione ricerca hashtag		
+				   $("#idBtnSearch").show();
+				   $("#idSearchHashtagOff").hide();
+			  }		  		  		  
+		});
+		
+		function disabilitaCerca() {		 	
+		 	$("#idBtnSearch").hide();
+		  	$("#idSearchHashtagOff").show();
+		  }
+		
+	});			
+
+
+</script>	
+</footer>
+
+    
+ 

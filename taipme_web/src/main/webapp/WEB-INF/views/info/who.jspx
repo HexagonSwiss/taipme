@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:s="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" 
+     xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:input="urn:jsptagdir:/WEB-INF/tags/input" 
+	 xmlns:security="http://www.springframework.org/security/tags"
+	 xmlns:spring="http://www.springframework.org/tags"
+	 xmlns:display="urn:jsptagdir:/WEB-INF/tags/display"	 		  
+     version="2.0">
+	
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+<jsp:output omit-xml-declaration="yes"/>
+			
+		 <div class="container">
+			<div class="content">   								 
+				<div class="row textMsgHomePage divHeightFixPub">			
+					<div class="col-md-12">													
+						<div id="typed-strings">			    		    
+			      			<span>
+			      				TaipMe è un foglio anonimo e simpatico, un'antica macchina da scrivere da condividere con altre persone, non riceverai sterili like.
+								<br></br>						
+								TaipMe è un ambiente anti-social, incentrato sulla qualità non sulla quantità. Nessuno conosce la tua identità e degli altri utenti che lo popolano.
+								<br></br>
+								<br></br>
+								Nessuna notifica, niente stress; hai a disposizione fino a 5 fogli, su ogni foglio puoi scrivere il tuo pensiero, o leggere i pensieri degli altri e se vuoi rispondergli.
+								<br></br>
+								<br></br>
+								Scrivi, i tuoi pensieri saranno pubblici, se una persona ti risponderà la vostra conversazione diventerà privata, solo entrambi leggerete i vostri messaggi; potrete scrivervi un messaggio per volta, la conversazione continua finché vi rispondete. Entrambi potrete strappare la conversazione in qualsiasi momento. Perderete le tracce.
+								<br></br>
+								Puoi usare i fogli anche per leggere i pensieri delle altre persone, se vorrai potrai rispondere.								
+								<br></br>
+								<br></br>
+								I fogli sono la tua fonte di libertà, puoi renderli leggeri o profondi.
+								<br></br>
+								Goditi TaipMe, goditi la vita dentro e fuori lo schermo.
+			      			</span>		     
+						</div>					
+					<span id="typed" style="white-space:normal;"></span>  
+					</div>
+				</div>	
+				
+				<br></br>
+				<br></br>
+				<div class="row">		
+					<div class="col-md-12">
+						<spring:url value="/info/faqs" var="url_faq" />
+						<a href="${url_faq}" class="btn labellink">_faq</a>															
+						<spring:url value="/login" var="url_entra" />
+						&#160;&#160;<a href="${url_entra}" class="btn labellink">_entra</a>
+					</div>													
+				</div>
+														
+			</div>
+		</div>
+		
+		
+		
+<script  type="text/javascript">
+
+
+	$(document).ready(function() {
+		
+		
+		var typed = new Typed("#typed", {
+		    stringsElement: '#typed-strings',
+		    typeSpeed: 50,
+		    backSpeed: 25,
+		    backDelay: 500,
+		    startDelay: 1000,
+		    loop: false   
+		  });
+		
+		
+	});
+
+	
+</script>
+
+        
+
+		
+		
+</div>
+
+
+

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:s="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" 
+     xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:input="urn:jsptagdir:/WEB-INF/tags/input" 
+	 xmlns:security="http://www.springframework.org/security/tags"
+	 xmlns:spring="http://www.springframework.org/tags"
+	 xmlns:display="urn:jsptagdir:/WEB-INF/tags/display"	 		  
+     version="2.0">     
+     
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+<jsp:output omit-xml-declaration="yes"/>
+	
+	<div id="col-rightsss" class="col-right">
+		<div class="container-fluid primary-content">
+	
+		<c:if test="${not empty message}">
+			<util:message message="${message}" messages="${messages}" />
+		</c:if>
+					
+	<s:url value="/reg/search" var="url_form_submit_search" />	
+	<form:form id="idFormReadMsg" class="form-horizontal"  modelAttribute="messaggio" method="POST" action="${url_form_submit_search}">
+			
+		<form:hidden path="idMsg" id="idMsgHidden"  /> 
+		<form:hidden path="idMsgReply" />
+		<form:hidden path="idUteReply" />
+		<form:hidden path="idFoglio" />
+			 			 			
+		<!--
+		<p>IDUTENTECONNESSO: ${idUtenteConnesso} / IDMSG = ${messaggio.idMsg} </p>			
+		<p>LEGGI ALTRI: ${isLeggiAltriMsg}</p>			
+		<p>REPLY MSG: ${isReplyMsg}</p>
+		-->		
+		<br></br>	 
+		<div class="row divHeightFix">			
+			<div class="col-md-12">
+				
+				<!-- errore ricerca per hashtag -->
+				<div id="idSearchHashTagKO" class="esitoOperazione textMsgWarning">nessun messaggio trovato. Riprova fra qualche minuto</div>
+				
+				<!--ricerca per hashtag con successo -->
+				<div id="idSearchHashTagOK" class="esitoOperazione textMsgWarning">messaggio trovato per l'hashtag digitato</div>
+								
+				<c:if test='${ messaggio.isOffensivo() }'>
+					<div class="esitoOperazione textMsgWarning">messaggio offensivo: per cortesia strappalo</div>
+				</c:if>						
+					
+				<!-- effetto typewriter -->				
+				<div class="textMsg">				
+					<div id="typed-strings">					    
+					    <span>${messaggio.desMsg}</span>					    
+					</div>						
+					<span id="typed" style="white-space:normal;" class="textMsg"></span>
+				</div>						   							
+			</div>			
+		</div>			
+		<!-- segnala messaggio offensivo solo se non sei autore -->
+		<div class="row">
+			<div class="col-sm-12" align="right" id="idMsgSegnala">
+				<c:if test='${ messaggio.isSegnala() }'> 
+					<s:url value="/reg/segnalamsg/${messaggio.idFoglio}/${messaggio.idMsg}" var="url_form_get_segnalamsg" /> 
+					<a href="${url_form_get_segnalamsg}" id="idBtnSegnala" class="labellink">
+						<i class="fa fa-exclamation" style="font-size:1em; color: white" title="segnala il messaggio per contenuti offensivi" >&#160;</i> 						
+					</a>																
+				</c:if>
+			</div>
+		</div>
+								
+		<br></br>
+		<!-- reply al messaggio -->
+		<c:if test='${ messaggio.isPresenteRisposta() }'>				
+			<s:url value="/reg/viewreply/${messaggio.idFoglio}/${messaggio.idMsg}" var="url_form_get_viewreply" />
+			<div class="row">			
+				<div class="col-md-12"> 
+					<span class="titoloMsg">hai una risposta</span> <a href="${url_form_get_viewreply}" id="idBtnViewReply" class="btn labellink">_leggila</a>
+				</div>
+			</div>
+			<br></br>
+		</c:if>
+				
+		<!-- +++++++++++++++++++++ -->
+		<!-- bottoniera -->
+		<!-- +++++++++++++++++++++ -->
+		
+		<div class="row" align="center">
+			<div class="col-md-12">
+				<!-- LEGGI  -->
+				<c:if test='${ isLeggiAltriMsg }'>													
+					<a href="#" id="idBtnLeggi" class="btn labellink" title="leggi un altro messaggio"><font color="white">_leggi</font></a>								 								
+				</c:if>	
+				
+				<!-- FOGLIOX RISPONDI STRAPPA sono una RIGA esclusivi con altri bottoni e anche tra loro  -->								
+				<!-- RISPONDI   -->				
+				<c:if test='${ isReplyMsg and messaggio.foundMsgPubRandom }'>														
+					<s:url value="/reg/replymsg/${messaggio.idFoglio}/${messaggio.idMsg}" var="url_form_get_replymsg" />
+					<a id="idLinkRispondi"  href="${url_form_get_replymsg}" class="btn labellink" title="rispondi al messaggio">_rispondi</a>
+				</c:if>
+				<!-- SCRIVI -->																												
+				<c:if test='${ isScriviNewMsg }'>								
+					<s:url value="/reg/writemsg/${messaggio.idFoglio}" var="url_form_get_writemsg" />
+					<a href="${url_form_get_writemsg}" class="btn labellink" title="pubblica un tuo messaggio">_scrivi</a>				 				
+				</c:if>
+															
+				<!-- FOGLIO X - STRAPPA  -->
+				<c:if test='${ !isScriviNewMsg }'>				
+					<c:set var="numFogliCorr" value="${listFogliIndice.size()}" />
+					<!-- Passa a FOGLIO XXX solo se presente SOLO bottone STRAPPA-->																						
+					 <c:if test='${ numFogliCorr lt numMaxFogli and isPossibleAddNewFoglio }'>					 	
+					 	 <c:if test='${ !isLeggiAltriMsg and !isReplyMsg }'>										 	 					 	 
+					 		<s:url value="/reg/addNewFoglio/${numFogliCorr}" var="url_form_submit_addnewfoglio" />							
+							<a href="${url_form_submit_addnewfoglio}" class="btn labellink" id="idBtnAddFoglio" title="Passa a foglio ${numFogliCorr+1} (max ${numMaxFogli})" ><b>+</b></a>
+							&#160;
+						</c:if>
+					</c:if>										
+					<a id="idBtnStrappa" href="#" class="btn labellink" title="cancella il tuo messaggio e termina l'eventuale conversazione">_strappa</a>																					
+				</c:if>			
+			</div><!-- enddiv col-12 -->
+		</div> <!-- enddiv row -->
+		
+		
+	</form:form>
+		
+	</div>
+	
+	</div>
+		
+	<!-- modale conferma cancellazione messaggio -->
+	<c:import url="../views/typewriter/confermadel_modal.jspx"></c:import>
+		
+	
+	
+<script  type="text/javascript">
+
+	
+	var ctx = "${pageContext.request.contextPath}";
+	$(document).ready(function() {
+		
+		//effetto typewriter
+		var typed = new Typed("#typed", {
+		    stringsElement: '#typed-strings',
+		    contentType: 'html',
+		    typeSpeed: 50,
+		    backSpeed: 25,
+		    backDelay: 500,
+		    startDelay: 1000,
+		    loop: false,
+		    showCursor: true,		    		    
+		  });		
+		
+		//nascondi modale conferma cancellazione messaggio
+		$('#idmodalconfdel').modal('hide');
+		
+		//ricerca hashtag: nascondi messaggi output ricerca
+		nascondiOutputRisultatoRicercaHashtag();
+				
+		
+		$("#idBtnLeggi").click(function(){	
+			
+			//nascondi eventuali messaggi di errore
+			$('#idMsgTag').val('');
+			
+			//pulizia campo ricerca per hashtag e disabilitazione Cerca
+			  $("#idMsgTag").text("");
+			
+			//lettura nuovo messaggio random			
+			legginuovomsg("/reg/loadNewMsg") ;
+			
+		});
+		
+		
+		$("#idBtnStrappa").click(function(){	
+			
+			//apertura modale di conferma cancellazione
+			$('#idmodalconfdel').modal('show');	
+		});
+		
+		
+		$("#idBtnSearch").click(function(){						
+			
+			//ricerca messaggio per hashtag			
+        	var hastagJS = $('#idHashtag').val();
+        	//alert(hastagJS)	
+			searchmsgbyhashtag("/reg/searchmsgbyhashtag/"+hastagJS) ;											
+		});
+		
+		
+		
+		
+		//lettura random nuovo messaggio
+		function legginuovomsg(url) {
+		    			 
+		 	url  = ctx + url;
+       	   	$.ajax({
+                type: "GET",
+                url: url,                		
+                success: function(data){
+				    if(data ){
+				    	
+				    	nascondiOutputRisultatoRicercaHashtag();
+				    	
+						//alert("lettura successo: "+data.desMsg)
+						$('#idMsgHidden').val(data.idMsg);		
+						
+						typed.strings[0] = data.desMsg;
+						typed.reset();
+						
+						//TODO codice da ottimizzare in una fuzione
+						
+						//modifica link RISPONDI
+						//http://localhost:8080/WhitePaper/reg/replymsg/4/245
+						var linkRis = $("#idLinkRispondi").attr("href")						
+						//alert(idLinkRispondi)
+						var lastSlah = linkRis.lastIndexOf("/");
+						//alert(lastSlah)
+						if ( -1!=lastSlah ) {
+							var urlNewId = linkRis.substring(0, lastSlah)+"/"+data.idMsg;
+							//alert(urlNewId)
+							$("#idLinkRispondi").attr("href", urlNewId);	
+						} else {
+							$("#idSearchHashTagKO").show();
+						}
+						
+						//modifica link SEGNALA MESSAGGIO						
+						var linkSegnala = $("#idBtnSegnala").attr("href")						
+						//alert(linkSegnala)
+						var lastSlahSegnala = linkSegnala.lastIndexOf("/");
+						//alert(lastSlahSegnala)
+						if ( -1!=lastSlahSegnala ) {
+							var urlNewIdSegnala = linkSegnala.substring(0, lastSlahSegnala)+"/"+data.idMsg;							
+							//alert(urlNewIdSegnala)
+							$("#idBtnSegnala").attr("href", urlNewIdSegnala);	
+						} else {
+							$("#idSearchHashTagKO").show();
+						}
+						
+						
+				  	} else {
+				  		//TODO messaggio personalizzato di errore
+				  		$("#idSearchHashTagKO").show();
+				  	}
+				  	 
+                }
+        	});		       	
+		 }
+		 
+		//lettura per hashtag nuovo messaggio 
+		function searchmsgbyhashtag(url) {
+		    			 
+		 	url  = ctx + url;
+		 	//alert(url)
+       	   	$.ajax({
+                type: "GET",
+                url: url,                		
+                success: function(data){
+				    if(data ){
+				    
+				    	nascondiOutputRisultatoRicercaHashtag();
+				    	
+				    	//check errore
+				    	//alert("errore: "+data.desErrHashTag)
+				    	if ( data.desErrHashTag!=null ) {
+				    		$("#idSearchHashTagKO").show();
+				    		$('#idSearchHashTagKO').text(data.desErrHashTag);				    		
+				    	} else {				    		
+				    		if ( data.desMsg==null ) {
+				    			$("#idSearchHashTagKO").show();
+				    		} else {				    					    			
+				    			//lettura avvenuta con successo
+				    			$("#idSearchHashTagOK").show();
+				    			$('#idSearchHashTagOK').text(data.desSuccessHashTag);				    	
+								$('#idMsgHidden').val(data.idMsg);								
+								typed.strings[0] = data.desMsg;
+								typed.reset();								
+							}
+						}
+				  	}
+				  	else {
+				  		$("#idSearchHashTagKO").show();
+				  	}
+                }
+        	});		       	
+		 }
+
+		 function nascondiOutputRisultatoRicercaHashtag() {
+			$("#idSearchHashTagKO").hide();
+			$("#idSearchHashTagOK").hide();	 	
+		 }
+		 
+		 
+	});			
+	
+			
+</script>
+
+
+</div>
+
+

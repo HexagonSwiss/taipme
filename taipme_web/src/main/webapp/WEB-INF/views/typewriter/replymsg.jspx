@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:s="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" 
+     xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:input="urn:jsptagdir:/WEB-INF/tags/input" 
+	 xmlns:security="http://www.springframework.org/security/tags"
+	 xmlns:spring="http://www.springframework.org/tags"
+	 xmlns:display="urn:jsptagdir:/WEB-INF/tags/display"	 		  
+     version="2.0">     
+     
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+<jsp:output omit-xml-declaration="yes"/>
+					
+	<div id="col-rightsss" class="col-right ">	
+		<div class="container-fluid primary-content">
+			<s:url value="/reg/savereply" var="url_form_submit" />
+			<form:form id="idFormReplyMsg" class="form-horizontal"  modelAttribute="messaggio" method="POST" action="${url_form_submit}">							
+	
+				<form:hidden  path="idUteAut" />				
+				<form:hidden  path="idMsg" />
+				<form:hidden  path="idUteReply" />
+				<form:hidden  path="idMsgReply" />
+				<form:hidden  path="idFoglio" />
+				<form:hidden  path="idFoglioOrig" />
+								
+				<!-- replica  -->
+				<div class="row divHeightFix">
+					<div class="col-sm-12">							  						  						  				
+		 				<form:textarea id="messaggio_desMsg" path="desMsg" class="form-control newtextarea" maxLength="500" rows="15" required="required" />										
+					</div>																																																												
+				</div>
+				<!-- bottoniera -->				
+				<div class="row">						
+					<div class="col-md-6"> 
+						<button type="submit" id="btnScrivi" class="btn btn-link labellink" >_invia</button>
+					</div>					
+				</div>
+				
+				
+			</form:form> 		
+		</div> <!-- end div container-fluid primary-content -->
+	</div> <!-- enddiv  col-rightsss-->
+			
+
+<script  type="text/javascript">
+
+	
+
+	$(document).ready(function() {
+	
+		//focus
+		$("#messaggio_desMsg").focus();
+		
+		
+		//effetto typewriter				
+		var typed4 = new Typed('#messaggio_desMsg', {
+			strings: ['${msgPlaceHolder}'],
+		    typeSpeed: 50,
+		    backSpeed: 25,
+		    attr: 'placeholder',		    
+		    loop: true,
+		    showCursor: false
+		  });		
+				
+	});
+ 
+</script>
+
+
+
+</div>
+
+

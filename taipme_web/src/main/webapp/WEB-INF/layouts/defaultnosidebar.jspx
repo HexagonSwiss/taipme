@@ -1,0 +1,139 @@
+<html xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:spring="http://www.springframework.org/tags">
+<jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat" />
+<jsp:directive.page contentType="text/html;charset=UTF-8" />
+<jsp:directive.page pageEncoding="UTF-8" />
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="cache-control" content="no-cache" />
+
+	<!-- Get the user locale from the page context (it was set by Spring MVC's locale resolver) -->
+	<c:set var="plocale">${pageContext.response.locale}</c:set>
+	<c:set var="userLocale">
+		<c:out value="${fn:replace(plocale, '_', '-')}" default="en" />
+	</c:set>
+
+	<spring:message code="application_name" var="app_name" htmlEscape="false" />
+	<title><c:out value="${app_name}" /></title>
+
+	<!-- style -->
+	<spring:url value="/theme/assets/css/bootstrap.css" var="css_url_bootstrap" />
+	<spring:url value="/theme/assets/css/ionicons.css" var="css_url_ionicons" />
+	<spring:url value="/theme/assets/css/main.css" var="css_url_styles" />
+
+	<spring:url value="/theme/assets/css/font-awesome.css" var="css_url_font" />
+
+	<spring:url value="/theme/assets/css/skins/full-dark.css" var="css_url_skin" />
+	
+	<!-- Google Fonts -->
+	
+	<link href="${css_url_bootstrap}" rel="stylesheet"  type="text/css" />
+	<link href="${css_url_ionicons}" rel="stylesheet"  type="text/css" />
+	<link href="${css_url_styles}" rel="stylesheet"  type="text/css" />
+	<link href="${css_url_font}" rel="stylesheet"  type="text/css" />
+	
+	<link href="${css_url_skin}" rel="stylesheet"  type="text/css" />
+	
+
+ 
+
+	
+	
+	<!-- javascript -->
+	<spring:url value="/js/validation.js" var="js_url_validation" />
+	<spring:url value="/theme/assets/js/jquery/jquery-2.1.0.min.js" var="js_url_jquery" />
+	<spring:url value="/theme/assets/js/bootstrap/bootstrap.js" var="js_url_bootstrap" />
+	<spring:url value="/theme/assets/js/plugins/bootstrap-datepicker/bootstrap-datepicker.js" var="js_url_bootstrap_datepicker" />
+	<spring:url value="/theme/assets/js/plugins/daterangepicker/daterangepicker.js" var="js_url_bootstrap_daterangepicker" />
+	<spring:url value="/theme/assets/js/plugins/moment/moment.min.js" var="js_url_bootstrap_moment" />
+
+	<spring:url value="/theme/assets/js/jquery-ui/jquery-ui-1.10.4.custom.js" var="js_url_jqueryCustom" />
+	
+	
+
+
+	<script type="text/javascript" src="${js_url_validation}"><jsp:text/></script>
+	<script type="text/javascript" src="${js_url_jquery}"><jsp:text/></script>
+	<script type="text/javascript" src="${js_url_bootstrap}"><jsp:text/></script>
+	<script type="text/javascript" src="${js_url_bootstrap_datepicker}"><jsp:text/></script>
+
+	<script type="text/javascript" src="${js_url_bootstrap_daterangepicker}"><jsp:text/></script>
+	<script type="text/javascript" src="${js_url_bootstrap_moment}"><jsp:text/></script>
+	
+	<script type="text/javascript" src="${js_url_jqueryCustom}"><jsp:text/></script>
+	
+<spring:url value="/theme/assets/js/plugins/bootstrap-multiselect/bootstrap-multiselect.js" var="js_url_multiselect" />
+<script type="text/javascript" src="${js_url_multiselect}"><jsp:text/></script>
+
+<spring:url value="/theme/assets/js/plugins/jquery-slimscroll/jquery.slimscroll.min.js" var="js_url_slim" />
+<script type="text/javascript" src="${js_url_slim}"><jsp:text/></script>
+
+<spring:url value="/theme/assets/js/queen-common.js" var="js_url_queencommon" />
+<script type="text/javascript" src="${js_url_queencommon}"><jsp:text/></script>
+	
+<spring:url value="/theme/assets/js/plugins/datatable/jquery.dataTables.min.js" var="js_url_datatables" />
+<script type="text/javascript" src="${js_url_datatables}"><jsp:text/></script>
+
+<spring:url value="/theme/assets/js/plugins/datatable/exts/dataTables.colVis.bootstrap.js" var="js_url_datatablescolvis" />
+<script type="text/javascript" src="${js_url_datatablescolvis}"><jsp:text/></script>
+
+<spring:url value="/theme/assets/js/plugins/datatable/exts/dataTables.colReorder.min.js" var="js_url_datatablescolreorder" />
+<script type="text/javascript" src="${js_url_datatablescolreorder}"><jsp:text/></script>
+
+<spring:url value="/theme/assets/js/plugins/datatable/exts/dataTables.tableTools.min.js" var="js_url_datatablestabletools" />
+<script type="text/javascript" src="${js_url_datatablestabletools}"><jsp:text/></script>
+	
+<spring:url value="/theme/assets/js/plugins/datatable/dataTables.bootstrap.js" var="js_url_datatablesboot" />
+<script type="text/javascript" src="${js_url_datatablesboot}"><jsp:text/></script>
+
+<spring:url value="/theme/assets/js/queen-table.js" var="js_url_queentable" />
+<script type="text/javascript" src="${js_url_queentable}"><jsp:text/></script>	
+	
+	
+	<spring:url value="/theme/assets/js/plugins/dropzone/dropzone.min.js" var="js_url_dropzone" />
+<script type="text/javascript" src="${js_url_dropzone}"><jsp:text/></script>	
+	
+
+</head>
+<body class="fixed-top-active ">
+
+    
+<tiles:insertAttribute name="header" />
+
+	<tiles:insertAttribute name="body" />
+	<tiles:insertAttribute name="footer" />
+<script>
+$.extend( true, $.fn.dataTable.defaults, {
+    
+    language: {
+    	"sEmptyTable":     "Nessun dato presente nella tabella",
+	    "sInfo":           "Vista da _START_ a _END_ di _TOTAL_ elementi",
+	    "sInfoEmpty":      "Vista da 0 a 0 di 0 elementi",
+	    "sInfoFiltered":   "(filtrati da _MAX_ elementi totali)",
+	    "sInfoPostFix":    "",
+	    "sInfoThousands":  ".",
+	    "sLengthMenu":     "Visualizza _MENU_ elementi",
+	    "sLoadingRecords": "Caricamento...",
+	    "sProcessing":     "Elaborazione...",
+	    "sSearch":         "Cerca:",
+	    "sZeroRecords":    "La ricerca non ha portato alcun risultato.",
+	    "oPaginate": {
+	        "sFirst":      "Inizio",
+	        "sPrevious":   "Precedente",
+	        "sNext":       "Successivo",
+	        "sLast":       "Fine"
+	    },
+	    "oAria": {
+	        "sSortAscending":  ": attiva per ordinare la colonna in ordine crescente",
+	        "sSortDescending": ": attiva per ordinare la colonna in ordine decrescente"
+	    }
+    }
+} );
+ 
+</script>
+</body>
+</html>
