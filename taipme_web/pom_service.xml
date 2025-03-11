@@ -16,7 +16,7 @@
 
 		<!-- Insert contents of : pom_dependencies_service.txt -->
 
-	</dependencies>
+	</dependencies><!-- Insert contents of : pom_dependencies_service.txt -->
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
