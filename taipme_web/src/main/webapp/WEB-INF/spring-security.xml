@@ -22,6 +22,7 @@
 
 
  <http auto-config="true" use-expressions="true">
+
         
 	<access-denied-handler error-page="/403" />        
 	
@@ -30,7 +31,7 @@
 	        <concurrency-control expired-url="/login" />
 	</session-management>
 	
-	 <custom-filter position="PRE_AUTH_FILTER" ref="MobileRequestFilter" />
+	 <custom-filter position="FIRST" ref="MobileRequestFilter" />
 	 
         <form-login 
             login-page="/login" 
@@ -54,7 +55,8 @@
         <intercept-url pattern="/login_mobile" 		access="permitAll"/>                
         <intercept-url pattern="/registrazione/**" 	access="permitAll" />
         <intercept-url pattern="/info/**" 			access="permitAll"/>
-        <intercept-url pattern="/resetpwd/**" 		access="permitAll"/>        
+        <intercept-url pattern="/resetpwd/**" 		access="permitAll"/>    
+            
         
         <intercept-url pattern="/admin/**"	 		access="hasAuthority('ADM')" />
         <intercept-url pattern="/anaUtente/**" 		access="hasAuthority('ADM')" />
