@@ -23,7 +23,7 @@ class UserRepository  extends _$UserRepository{
     final http.Response response;
     final dynamic decodedResponse;
     final String body;
-    final Uri uri = Uri.parse('http://127.0.0.1:8080/WhitePaper/hello');
+    final Uri uri = Uri.parse('http://127.0.0.1:8080/WhitePaper/login_mobile');
 
 
     final Map<String, String> headers = {
