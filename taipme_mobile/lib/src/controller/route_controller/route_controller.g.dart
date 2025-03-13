@@ -6,7 +6,7 @@ part of 'route_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$routeControllerHash() => r'6893a285433657366749a4cc05257634ea98dc3c';
+String _$routeControllerHash() => r'1fabf986e7070200d14f7960e1a53a467e2538ce';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -175,7 +175,7 @@ class _RouteControllerProviderElement
 }
 
 String _$loginOrRegisterRouteControllerHash() =>
-    r'a7d42bd429f13eb53d077ea3b3884a422f636441';
+    r'5d374fdab2331f41f656c5b3bf02a7110d3006e6';
 
 /// See also [loginOrRegisterRouteController].
 @ProviderFor(loginOrRegisterRouteController)

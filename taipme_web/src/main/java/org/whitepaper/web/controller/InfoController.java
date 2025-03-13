@@ -11,6 +11,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.whitepaper.bean.AnaFaq;
 import org.whitepaper.business.service.AnaFaqService;
 import org.whitepaper.utility.ConstantsDefinition;
@@ -47,6 +49,19 @@ public class InfoController extends AbstractController {
 		
 		return JSP_FAQS;
 	}
+	
+	@RequestMapping(value = "/faqs_mobile", method = RequestMethod.GET)
+	@ResponseBody // Indica che la risposta deve essere serializzata come JSON
+	public List<AnaFaq> listFaqsMobile() {
+	    
+	    log("Action 'listFaqs'");                
+	    
+	    // Lettura delle faq pubblicate
+	    List<AnaFaq> theListFaq = anafaqService.loadFaqsPerStato(ConstantsDefinition.COD_FAQ_PUBBLICATA);        
+	    
+	    return theListFaq; // Restituisce direttamente la lista come risposta JSON
+	}
+	
 	
 	@RequestMapping(value = "/who") 
 	public String whoPage(Model model) {

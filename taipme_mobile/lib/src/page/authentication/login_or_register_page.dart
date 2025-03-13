@@ -52,12 +52,13 @@ class _LoginOrRegisterPage extends ConsumerState<LoginOrRegisterPage> {
             TextButton(
            onPressed: () async {
                         await ref.read(formControllerProvider.notifier).handleForm(
-                          route: '/',
-                          globalKey: loginKey,
-                          context: context,
                           actions: [
                             () async => await ref.read(userControllerProvider.notifier).loginUser(email: _emailController.text, password: _passwordController.text),
                           ],
+                          route: '/chat-home-page',
+                          globalKey: loginKey,
+                          context: context,
+                          
                         );
                       },
           child: Text(
@@ -91,6 +92,7 @@ class _LoginOrRegisterPage extends ConsumerState<LoginOrRegisterPage> {
           focusNode: _emailFocusNode,
           hintText: 'e-mail',
           icon: Icons.person,
+          iconPosition: IconPosition.right,
           isValid: _isEmailValid,
           onFocusLost: _validateEmail,
         ),
@@ -100,6 +102,7 @@ class _LoginOrRegisterPage extends ConsumerState<LoginOrRegisterPage> {
           focusNode: _passwordFocusNode,
           hintText: 'password',
           icon: Icons.visibility,
+          iconPosition: IconPosition.right,
           isValid: _isPasswordValid,
           onFocusLost: _validatePassword,
         ),

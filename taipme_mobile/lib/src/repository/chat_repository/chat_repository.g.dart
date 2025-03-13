@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'app_initialization.dart';
+part of 'chat_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appInitializationHash() => r'446a7ba903208518db4e8b500a3d2e3bc20956cc';
+String _$chatRepositoryHash() => r'984b03f3d2305e32d9cb2b872afb597be502df0d';
 
-/// See also [appInitialization].
-@ProviderFor(appInitialization)
-final appInitializationProvider = FutureProvider<void>.internal(
-  appInitialization,
-  name: r'appInitializationProvider',
+/// See also [ChatRepository].
+@ProviderFor(ChatRepository)
+final chatRepositoryProvider =
+    AutoDisposeNotifierProvider<ChatRepository, void>.internal(
+  ChatRepository.new,
+  name: r'chatRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$appInitializationHash,
+      : _$chatRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef AppInitializationRef = FutureProviderRef<void>;
+typedef _$ChatRepository = AutoDisposeNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
