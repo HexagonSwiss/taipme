@@ -3,7 +3,7 @@ import 'package:taipme_mobile/src/theme/styles.dart';
 
 enum IconPosition { left, right }
 
-class TextInput extends StatelessWidget {
+class TextInput extends StatefulWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
   final String hintText;
@@ -11,7 +11,6 @@ class TextInput extends StatelessWidget {
   final bool isValid;
   final VoidCallback onFocusLost;
   final IconPosition iconPosition;
-  final bool obscureText;
 
   const TextInput({
     super.key,
@@ -22,8 +21,14 @@ class TextInput extends StatelessWidget {
     required this.isValid,
     required this.onFocusLost,
     this.iconPosition = IconPosition.left, // Posizione di default a sinistra
-    this.obscureText = false,
   });
+
+  @override
+  _TextInputState createState() => _TextInputState();
+}
+
+class _TextInputState extends State<TextInput> {
+  bool _obscureText = true; // Variabile per gestire la visibilità del testo
 
   @override
   Widget build(BuildContext context) {
@@ -33,39 +38,54 @@ class TextInput extends StatelessWidget {
         FocusScope.of(context).unfocus(); // Rimuove il focus dalla tastiera
       },
       child: Focus(
-        focusNode: focusNode,
+        focusNode: widget.focusNode,
         onFocusChange: (hasFocus) {
-          if (!hasFocus) onFocusLost();
+          if (!hasFocus) widget.onFocusLost();
         },
         child: TextField(
-          controller: controller,
-          style: TextStyle(color: Colors.white), // Impostiamo il testo bianco
+          controller: widget.controller,
+          focusNode: widget.focusNode, // Aggiunto focusNode
+          obscureText: _obscureText, // Qui viene applicato il parametro
+          style: TextStyle(color: Colors.white),
           decoration: InputDecoration(
-            hintText: hintText,
-            hintStyle: TextStyle(color: Colors.white), // Colore del testo di suggerimento
-            // Aggiungi padding per l'icona a sinistra o a destra
-            prefixIcon: iconPosition == IconPosition.left
+            hintText: widget.hintText,
+            hintStyle: TextStyle(color: Colors.white),
+            prefixIcon: widget.iconPosition == IconPosition.left
                 ? Padding(
                     padding: const EdgeInsets.only(left: 16.0),
-                    child: Icon(icon, color: TaipmeStyle.primaryColor), // Icona a sinistra
+                    child: Icon(widget.icon, color: TaipmeStyle.primaryColor),
                   )
                 : null,
-            suffixIcon: iconPosition == IconPosition.right
+            suffixIcon: widget.iconPosition == IconPosition.right
                 ? Padding(
                     padding: const EdgeInsets.only(right: 16.0),
-                    child: Icon(icon, color: TaipmeStyle.primaryColor), // Icona a destra
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _obscureText = !_obscureText; // Alterna la visibilità
+                        });
+                      },
+                      child: Icon(
+                        _obscureText
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: TaipmeStyle.primaryColor,
+                      ),
+                    ),
                   )
                 : null,
-            suffixIconConstraints: const BoxConstraints(minWidth: 0), // Impedisce espansione dell'icona
+            suffixIconConstraints: const BoxConstraints(minWidth: 0),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color: isValid ? TaipmeStyle.borderInput : TaipmeStyle.errorColor,
+                color: widget.isValid
+                    ? TaipmeStyle.borderInput
+                    : TaipmeStyle.errorColor,
               ),
               borderRadius: BorderRadius.circular(8),
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color: isValid ? Colors.blue : TaipmeStyle.errorColor,
+                color: widget.isValid ? Colors.blue : TaipmeStyle.errorColor,
               ),
               borderRadius: BorderRadius.circular(8),
             ),

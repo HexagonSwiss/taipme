@@ -29,8 +29,11 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   void _goLogin() {
+    debugPrint("mounted è: $mounted");  // Stampa: Il numero è: 5
+    debugPrint("isTypingComplete è: $isTypingComplete");  // Stampa: Il numero è: 5
     if (mounted && isTypingComplete) {
       // Verifica che il testo sia completo prima di incrementare
+debugPrint("SONO DENTRO");  // Stampa
       setState(() {
         ref.read(goRouterProvider).go('/login-or-register');
       });

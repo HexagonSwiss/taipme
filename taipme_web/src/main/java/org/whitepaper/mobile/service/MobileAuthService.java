@@ -184,8 +184,8 @@ import java.io.IOException;
 	        // Crea un cookie di sessione
 	        Cookie sessionCookie = new Cookie("SESSIONID" + cookieName, sessionToken);
 	        
-	        // Imposta la durata del cookie (1 giorno)
-	        sessionCookie.setMaxAge(-1);//(60 * 60 * 24);  // Il cookie scade in 1 giorno
+	        // Imposta la durata del cookie
+	        //sessionCookie.setMaxAge(-1);//(60 * 60 * 24);  // Il cookie scade in 1 giorno
 	        
 	        // Imposta il percorso in cui il cookie è valido (tutta l'app)
 	        sessionCookie.setPath("/");  // Il cookie è valido per tutta l'app

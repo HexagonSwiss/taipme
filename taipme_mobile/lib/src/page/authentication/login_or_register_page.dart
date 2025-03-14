@@ -63,25 +63,31 @@ class _LoginOrRegisterPage extends ConsumerState<LoginOrRegisterPage> {
 
                     if (result.error != null) {
                       final snackBar = SnackBar(
-  content: Text(
-    result.error!,
-    textAlign: TextAlign.center, // Centrare il testo dentro la snackbar
-    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold), 
-  ),
-  behavior: SnackBarBehavior.floating, // Permette di spostarla
-  backgroundColor: Colors.redAccent, // Colore per maggiore visibilità
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(12),
-  ),
-  margin: EdgeInsets.only(
-    bottom: MediaQuery.of(context).size.height * 0.4, // Regola altezza (40% dello schermo)
-    left: 50,
-    right: 50,
-  ),
-  duration: Duration(seconds: 3), // Quanto tempo rimane visibile
-);
+                        content: Text(
+                          result.error!,
+                          textAlign: TextAlign
+                              .center, // Centrare il testo dentro la snackbar
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        behavior:
+                            SnackBarBehavior.floating, // Permette di spostarla
+                        backgroundColor:
+                            Colors.redAccent, // Colore per maggiore visibilità
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        margin: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height *
+                              0.4, // Regola altezza (40% dello schermo)
+                          left: 50,
+                          right: 50,
+                        ),
+                        duration: Duration(
+                            seconds: 3), // Quanto tempo rimane visibile
+                      );
 
-ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } else {
                       await ref
                           .read(formControllerProvider.notifier)
@@ -93,17 +99,6 @@ ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       );
                     }
                   },
-                  //  onPressed: () async {
-                  //               await ref.read(formControllerProvider.notifier).handleForm(
-                  //                 actions: [
-                  //                   () async => await ref.read(userControllerProvider.notifier).loginUser(email: _emailController.text, password: _passwordController.text),
-                  //                 ],
-                  //                 route: '/chat-home-page',
-                  //                 globalKey: loginKey,
-                  //                 context: context,
-
-                  //               );
-                  //             },
                   child: Text(
                     textAlign: TextAlign.center,
                     '_accedi',
@@ -147,7 +142,6 @@ ScaffoldMessenger.of(context).showSnackBar(snackBar);
           iconPosition: IconPosition.right,
           isValid: _isPasswordValid,
           onFocusLost: _validatePassword,
-          obscureText: true,
         ),
         Align(
           alignment: Alignment.centerRight,

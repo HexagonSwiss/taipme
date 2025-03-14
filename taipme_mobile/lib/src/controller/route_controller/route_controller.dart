@@ -24,7 +24,7 @@ FutureOr<String?> routeController(Ref ref, {String? backupRoute, bool requiresAu
     if (requiresAuth == true) {
       if (userToken == null) return backupRoute ?? '/login-or-register';
 
-      debugPrint('Route: user is authenticated');
+      debugPrint('Route: user is authenticated $userToken');
 
       UserModel? currentUser = ref.read(userControllerProvider);
 
@@ -47,24 +47,24 @@ FutureOr<String?> routeController(Ref ref, {String? backupRoute, bool requiresAu
 
 @riverpod
 FutureOr<String?> loginOrRegisterRouteController(Ref ref) async {
-  final sharedPref = ref.read(sharedPreferencesProvider);
-  final userId = await sharedPref.getString('user_id');
-  final userToken = await sharedPref.getString('auth_token');
+  // final sharedPref = ref.read(sharedPreferencesProvider);
+  // final userId = await sharedPref.getString('user_id');
+  // final userToken = await sharedPref.getString('auth_token');
 
-  if (userToken == null) null;
+  // if (userToken == null) null;
 
-  debugPrint('Route: user is authenticated');
+  // debugPrint('Route: user is authenticated');
 
-  UserModel? currentUser = ref.read(userControllerProvider);
+  // UserModel? currentUser = ref.read(userControllerProvider);
 
-  // if (currentUser == null && userId != null) {
-  //   final userResult = await ref.read(userControllerProvider.notifier).getUser(userId);
-  //   currentUser = userResult.data;
-  // }
+  // // if (currentUser == null && userId != null) {
+  // //   final userResult = await ref.read(userControllerProvider.notifier).getUser(userId);
+  // //   currentUser = userResult.data;
+  // // }
 
-  if (currentUser == null) return null;
+  // if (currentUser == null) return null;
 
-  debugPrint('Route: currentUser id before proceeding to route is ${currentUser.id}');
+  // debugPrint('Route: currentUser id before proceeding to route is ${currentUser.id}');
 
-  return '/category';
+  return '/chat-home-page';
 }
