@@ -105,6 +105,7 @@ class _LoginOrRegisterPage extends ConsumerState<LoginOrRegisterPage> {
           iconPosition: IconPosition.right,
           isValid: _isPasswordValid,
           onFocusLost: _validatePassword,
+          obscureText: true,
         ),
         Align(
           alignment: Alignment.centerRight,

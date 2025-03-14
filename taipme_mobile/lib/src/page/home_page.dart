@@ -143,7 +143,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       Column(
                         children: [
                           TextButton(
-                            onPressed: () => _goLogin(),
+                            onPressed: () => isTypingComplete ? _goLogin() : _completeTyping,
                             child: Text(
                               '_accedi',
                               style: TextStyle(
