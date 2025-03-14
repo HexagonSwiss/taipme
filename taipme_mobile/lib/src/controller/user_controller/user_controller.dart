@@ -26,10 +26,10 @@ class UserController extends _$UserController {
     final result = await ref.read(userRepositoryProvider.notifier).loginUser(email: email, password: password);
 
   if (result.error != null) {
-      debugPrint('Controller: saveRepathyStandardProfileImage error is ${result.error}');
+      debugPrint('Controller: loginUser error is ${result.error}');
       return ResultModel(error: result.error);
     } else {
-      debugPrint('Controller: saveRepathyStandardProfileImage result is ${result.data}');
+      debugPrint('Controller: loginUser result is ${result.data}');
       return ResultModel(data: result.data);
     }
   }

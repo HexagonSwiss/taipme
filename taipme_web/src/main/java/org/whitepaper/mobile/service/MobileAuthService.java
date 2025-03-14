@@ -3,6 +3,7 @@ package org.whitepaper.mobile.service;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -21,6 +22,8 @@ import org.whitepaper.data.repository.jpa.custom.AnaUtenteCustomJpaRepository;
 import org.whitepaper.web.common.custom.SecurityHelper;
 import org.whitepaper.web.controller.InfoController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.annotation.PostConstruct;
 import org.whitepaper.utility.EncoderGenerator;
 import javax.servlet.http.Cookie;
@@ -28,7 +31,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Base64;
-
+import java.util.HashMap;
+import java.util.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 	@Component
 	@Transactional
 	public class MobileAuthService {
@@ -45,35 +51,94 @@ import java.util.Base64;
 		private AnaUtenteServiceMapper anaUtenteServiceMapper;
 		
 		
-		// Metodo che gestisce il login mobile
-	    public HttpServletResponse loginMobile(@RequestParam String username, @RequestParam String password, HttpServletResponse response) {
-	    	
-	    	//Decodifica email e password
-	    	String decodedUsername = decodeBase64(username);
-	    	String decodedPassword = decodeBase64(password);
-	        // Cerca l'utente per email (username)
-	    	UserDetails user = loadUserByUsername(decodedUsername);
+		public HttpServletResponse loginMobile(@RequestParam String username, @RequestParam String password, HttpServletResponse response) {
+		    // Decodifica email e password
+		    String decodedUsername = decodeBase64(username);
+		    String decodedPassword = decodeBase64(password);
+		    
+		    // Cerca l'utente per email (username)
+		    CustomUser user = loadUserByUsername(decodedUsername);
+		    System.out.println("MobileAuthService USER: " + user);
+		    System.out.println("MobileAuthService USER: " + user.getAuthorities());
+		    // Se l'utente non è trovato, restituisce errore
+		    if (user == null) {
+		        return createErrorResponse(response, "User not found");
+		    }
 
-	        if (user == null) {
-	            // Utente non trovato
-	        	response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-	        }
+		    // Verifica se la password è corretta (confronto con la password criptata)
+		    boolean isPasswordMatches = EncoderGenerator.isEncodeMatchgDecode(decodedPassword, user.getPassword());
 
-	        // Verifica se la password inserita è corretta (confronto con la password criptata)
-			boolean isPasswordMatches = EncoderGenerator.isEncodeMatchgDecode(decodedPassword, user.getPassword());
-			System.out.println("HttpServletResponse loginMobile username: " + user);
-			if(isPasswordMatches) {
-				createSessionToken(decodedUsername, response);	
-			}
-			else {
-				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			}
-			 System.out.println("HttpServletResponse loginMobile response: " + response);
-	        return response;//isPasswordMatches;//passwordEncoder.matches(password, user.password);
-	    }
+		    if (isPasswordMatches) {
+		        // Crea il cookie di sessione e risponde con successo
+		    	Cookie cookies = createSessionToken(decodedUsername);
+		    	return createRightResponse(response, cookies, user, "Valid credentials");
+		    } else {
+		        // Se la password non corrisponde, restituisce un errore
+		        return createErrorResponse(response, "Invalid credentials");
+		    }	    
+		}
+
+		// Metodo di supporto per creare una risposta di errore in formato JSON
+		private HttpServletResponse createRightResponse(HttpServletResponse response, Cookie cookie, CustomUser user, String message) {
+		    try {
+		        // Crea una mappa per la risposta JSON
+		        Map<String, Object> responseMap = new HashMap<>();
+		        responseMap.put("status", "ok");
+		        responseMap.put("message", message);
+
+		        // Serializza solo i dati rilevanti dell'utente (ad esempio username, email, etc.)
+		        Map<String, String> userMap = new HashMap<>();
+		        userMap.put("userid", user.getIdUser().toString());
+		        responseMap.put("user", userMap);
+
+		        // Crea una mappa per il cookie (nome e valore)
+		        Map<String, String> cookieMap = new HashMap<>();
+		        cookieMap.put("name", cookie.getName());
+		        cookieMap.put("value", cookie.getValue());
+		        responseMap.put("cookie", cookieMap);
+
+		        // Imposta il codice di stato della risposta HTTP come OK (200)
+		        response.setStatus(HttpServletResponse.SC_OK);  // HTTP 200 OK
+
+		        // Serializza la mappa in JSON e scrivila nella risposta
+		        ObjectMapper objectMapper = new ObjectMapper();
+		        response.setContentType("application/json");
+		        response.getWriter().write(objectMapper.writeValueAsString(responseMap));
+		        response.getWriter().flush();  // Assicurati che la risposta venga completata
+
+		    } catch (IOException e) {
+		        e.printStackTrace(); // Gestione eccezioni se necessario
+		    }
+		    return response;
+		}
+				
+		// Metodo di supporto per creare una risposta di errore in formato JSON
+		private HttpServletResponse createErrorResponse(HttpServletResponse response, String errorMessage) {
+		    try {
+		        // Crea una mappa per la risposta JSON
+		        Map<String, Object> responseMap = new HashMap<>();
+		        responseMap.put("status", "error");
+		        responseMap.put("message", errorMessage);
+		        responseMap.put("user", null);
+		        responseMap.put("cookie", null);
+
+		        // Imposta il codice di stato della risposta HTTP
+		        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);  // HTTP 401 Unauthorized
+
+		        // Serializza la mappa in JSON e scrivila nella risposta
+		        ObjectMapper objectMapper = new ObjectMapper();
+		        response.setContentType("application/json");
+		        response.getWriter().write(objectMapper.writeValueAsString(responseMap));
+		        response.getWriter().flush();  // Assicurati che la risposta venga completata
+
+		    } catch (IOException e) {
+		        e.printStackTrace(); // Gestione eccezioni se necessario
+		    }
+		    return response;
+		}
 	    
 	    //ricerca utente per email
-		public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
+		public CustomUser loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
 	    	
 	    	CustomUser customUser = null;
 	        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -91,7 +156,7 @@ import java.util.Base64;
 	        }else {
 	           	customUser = new CustomUser(username, "NA", true, true, true, true, authorities);
 	        } 
-
+	        
 	        return customUser;
 	   }
 	    
@@ -106,13 +171,13 @@ import java.util.Base64;
 			
 			//profilo utente per security
 			authorities.add(new  SimpleGrantedAuthority(theUtente.getCodTipPrf()) );
-			
+
 			return theUtente;
 		}
 
-		 // Metodo per creare il token di sessione
-	    public void createSessionToken(String username, HttpServletResponse response) {
-	    	// Genera un token unico per la sessione (UUID per esempio)
+		// Metodo per creare il cookie di sessione
+	    public Cookie createSessionToken(String username) {
+	    	// Genera un cookie unico per la sessione (UUID per esempio)
 	    	String cookieName = "SESSIONID_" + username.replace('@', '-');  
 	        String sessionToken = UUID.randomUUID().toString();
 	        System.out.println("createSessionToken username: " + username);
@@ -125,15 +190,8 @@ import java.util.Base64;
 	        // Imposta il percorso in cui il cookie è valido (tutta l'app)
 	        sessionCookie.setPath("/");  // Il cookie è valido per tutta l'app
 	        
-	        // Imposta Secure per inviare il cookie solo su HTTPS
-	        //sessionCookie.setSecure(true);  // Assicurati che il server usi HTTPS per la sicurezza
-
-	        
-	        System.out.println("Cookie name: " + sessionCookie.getName());
-	        System.out.println("Cookie value: " + sessionCookie.getValue());
-	        
 	        // Aggiungi il cookie alla risposta HTTP
-	        response.addCookie(sessionCookie);
+	        return sessionCookie;
 	        
 	    }
 	    

@@ -41,45 +41,87 @@ class _LoginOrRegisterPage extends ConsumerState<LoginOrRegisterPage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Form(
-                  key: loginKey,
-                  child: Column(
-          children: [
-            const Spacer(flex: 2), // Spazio in cima
-            TitleInput(title: 'accedi'),
-            const Spacer(flex: 1), // Spazio tra titolo e form
-            _buildForm(),
-            const Spacer(flex: 2), // Spazio tra form e footer
-            TextButton(
-           onPressed: () async {
-                        await ref.read(formControllerProvider.notifier).handleForm(
-                          actions: [
-                            () async => await ref.read(userControllerProvider.notifier).loginUser(email: _emailController.text, password: _passwordController.text),
-                          ],
-                          route: '/chat-home-page',
-                          globalKey: loginKey,
-                          context: context,
-                          
+            key: loginKey,
+            child: Column(
+              children: [
+                const Spacer(flex: 2), // Spazio in cima
+                TitleInput(title: 'accedi'),
+                const Spacer(flex: 1), // Spazio tra titolo e form
+                _buildForm(),
+                const Spacer(flex: 2), // Spazio tra form e footer
+                TextButton(
+                  onPressed: () async {
+                    final result = await ref
+                        .read(userControllerProvider.notifier)
+                        .loginUser(
+                          email: _emailController.text,
+                          password: _passwordController.text,
                         );
-                      },
-          child: Text(
-            textAlign: TextAlign.center, 
-            '_accedi',
-            style: TextStyle(
-              color: TaipmeStyle.primaryColor,
-              fontSize: TaipmeStyle.miniTextSize,
-            ),
-          ),
-        ),
-            const FooterInput(
-                title: '',
-                titleLink: '',
-                state: 'Non hai ancora un account?',
-                action: '_registrati',
-                actionLink: '/register'),
-            const Spacer(flex: 1), // Spazio inferiore
-          ],
-                  )
-        ),
+
+                    if (!context.mounted)
+                      return; // Evita errori se il widget è stato smontato
+
+                    if (result.error != null) {
+                      final snackBar = SnackBar(
+  content: Text(
+    result.error!,
+    textAlign: TextAlign.center, // Centrare il testo dentro la snackbar
+    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold), 
+  ),
+  behavior: SnackBarBehavior.floating, // Permette di spostarla
+  backgroundColor: Colors.redAccent, // Colore per maggiore visibilità
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(12),
+  ),
+  margin: EdgeInsets.only(
+    bottom: MediaQuery.of(context).size.height * 0.4, // Regola altezza (40% dello schermo)
+    left: 50,
+    right: 50,
+  ),
+  duration: Duration(seconds: 3), // Quanto tempo rimane visibile
+);
+
+ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else {
+                      await ref
+                          .read(formControllerProvider.notifier)
+                          .handleForm(
+                        actions: [],
+                        route: '/chat-home-page',
+                        globalKey: loginKey,
+                        context: context,
+                      );
+                    }
+                  },
+                  //  onPressed: () async {
+                  //               await ref.read(formControllerProvider.notifier).handleForm(
+                  //                 actions: [
+                  //                   () async => await ref.read(userControllerProvider.notifier).loginUser(email: _emailController.text, password: _passwordController.text),
+                  //                 ],
+                  //                 route: '/chat-home-page',
+                  //                 globalKey: loginKey,
+                  //                 context: context,
+
+                  //               );
+                  //             },
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    '_accedi',
+                    style: TextStyle(
+                      color: TaipmeStyle.primaryColor,
+                      fontSize: TaipmeStyle.miniTextSize,
+                    ),
+                  ),
+                ),
+                const FooterInput(
+                    title: '',
+                    titleLink: '',
+                    state: 'Non hai ancora un account?',
+                    action: '_registrati',
+                    actionLink: '/register'),
+                const Spacer(flex: 1), // Spazio inferiore
+              ],
+            )),
       ),
     );
   }

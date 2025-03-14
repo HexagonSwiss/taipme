@@ -16,6 +16,9 @@ import java.io.IOException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Map;
+import java.util.HashMap;
 
 //@WebFilter(urlPatterns = "/login-mobile")
 public class MobileRequestFilter implements Filter {
@@ -40,21 +43,35 @@ public class MobileRequestFilter implements Filter {
 	    if ("mobile".equals(requestSource)) {
 	        String requestURI = httpRequest.getRequestURI();
 	        String endpoint = requestURI.substring(httpRequest.getContextPath().length());
-	        boolean isLogged = mobileAuthService.checkSession(httpRequest.getCookies());
+	        
+	        if (!"/login_mobile".equals(endpoint)) {
+		        boolean isLogged = mobileAuthService.checkSession(httpRequest.getCookies());
+		        if (!isLogged) {
+		        	// Crea una mappa per la risposta JSON
+		            Map<String, Object> responseMap = new HashMap<>();
+		            responseMap.put("status", "error");
+		            responseMap.put("user", null);
+		            responseMap.put("cookie", null);
+	
+		            // Imposta il codice di stato della risposta HTTP
+		            httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);  // HTTP 401 Unauthorized
+	
+		            // Serializza la mappa in JSON e scrivila nella risposta
+		            ObjectMapper objectMapper = new ObjectMapper();
+		            httpResponse.setContentType("application/json");
+		            httpResponse.getWriter().write(objectMapper.writeValueAsString(responseMap));
+		            return;  // Ferma ulteriori elaborazioni
+		        }
+	        }
 	        String username = httpRequest.getHeader("username");
 	        String password = httpRequest.getHeader("password");
 
-	        if (!isLogged) {
-	            // Effettua il login e invia il cookie nella risposta
-	        	mobileAuthService.loginMobile(username, password, httpResponse);
-	            System.out.println("MobileRequestFilter httpResponse: " + httpResponse);
-	            return;  // Termina il flusso del filtro per non proseguire
-	        }
+	        
 
 	        switch (endpoint) {
-	            //case "/login_mobile":
-	            //    controller.loginMobile(username, password, httpResponse);
-	            //    break;
+	            case "/login_mobile":
+	            	mobileAuthService.loginMobile(username, password, httpResponse);
+	                break;
 	            case "/registrati_mobile":
 	                // Gestisci la registrazione se necessario
 	                break;
