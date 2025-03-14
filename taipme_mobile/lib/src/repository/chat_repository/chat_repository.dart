@@ -13,7 +13,7 @@ class ChatRepository extends _$ChatRepository {
   void build() {}
 
 Future<ResultModel<List<dynamic>>> getChatList() async {
-  final Uri uri = Uri.parse('http://127.0.0.1:8080/WhitePaper/message_mobile');
+  final Uri uri = Uri.parse('https://www.taipme.com/WhitePaper/message_mobile');
 
   try {
     final http.Response response = await http.post(uri);

@@ -39,7 +39,7 @@ class UserRepository extends _$UserRepository {
 
     final http.Response response;
     final dynamic decodedResponse;
-    final Uri uri = Uri.parse('http://127.0.0.1:8080/WhitePaper/login_mobile');
+    final Uri uri = Uri.parse('https://www.taipme.com/WhitePaper/login_mobile');
 // Convertire in Base64
     String encodedEmail = base64Encode(utf8.encode(email));
     String encodedPassword = base64Encode(utf8.encode(password));
