@@ -35,7 +35,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       // Verifica che il testo sia completo prima di incrementare
 debugPrint("SONO DENTRO");  // Stampa
       setState(() {
-        ref.read(goRouterProvider).go('/login-or-register');
+        ref.read(goRouterProvider).go('/login');
       });
     }
   }

@@ -6,6 +6,7 @@ import 'package:taipme_mobile/src/page/authentication/login_or_register_page.dar
 import 'package:taipme_mobile/src/page/registration/registration_page.dart';
 import 'package:taipme_mobile/src/page/registration/registration_sent_page.dart';
 import 'package:taipme_mobile/src/page/chat/chat_home_page.dart';
+import  'package:taipme_mobile/src/page/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -35,9 +36,9 @@ GoRouter goRouter(Ref ref) {
         }
       ),
       GoRoute(
-        path: '/login-or-register',
-        pageBuilder: (context, state) => const MaterialPage(child: LoginOrRegisterPage()),
-        redirect: (context, state) async => await ref.read(loginOrRegisterRouteControllerProvider.future),
+        path: '/login',
+        pageBuilder: (context, state) => const MaterialPage(child: LoginPage())
+        //redirect: (context, state) async => await ref.read(loginOrRegisterRouteControllerProvider.future),
       ),
       GoRoute(
         path: '/register',

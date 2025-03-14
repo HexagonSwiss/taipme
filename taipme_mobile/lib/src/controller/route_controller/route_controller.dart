@@ -10,38 +10,39 @@ part 'route_controller.g.dart';
 
 @riverpod
 FutureOr<String?> routeController(Ref ref, {String? backupRoute, bool requiresAuth = false}) async {
-  final sharedPref = ref.read(sharedPreferencesProvider);
+  //final sharedPref = ref.read(sharedPreferencesProvider);
 
   try {
-    final bool isFirstTime = await ref.read(isFirstTimeProvider.future);
-    if (isFirstTime) return '/login-or-register';
+    //final bool isFirstTime = await ref.read(isFirstTimeProvider.future);
+    //if (isFirstTime) 
+    return '/login';
 
-    debugPrint('Route: it is not the first time the user opens the app');
+    // debugPrint('Route: it is not the first time the user opens the app');
 
-    final userId = await sharedPref.getString('user_id');
-    final userToken = await sharedPref.getString('auth_token');
+    // final userId = await sharedPref.getString('user_id');
+    // final userToken = await sharedPref.getString('auth_token');
 
-    if (requiresAuth == true) {
-      if (userToken == null) return backupRoute ?? '/login-or-register';
+    // if (requiresAuth == true) {
+    //   if (userToken == null) return backupRoute ?? '/login-or-register';
 
-      debugPrint('Route: user is authenticated $userToken');
+    //   debugPrint('Route: user is authenticated $userToken');
 
-      UserModel? currentUser = ref.read(userControllerProvider);
+    //   UserModel? currentUser = ref.read(userControllerProvider);
 
-      // if (currentUser == null && userId != null) {
-      //   final userResult = await ref.read(userControllerProvider.notifier).getUser(userId);
-      //   currentUser = userResult.data;
-      // }
+    //   // if (currentUser == null && userId != null) {
+    //   //   final userResult = await ref.read(userControllerProvider.notifier).getUser(userId);
+    //   //   currentUser = userResult.data;
+    //   // }
 
-      if (currentUser == null) return backupRoute ?? '/login-or-register';
+    //   if (currentUser == null) return backupRoute ?? '/login-or-register';
 
-      debugPrint('Route: currentUser id before proceeding to route is ${currentUser.id}');
-    }
+    //   debugPrint('Route: currentUser id before proceeding to route is ${currentUser.id}');
+    //}
 
-    return null;
+    //return null;
   } catch (e) {
     debugPrint('Route: error in route navigation is: $e');
-    return backupRoute ?? '/login-or-register';
+    return backupRoute ?? '/login';
   }
 }
 

@@ -39,7 +39,7 @@ class UserRepository extends _$UserRepository {
 
     final http.Response response;
     final dynamic decodedResponse;
-    final Uri uri = Uri.parse('https://www.taipme.com/WhitePaper//login_mobile');
+    final Uri uri = Uri.parse('http://127.0.0.1:8080/WhitePaper/login_mobile');
 // Convertire in Base64
     String encodedEmail = base64Encode(utf8.encode(email));
     String encodedPassword = base64Encode(utf8.encode(password));
@@ -92,10 +92,10 @@ class UserRepository extends _$UserRepository {
       debugPrint(
           "Repository: loginUser decodedResponseMessage is ${decodedResponse['message']}");
       // Se c'è un errore, ritorna l'errore
-      return ResultModel(error: decodedResponse['error'] ?? "SI è verificato un errore. Riprovare");
+      return ResultModel(data: "Success");
     } catch (e) {
       debugPrint("Repository: loginUser error is: $e");
-      return ResultModel(error: e.toString());
+      return ResultModel(error: "Si è verificato un errore. Riprovare");
     }
   }
 }
