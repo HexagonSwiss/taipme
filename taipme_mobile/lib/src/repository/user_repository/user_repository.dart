@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
+import 'dart:convert';
 
 part 'user_repository.g.dart';
 
@@ -38,12 +39,15 @@ Future<ResultModel<String>> loginUser({
   final http.Response response;
   final dynamic decodedResponse;
   final Uri uri = Uri.parse('http://127.0.0.1:8080/WhitePaper/login_mobile');
+// Convertire in Base64
+  String encodedEmail = base64Encode(utf8.encode(email));
+  String encodedPassword = base64Encode(utf8.encode(password));
 
   final Map<String, String> headers = {
     "Content-Type": "application/json",
     "X-Request-Source": "mobile",
-    "username": email,
-    "password": password,
+    "username": encodedEmail,
+    "password": encodedPassword,
   };
 
   try {

@@ -1,7 +1,7 @@
 package org.whitepaper.business.service.impl.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.whitepaper.mobile.login.MobileAuthController;
+import org.whitepaper.mobile.service.MobileAuthService;
 import org.whitepaper.web.controller.InfoController;
 
 import javax.annotation.Resource;
@@ -25,7 +25,7 @@ public class MobileRequestFilter implements Filter {
     }
 	
 	@Autowired
-	private MobileAuthController controller;
+	private MobileAuthService mobileAuthService;
 	
 	
 	
@@ -40,13 +40,13 @@ public class MobileRequestFilter implements Filter {
 	    if ("mobile".equals(requestSource)) {
 	        String requestURI = httpRequest.getRequestURI();
 	        String endpoint = requestURI.substring(httpRequest.getContextPath().length());
-	        boolean isLogged = controller.checkSession(httpRequest.getCookies());
+	        boolean isLogged = mobileAuthService.checkSession(httpRequest.getCookies());
 	        String username = httpRequest.getHeader("username");
 	        String password = httpRequest.getHeader("password");
 
 	        if (!isLogged) {
 	            // Effettua il login e invia il cookie nella risposta
-	            controller.loginMobile(username, password, httpResponse);
+	        	mobileAuthService.loginMobile(username, password, httpResponse);
 	            System.out.println("MobileRequestFilter httpResponse: " + httpResponse);
 	            return;  // Termina il flusso del filtro per non proseguire
 	        }
@@ -61,11 +61,9 @@ public class MobileRequestFilter implements Filter {
 	            case "/recupera_mobile":
 	                // Gestisci la richiesta di recupero
 	                break;
-	            case "/messages_mobile":
+	            case "/messaggi_mobile":
 	            	
 	            	break;
-	            case "/faqs_mobile":
-	            	controller.listFaqsMobile();
 	            default:
 	                // Gestisci il caso di default se necessario
 	        }
