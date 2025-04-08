@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:taipme_mobile/route/route.dart';
-import 'package:taipme_mobile/src/component/typingeffect/typing_effect_widget.dart';
+import 'package:taipme_mobile/src/component/typing_effect/typing_effect_widget.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -12,37 +12,44 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  int _clickCount = 0; // Variabile per tenere traccia delle volte che è stato cliccato il pulsante
-  bool isTypingComplete = false; // Stato per tenere traccia se il testo è completo
+  int _clickCount =
+      0; // Variabile per tenere traccia delle volte che è stato cliccato il pulsante
+  bool isTypingComplete =
+      false; // Stato per tenere traccia se il testo è completo
 
   void _nextText() {
-    if (mounted && isTypingComplete) { // Verifica che il testo sia completo prima di incrementare
+    if (mounted && isTypingComplete) {
+      // Verifica che il testo sia completo prima di incrementare
       setState(() {
         _clickCount++; // Aumenta il contatore ogni volta che il pulsante è premuto
-        isTypingComplete = false; // Resetta lo stato per indicare che il testo non è ancora completo
+        isTypingComplete =
+            false; // Resetta lo stato per indicare che il testo non è ancora completo
       });
     }
   }
 
-void _goLogin() {
-    if (mounted && isTypingComplete) { // Verifica che il testo sia completo prima di incrementare
+  void _goLogin() {
+    if (mounted && isTypingComplete) {
+      // Verifica che il testo sia completo prima di incrementare
       setState(() {
-        ref
-            .read(goRouterProvider)
-            .go('/login-or-register');
+        ref.read(goRouterProvider).go('/login-or-register');
       });
     }
   }
+
   void _goRegister() {
-    if (mounted && isTypingComplete) { // Verifica che il testo sia completo prima di incrementare
+    if (mounted && isTypingComplete) {
+      // Verifica che il testo sia completo prima di incrementare
       setState(() {
-            ref.read(goRouterProvider).go('/register');
+        ref.read(goRouterProvider).go('/register');
       });
     }
   }
+
   void onTypingComplete() {
     setState(() {
-      isTypingComplete = true; // Imposta su true quando il testo è stato scritto
+      isTypingComplete =
+          true; // Imposta su true quando il testo è stato scritto
     });
   }
 
@@ -74,24 +81,28 @@ void _goLogin() {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/logo/taipme.jpg',
-                      width: 250, height: 250),
-
+                  Image.asset(
+                    'assets/logo/taipme.jpg',
+                    width: 250,
+                    height: 250,
+                  ),
                   Container(
                     height: 150.0,
                     padding: const EdgeInsets.all(16.0),
                     child: TypingEffectWidget(
                       key: ValueKey(
-                          _clickCount), // Forza la ricostruzione del widget
+                        _clickCount,
+                      ), // Forza la ricostruzione del widget
                       fullText: displayedText, // Passa il testo da scrivere
                       textAlign: TextAlign.center,
                       textStyle: TextStyle(
                         color: TaipmeStyle.inputFieldTextColor,
                         fontSize: TaipmeStyle.miniTextSize,
                       ),
-                      typingSpeed: Duration(milliseconds: 90), // Personalizza la velocità
-                      onTypingComplete: onTypingComplete, // Imposta il callback quando il testo è completo
-
+                      typingSpeed: Duration(
+                          milliseconds: 90), // Personalizza la velocità
+                      onTypingComplete:
+                          onTypingComplete, // Imposta il callback quando il testo è completo
                     ),
                   ),
 
@@ -139,8 +150,7 @@ void _goLogin() {
                           ),
                         ),
                         TextButton(
-                          onPressed: () =>
-                              _goRegister(),
+                          onPressed: () => _goRegister(),
                           child: Text(
                             '_registrati',
                             style: TextStyle(

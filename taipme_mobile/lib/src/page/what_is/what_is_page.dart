@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
-import 'package:taipme_mobile/src/component/typingeffect/typing_effect_widget.dart';
+import 'package:taipme_mobile/src/component/typing_effect/typing_effect_widget.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
 class WhatIsPage extends ConsumerStatefulWidget {

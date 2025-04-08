@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async'; // Per Timer
 
-import 'package:flutter/material.dart';
-
 class TypingEffectWidget extends StatefulWidget {
   final String fullText;
   final TextAlign textAlign;
@@ -20,7 +18,7 @@ class TypingEffectWidget extends StatefulWidget {
   });
 
   @override
-  _TypingEffectWidgetState createState() => _TypingEffectWidgetState();
+  State<TypingEffectWidget> createState() => _TypingEffectWidgetState();
 }
 
 class _TypingEffectWidgetState extends State<TypingEffectWidget> {

@@ -6,7 +6,7 @@ part of 'snackbar_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$snackBarServiceHash() => r'02f3eeca7391c70bc0d13148299f5a0a96394cc4';
+String _$snackBarServiceHash() => r'868eed7e19e9806c1c2939d5e74cfaf397804f98';
 
 /// Copied from Dart SDK
 class _SystemHash {
