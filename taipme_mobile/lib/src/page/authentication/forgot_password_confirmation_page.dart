@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/src/component/footer_input.dart';
 import 'package:taipme_mobile/src/component/text_input.dart';
 import 'package:taipme_mobile/src/component/titlle_input.dart';
-import 'package:taipme_mobile/src/theme/styles.dart';
 
 class ForgotPasswordConfirmationPage extends ConsumerStatefulWidget {
   const ForgotPasswordConfirmationPage({super.key,  required this.token});
@@ -15,7 +14,6 @@ final String token;
 }
 
 class _ForgotPasswordCOnfirmationPageState extends ConsumerState<ForgotPasswordConfirmationPage> {
-
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _emailFocusNode = FocusNode();

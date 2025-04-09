@@ -5,7 +5,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'key.g.dart';
 
 // GO_ROUTER KEY
-
 @Riverpod(keepAlive: true)
 GlobalKey<NavigatorState> navigatorKey(Ref ref) => GlobalKey<NavigatorState>();
 

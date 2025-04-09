@@ -41,7 +41,7 @@ public class MessaggioStatEntity {
     private Date datUltMov;
 
     @Column(name = "cod_pgm_ult_mov")
-    private String c;
+    private String codPgmUltMov;
     
     @Column(name = "des_not_msg")
     private String desNotMsg;
