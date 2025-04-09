@@ -1,5 +1,3 @@
-
-import 'dart:io';
 import 'package:taipme_mobile/src/controller/instance_controller/instance_controller.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 import 'package:taipme_mobile/src/model/data_model/user_model/user.dart';
@@ -21,7 +19,7 @@ class UserController extends _$UserController {
   void updateCachedUser(UserModel user) => state = user;
   void invalidateCachedUser() => state = null;
 
-  Future<ResultModel<String>> loginUser({required String email, required String password}) async {
+  Future<ResultModel<Map<String, dynamic>>> loginUser({required String email, required String password}) async {
     debugPrint('Controller: loginUser is called - Email: $email, Password: $password');
     final result = await ref.read(userRepositoryProvider.notifier).loginUser(email: email, password: password);
 

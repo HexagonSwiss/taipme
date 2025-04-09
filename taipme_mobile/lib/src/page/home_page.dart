@@ -12,16 +12,12 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  int _clickCount =
-     
-      0; // Variabile per tenere traccia delle volte che è stato cliccato il pulsante
+  int _clickCount = 0;
   bool isTypingComplete =
-     
       false; // Stato per tenere traccia se il testo è completo
 
   void _nextText() {
     if (mounted && isTypingComplete) {
-     
       // Verifica che il testo sia completo prima di incrementare
       setState(() {
         _clickCount++; // Aumenta il contatore ogni volta che il pulsante è premuto
@@ -32,11 +28,12 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   void _goLogin() {
-    debugPrint("mounted è: $mounted");  // Stampa: Il numero è: 5
-    debugPrint("isTypingComplete è: $isTypingComplete");  // Stampa: Il numero è: 5
+    debugPrint("mounted è: $mounted"); // Stampa: Il numero è: 5
+    debugPrint(
+        "isTypingComplete è: $isTypingComplete"); // Stampa: Il numero è: 5
     if (mounted && isTypingComplete) {
       // Verifica che il testo sia completo prima di incrementare
-debugPrint("SONO DENTRO");  // Stampa
+      debugPrint("SONO DENTRO"); // Stampa
       setState(() {
         ref.read(goRouterProvider).go('/login');
       });
@@ -83,7 +80,8 @@ debugPrint("SONO DENTRO");  // Stampa
     }
 
     return GestureDetector(
-      onTap: _completeTyping, // Completa la scrittura quando si tocca qualsiasi parte dello schermo
+      onTap:
+          _completeTyping, // Completa la scrittura quando si tocca qualsiasi parte dello schermo
       child: Scaffold(
         backgroundColor: TaipmeStyle.backgroundColor,
         body: Center(
@@ -103,15 +101,18 @@ debugPrint("SONO DENTRO");  // Stampa
                       height: 150.0,
                       padding: const EdgeInsets.all(16.0),
                       child: TypingEffectWidget(
-                        key: ValueKey(_clickCount), // Forza la ricostruzione del widget
+                        key: ValueKey(
+                            _clickCount), // Forza la ricostruzione del widget
                         fullText: displayedText, // Passa il testo da scrivere
                         textAlign: TextAlign.center,
                         textStyle: TextStyle(
                           color: TaipmeStyle.inputFieldTextColor,
                           fontSize: TaipmeStyle.miniTextSize,
                         ),
-                        typingSpeed: Duration(milliseconds: 90), // Personalizza la velocità
-                        onTypingComplete: onTypingComplete, // Imposta il callback quando il testo è completo
+                        typingSpeed: Duration(
+                            milliseconds: 90), // Personalizza la velocità
+                        onTypingComplete:
+                            onTypingComplete, // Imposta il callback quando il testo è completo
                       ),
                     ),
 
@@ -132,7 +133,8 @@ debugPrint("SONO DENTRO");  // Stampa
                             ),
                           ),
                           TextButton(
-                            onPressed: isTypingComplete ? _nextText : _completeTyping,
+                            onPressed:
+                                isTypingComplete ? _nextText : _completeTyping,
                             child: Text(
                               '_continua',
                               style: TextStyle(
@@ -144,36 +146,37 @@ debugPrint("SONO DENTRO");  // Stampa
                         ],
                       ),
 
-                  // Mostra i bottoni "_accedi" e "_registrati" dopo il secondo clic
-                  if (_clickCount >= 2)
-                    Column(
-                      children: [
-                        TextButton(
-                          onPressed: () => _goLogin(),
-                          child: Text(
-                            '_accedi',
-                            style: TextStyle(
-                              color: TaipmeStyle.inputFieldTextColor,
-                              fontSize: TaipmeStyle.miniTextSize,
+                    // Mostra i bottoni "_accedi" e "_registrati" dopo il secondo clic
+                    if (_clickCount >= 2)
+                      Column(
+                        children: [
+                          TextButton(
+                            onPressed: () => _goLogin(),
+                            child: Text(
+                              '_accedi',
+                              style: TextStyle(
+                                color: TaipmeStyle.inputFieldTextColor,
+                                fontSize: TaipmeStyle.miniTextSize,
+                              ),
                             ),
                           ),
-                        ),
-                        TextButton(
-                          onPressed: () => _goRegister(),
-                          child: Text(
-                            '_registrati',
-                            style: TextStyle(
-                              color: TaipmeStyle.inputFieldTextColor,
-                              fontSize: TaipmeStyle.miniTextSize,
+                          TextButton(
+                            onPressed: () => _goRegister(),
+                            child: Text(
+                              '_registrati',
+                              style: TextStyle(
+                                color: TaipmeStyle.inputFieldTextColor,
+                                fontSize: TaipmeStyle.miniTextSize,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                ],
+                        ],
+                      ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

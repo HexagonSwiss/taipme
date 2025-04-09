@@ -28,12 +28,11 @@ class UserRepository extends _$UserRepository {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
       "X-Request-Source": "mobile",
-      "username": encodedEmail,
-      "password": encodedPassword,
+      // "username": encodedEmail,
+      // "password": encodedPassword,
     };
 
     try {
-
 
       body = json.encode({
         'email': email,
