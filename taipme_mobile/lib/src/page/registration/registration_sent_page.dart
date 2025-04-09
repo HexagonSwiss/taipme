@@ -26,7 +26,7 @@ class _RegistrationSentPageState extends ConsumerState<RegistrationSentPage> {
             const Spacer(flex: 1), // Spazio tra titolo e form
             _buildForm(),
             const Spacer(flex: 2), // Spazio tra form e footer
-            const FooterInput(title: '_registrati', titleLink: '', state: 'Hai già un account?', action: '_accedi', actionLink: '/login-or-register'),
+            const FooterInput(title: '_registrati', titleLink: '', state: 'Hai già un account?', action: '_accedi', actionLink: '/login'),
             const Spacer(flex: 1), // Spazio inferiore
           ],
         ),

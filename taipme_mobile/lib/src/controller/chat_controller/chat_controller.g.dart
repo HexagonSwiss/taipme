@@ -1,30 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_repository.dart';
+part of 'chat_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-<<<<<<< HEAD
-String _$userRepositoryHash() => r'aae089a034a47dcc796a972741e048e1b15b4170';
-=======
-String _$userRepositoryHash() => r'2361913c19a41e3f7219e857d875c0c6b069645b';
->>>>>>> origin/call_login_be
+String _$chatControllerHash() => r'1363067539b30e1a6a8807f5e0d0dc3930f2e11e';
 
-/// See also [UserRepository].
-@ProviderFor(UserRepository)
-final userRepositoryProvider =
-    AutoDisposeNotifierProvider<UserRepository, void>.internal(
-  UserRepository.new,
-  name: r'userRepositoryProvider',
+/// See also [ChatController].
+@ProviderFor(ChatController)
+final chatControllerProvider = NotifierProvider<ChatController, void>.internal(
+  ChatController.new,
+  name: r'chatControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$userRepositoryHash,
+      : _$chatControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$UserRepository = AutoDisposeNotifier<void>;
+typedef _$ChatController = Notifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

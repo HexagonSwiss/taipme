@@ -21,36 +21,17 @@ class UserController extends _$UserController {
   void updateCachedUser(UserModel user) => state = user;
   void invalidateCachedUser() => state = null;
 
-  Future<ResultModel<bool>> loginUser({required String email, required String password}) async {
+  Future<ResultModel<String>> loginUser({required String email, required String password}) async {
     debugPrint('Controller: loginUser is called - Email: $email, Password: $password');
     final result = await ref.read(userRepositoryProvider.notifier).loginUser(email: email, password: password);
 
-    if (result.error != null) {
+  if (result.error != null) {
       debugPrint('Controller: loginUser error is ${result.error}');
       return ResultModel(error: result.error);
+    } else {
+      debugPrint('Controller: loginUser result is ${result.data}');
+      return ResultModel(data: result.data);
     }
-
-    final Map<String, String>? data = result.data;
-
-    if (data == null) {
-      debugPrint('Controller: loginUser data is null');
-      return ResultModel(error: 'data-is-null');
-    }
-
-    final token = data['token'];
-    final userId = data['userId'];
-
-    if (token == null || userId == null) {
-      debugPrint('Controller: loginUser token or userId is null');
-      return ResultModel(error: 'token-or-userId-is-null');
-    }
-
-    // Save token and userId to SharedPreferences
-    final SharedPreferencesAsync prefs = ref.read(sharedPreferencesProvider);
-    await prefs.setString('auth_token', token);
-    await prefs.setString('user_id', userId);
-
-    return ResultModel(data: true);
   }
 }
 

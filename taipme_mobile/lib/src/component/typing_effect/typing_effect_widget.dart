@@ -6,7 +6,7 @@ class TypingEffectWidget extends StatefulWidget {
   final TextAlign textAlign;
   final TextStyle textStyle;
   final Duration typingSpeed;
-  final VoidCallback onTypingComplete; // Aggiungi il parametro per il callback
+  final VoidCallback onTypingComplete;
 
   const TypingEffectWidget({
     super.key,
@@ -14,7 +14,7 @@ class TypingEffectWidget extends StatefulWidget {
     required this.textAlign,
     required this.textStyle,
     required this.typingSpeed,
-    required this.onTypingComplete, // Parametro aggiunto
+    required this.onTypingComplete,
   });
 
   @override
@@ -22,39 +22,60 @@ class TypingEffectWidget extends StatefulWidget {
 }
 
 class _TypingEffectWidgetState extends State<TypingEffectWidget> {
-  late String displayedText;
+  Timer? _timer;
   int charIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    displayedText = '';
     _startTyping();
   }
 
   void _startTyping() {
-    Future.delayed(widget.typingSpeed, _typeCharacter);
+    _timer = Timer.periodic(widget.typingSpeed, (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+
+      if (charIndex < widget.fullText.length) {
+        setState(() {
+          charIndex++;
+        });
+      } else {
+        timer.cancel();
+        widget.onTypingComplete();
+      }
+    });
   }
 
-  void _typeCharacter() {
-    if (charIndex < widget.fullText.length) {
+  void _completeTyping() {
+    // Annulla il timer e mostra il testo completo
+    if (_timer != null) {
+      _timer?.cancel();
       setState(() {
-        displayedText += widget.fullText[charIndex];
-        charIndex++;
+        charIndex = widget.fullText.length; // Imposta l'indice al massimo
       });
-      Future.delayed(widget.typingSpeed, _typeCharacter);
-    } else {
-      // Quando il testo è completamente scritto, chiama il callback
-      widget.onTypingComplete();
+      widget
+          .onTypingComplete(); // Chiamata al callback quando il typing è completo
     }
   }
 
   @override
+  void dispose() {
+    _timer?.cancel(); // Annulla il timer quando il widget viene smontato
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Text(
-      displayedText,
-      textAlign: widget.textAlign,
-      style: widget.textStyle,
+    return GestureDetector(
+      onTap: _completeTyping, // Quando l'utente clicca, termina la scrittura
+      child: Text(
+        widget.fullText.substring(0, charIndex),
+        textAlign: widget.textAlign,
+        style: widget.textStyle,
+      ),
     );
   }
 }

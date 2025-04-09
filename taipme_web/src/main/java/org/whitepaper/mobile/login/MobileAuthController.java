@@ -1,46 +1,42 @@
+
 package org.whitepaper.mobile.login;
+import java.util.ArrayList;
 
+import java.util.List;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.whitepaper.bean.AnaUtente;
+import org.whitepaper.bean.jpa.AnaUtenteEntity;
+import org.whitepaper.bean.login.CustomUser;
+import org.whitepaper.business.service.mapping.AnaUtenteServiceMapper;
+import org.whitepaper.data.repository.jpa.custom.AnaUtenteCustomJpaRepository;
+import org.whitepaper.web.common.custom.SecurityHelper;
+import org.whitepaper.web.controller.InfoController;
+
+import javax.annotation.PostConstruct;
+import org.whitepaper.utility.EncoderGenerator;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.util.UUID;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.whitepaper.web.common.AbstractController;
+import java.util.Base64;
 
-/**
- * Spring MVC controller for 'AnaUtente' management.
- */
-@Controller
-@RequestMapping("/password")
-public class MobileAuthController extends AbstractController {
+	@Component
+	@Transactional
+	public class MobileAuthController {
 
-	//--- Variables names ( to be used in JSP with Expression Language )
-	private static final String MAIN_ENTITY_NAME = "anaUtente";
-			
-
-	//--------------------------------------------------------------------------------------
-	/**
-	 * Default constructor
-	 */
-	public MobileAuthController() {
-		super(MobileAuthController.class, MAIN_ENTITY_NAME );
-		log("PasswordController created.");
+		@PostConstruct
+		public void init() {
+		    System.out.println("MobileAuthController bean creato correttamente: " + this);
+		}
+		
 	}
-
-	//--------------------------------------------------------------------------------------
-	// Spring MVC model management
-	//--------------------------------------------------------------------------------------
-
-
-
-
-
-	@RequestMapping(value = "/login_mobile", method = RequestMethod.GET)
-    public String loginMobile(@RequestParam(required = false) String username, 
-                              @RequestParam(required = false) String password) {
-    	System.out.println("Il filtro ha chiamato loginMobile con username: " + username);
-        return "Hello, IS LOGIN! Username: " + username;
-    }
-	
-	
-}
+		    

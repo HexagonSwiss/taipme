@@ -11,6 +11,7 @@ class TextInput extends StatelessWidget {
   final bool isValid;
   final VoidCallback onFocusLost;
   final IconPosition iconPosition;
+  final bool obscureText; // Aggiungi questa variabile
 
   const TextInput({
     super.key,
@@ -21,6 +22,7 @@ class TextInput extends StatelessWidget {
     required this.isValid,
     required this.onFocusLost,
     this.iconPosition = IconPosition.left, // Posizione di default a sinistra
+    this.obscureText = false, // Aggiungi un valore di default per obscureText
   });
 
   @override
@@ -37,6 +39,7 @@ class TextInput extends StatelessWidget {
         },
         child: TextField(
           controller: controller,
+          obscureText: obscureText, // Aggiungi questa riga per controllare la visibilità della password
           style: TextStyle(color: Colors.white), // Impostiamo il testo bianco
           decoration: InputDecoration(
             hintText: hintText,
@@ -45,13 +48,13 @@ class TextInput extends StatelessWidget {
             prefixIcon: iconPosition == IconPosition.left
                 ? Padding(
                     padding: const EdgeInsets.only(left: 16.0),
-                    child: Icon(icon, color: TaipmeStyle.borderInput), // Icona a sinistra
+                    child: Icon(icon, color: TaipmeStyle.primaryColor), // Icona a sinistra
                   )
                 : null,
             suffixIcon: iconPosition == IconPosition.right
                 ? Padding(
                     padding: const EdgeInsets.only(right: 16.0),
-                    child: Icon(icon, color: TaipmeStyle.borderInput), // Icona a destra
+                    child: Icon(icon, color: TaipmeStyle.primaryColor), // Icona a destra
                   )
                 : null,
             suffixIconConstraints: const BoxConstraints(minWidth: 0), // Impedisce espansione dell'icona

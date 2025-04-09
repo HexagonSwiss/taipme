@@ -13,12 +13,15 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   int _clickCount =
+     
       0; // Variabile per tenere traccia delle volte che è stato cliccato il pulsante
   bool isTypingComplete =
+     
       false; // Stato per tenere traccia se il testo è completo
 
   void _nextText() {
     if (mounted && isTypingComplete) {
+     
       // Verifica che il testo sia completo prima di incrementare
       setState(() {
         _clickCount++; // Aumenta il contatore ogni volta che il pulsante è premuto
@@ -29,10 +32,13 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   void _goLogin() {
+    debugPrint("mounted è: $mounted");  // Stampa: Il numero è: 5
+    debugPrint("isTypingComplete è: $isTypingComplete");  // Stampa: Il numero è: 5
     if (mounted && isTypingComplete) {
       // Verifica che il testo sia completo prima di incrementare
+debugPrint("SONO DENTRO");  // Stampa
       setState(() {
-        ref.read(goRouterProvider).go('/login-or-register');
+        ref.read(goRouterProvider).go('/login');
       });
     }
   }
@@ -53,6 +59,13 @@ class _HomePageState extends ConsumerState<HomePage> {
     });
   }
 
+  void _completeTyping() {
+    // Se clicchi in qualsiasi parte della schermata, termina subito la scrittura
+    setState(() {
+      isTypingComplete = true; // Completa la scrittura
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     String displayedText;
@@ -69,71 +82,67 @@ class _HomePageState extends ConsumerState<HomePage> {
           'I fogli ti permettono di esprimerti liberamente, con leggerezza o profondità. Vivi l’esperienza senza stress, dentro e fuori lo schermo';
     }
 
-    return Scaffold(
-      backgroundColor: TaipmeStyle.backgroundColor,
-      body: Center(
-        child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment.center, // Centra tutti gli elementi
-          children: <Widget>[
-            // Contenitore dell'immagine, testo e pulsante con Expanded per mantenere le altezze uniformi
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/logo/taipme.jpg',
-                    width: 250,
-                    height: 250,
-                  ),
-                  Container(
-                    height: 150.0,
-                    padding: const EdgeInsets.all(16.0),
-                    child: TypingEffectWidget(
-                      key: ValueKey(
-                        _clickCount,
-                      ), // Forza la ricostruzione del widget
-                      fullText: displayedText, // Passa il testo da scrivere
-                      textAlign: TextAlign.center,
-                      textStyle: TextStyle(
-                        color: TaipmeStyle.inputFieldTextColor,
-                        fontSize: TaipmeStyle.miniTextSize,
-                      ),
-                      typingSpeed: Duration(
-                          milliseconds: 90), // Personalizza la velocità
-                      onTypingComplete:
-                          onTypingComplete, // Imposta il callback quando il testo è completo
-                    ),
-                  ),
+    return GestureDetector(
+      onTap: _completeTyping, // Completa la scrittura quando si tocca qualsiasi parte dello schermo
+      child: Scaffold(
+        backgroundColor: TaipmeStyle.backgroundColor,
+        body: Center(
+          child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Centra tutti gli elementi
+            children: <Widget>[
+              // Contenitore dell'immagine, testo e pulsante con Expanded per mantenere le altezze uniformi
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/logo/taipme.jpg',
+                        width: 250, height: 250),
 
-                  // Nascondi il pulsante "_continua" se cliccato due volte
-                  if (_clickCount < 2)
-                    Column(
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            // Aggiungi la logica per l'accesso
-                          },
-                          child: Text(
-                            '',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: TaipmeStyle.miniTextSize,
-                            ),
-                          ),
+                    Container(
+                      height: 150.0,
+                      padding: const EdgeInsets.all(16.0),
+                      child: TypingEffectWidget(
+                        key: ValueKey(_clickCount), // Forza la ricostruzione del widget
+                        fullText: displayedText, // Passa il testo da scrivere
+                        textAlign: TextAlign.center,
+                        textStyle: TextStyle(
+                          color: TaipmeStyle.inputFieldTextColor,
+                          fontSize: TaipmeStyle.miniTextSize,
                         ),
-                        TextButton(
-                          onPressed: _nextText,
-                          child: Text(
-                            '_continua',
-                            style: TextStyle(
-                              color: TaipmeStyle.inputFieldTextColor,
-                              fontSize: TaipmeStyle.miniTextSize,
-                            ),
-                          ),
-                        ),
-                      ],
+                        typingSpeed: Duration(milliseconds: 90), // Personalizza la velocità
+                        onTypingComplete: onTypingComplete, // Imposta il callback quando il testo è completo
+                      ),
                     ),
+
+                    // Nascondi il pulsante "_continua" se cliccato due volte
+                    if (_clickCount < 2)
+                      Column(
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              // Aggiungi la logica per l'accesso
+                            },
+                            child: Text(
+                              '',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: TaipmeStyle.miniTextSize,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: isTypingComplete ? _nextText : _completeTyping,
+                            child: Text(
+                              '_continua',
+                              style: TextStyle(
+                                color: TaipmeStyle.inputFieldTextColor,
+                                fontSize: TaipmeStyle.miniTextSize,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
 
                   // Mostra i bottoni "_accedi" e "_registrati" dopo il secondo clic
                   if (_clickCount >= 2)
