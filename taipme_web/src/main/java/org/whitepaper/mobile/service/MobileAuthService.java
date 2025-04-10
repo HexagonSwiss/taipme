@@ -1,4 +1,3 @@
-
 package org.whitepaper.mobile.service;
 import java.util.ArrayList;
 
@@ -21,9 +20,7 @@ import org.whitepaper.business.service.mapping.AnaUtenteServiceMapper;
 import org.whitepaper.data.repository.jpa.custom.AnaUtenteCustomJpaRepository;
 import org.whitepaper.web.common.custom.SecurityHelper;
 import org.whitepaper.web.controller.InfoController;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import javax.annotation.PostConstruct;
 import org.whitepaper.utility.EncoderGenerator;
 import javax.servlet.http.Cookie;
@@ -35,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+
 	@Component
 	@Transactional
 	public class MobileAuthService {

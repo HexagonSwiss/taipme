@@ -41,7 +41,12 @@ class _ChatHomePageState extends State<ChatHomePage> {
           Padding(
             padding: const EdgeInsets.all(26), // Padding intorno al TextField
             child: TextField(
+              style: const TextStyle(
+                color: TaipmeStyle.primaryColor,
+                fontSize: 16,
+              ),
               decoration: InputDecoration(
+
                 hintText: '#cerca',
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: TaipmeStyle.borderInput),

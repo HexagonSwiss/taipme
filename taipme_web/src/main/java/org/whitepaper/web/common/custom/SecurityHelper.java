@@ -21,7 +21,7 @@ public class SecurityHelper {
 	    return null;
 	}
 	
-	public static CustomUser getUser(){
+	public static CustomUser getUser() {
 		CustomUser u = (CustomUser) getUserDetails();
 		if  (u!=null) return u;
 		else return  null;
