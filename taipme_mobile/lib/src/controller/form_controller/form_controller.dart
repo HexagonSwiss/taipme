@@ -109,6 +109,7 @@ class FormController extends _$FormController {
         setStateToAvailable();
         return;
       }
+      
       globalKey.currentState!.save();
       debugPrint('Controller: handleForm form is validated');
 
