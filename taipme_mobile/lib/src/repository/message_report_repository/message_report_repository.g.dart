@@ -7,7 +7,7 @@ part of 'message_report_repository.dart';
 // **************************************************************************
 
 String _$messageReportRepositoryHash() =>
-    r'c041b3b819302b3424d7ff6459bef8d158378357';
+    r'f916a2a143388f484ac5096ae4cb0b322015e2c7';
 
 /// See also [MessageReportRepository].
 @ProviderFor(MessageReportRepository)

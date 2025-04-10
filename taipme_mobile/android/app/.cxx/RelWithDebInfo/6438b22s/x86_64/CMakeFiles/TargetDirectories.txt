@@ -1,0 +1,2 @@
+/Users/gustavoramos/Desktop/Projects/taipme/taipme_mobile/android/app/.cxx/RelWithDebInfo/6438b22s/x86_64/CMakeFiles/edit_cache.dir
+/Users/gustavoramos/Desktop/Projects/taipme/taipme_mobile/android/app/.cxx/RelWithDebInfo/6438b22s/x86_64/CMakeFiles/rebuild_cache.dir

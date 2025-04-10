@@ -6,7 +6,7 @@ part of 'faq_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$faqRepositoryHash() => r'f9e91c037b58ea919d52df5fc2d74d1890ee43bf';
+String _$faqRepositoryHash() => r'86a835d7477604ec5d1fb8ed19302f76301c1cdd';
 
 /// See also [FaqRepository].
 @ProviderFor(FaqRepository)

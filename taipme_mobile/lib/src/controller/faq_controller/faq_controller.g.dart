@@ -6,7 +6,7 @@ part of 'faq_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$faqControllerHash() => r'5de82933be4ea4dca3dffde7eb6f548b51b0622e';
+String _$faqControllerHash() => r'4a84dae61c8263619211ace4fe791eb2e37a39bb';
 
 /// See also [faqController].
 @ProviderFor(faqController)
@@ -23,7 +23,7 @@ final faqControllerProvider = FutureProvider<List<FaqModel>?>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FaqControllerRef = FutureProviderRef<List<FaqModel>?>;
-String _$faqSyncControllerHash() => r'ac2466d66cae132f584a0e06df0df9f36ebd2ab4';
+String _$faqSyncControllerHash() => r'3b4b477ac40a398da66d75ae4cd9d018cc1b3b03';
 
 /// See also [FaqSyncController].
 @ProviderFor(FaqSyncController)

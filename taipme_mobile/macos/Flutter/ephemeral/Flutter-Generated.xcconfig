@@ -1,10 +1,10 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=/Users/diegoalbini/development/flutter
-FLUTTER_APPLICATION_PATH=/Users/diegoalbini/Desktop/Project/taipme/taipme_mobile
+FLUTTER_ROOT=/Users/gustavoramos/flutter
+FLUTTER_APPLICATION_PATH=/Users/gustavoramos/Desktop/Projects/taipme/taipme_mobile
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
-FLUTTER_BUILD_NAME=0.1.0
-FLUTTER_BUILD_NUMBER=0.1.0
+FLUTTER_BUILD_NAME=0.4.0
+FLUTTER_BUILD_NUMBER=0.4.0
 DART_OBFUSCATION=false
 TRACK_WIDGET_CREATION=true
 TREE_SHAKE_ICONS=false
