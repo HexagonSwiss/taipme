@@ -12,7 +12,7 @@ class FaqPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final faqController = ref.watch(faqControllerProvider);
+    // final faqController = ref.watch(faqControllerProvider);
 
     return Scaffold(
       backgroundColor: TaipmeStyle.backgroundColor,
@@ -21,20 +21,7 @@ class FaqPage extends ConsumerWidget {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(24, 40, 24, 0),
-          child: faqController.when(
-            data: (List<FaqModel>? faqList) {
-              debugPrint('FAQ List: $faqList'); 
-              if (faqList == null || faqList.isEmpty) {
-                return const Text(
-                  'Nessuna FAQ disponibile',
-                  style: TextStyle(color: Colors.white),
-                );
-              }
-              return FaqBody();
-            },
-            error: (_, __) => Text('Error'),
-            loading: () => const CircularProgressIndicator(),
-          ),
+          child: FaqBody(),
         ),
       ),
     );
