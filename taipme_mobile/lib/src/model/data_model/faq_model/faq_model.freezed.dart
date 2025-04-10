@@ -20,10 +20,15 @@ FaqModel _$FaqModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$FaqModel {
+  @JsonKey(name: "id_faq")
   int get idFaq => throw _privateConstructorUsedError;
+  @JsonKey(name: "DOM_FAQ")
   String get domFaq => throw _privateConstructorUsedError;
+  @JsonKey(name: "RIS_FAQ")
   String get risFaq => throw _privateConstructorUsedError;
+  @JsonKey(name: "DAT_FAQ")
   DateTime? get datFaq => throw _privateConstructorUsedError;
+  @JsonKey(name: "COD_STA_FAQ")
   String? get codStaFaq => throw _privateConstructorUsedError;
   bool get isExpanded => throw _privateConstructorUsedError;
 
@@ -43,11 +48,11 @@ abstract class $FaqModelCopyWith<$Res> {
       _$FaqModelCopyWithImpl<$Res, FaqModel>;
   @useResult
   $Res call(
-      {int idFaq,
-      String domFaq,
-      String risFaq,
-      DateTime? datFaq,
-      String? codStaFaq,
+      {@JsonKey(name: "id_faq") int idFaq,
+      @JsonKey(name: "DOM_FAQ") String domFaq,
+      @JsonKey(name: "RIS_FAQ") String risFaq,
+      @JsonKey(name: "DAT_FAQ") DateTime? datFaq,
+      @JsonKey(name: "COD_STA_FAQ") String? codStaFaq,
       bool isExpanded});
 }
 
@@ -111,11 +116,11 @@ abstract class _$$FaqModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int idFaq,
-      String domFaq,
-      String risFaq,
-      DateTime? datFaq,
-      String? codStaFaq,
+      {@JsonKey(name: "id_faq") int idFaq,
+      @JsonKey(name: "DOM_FAQ") String domFaq,
+      @JsonKey(name: "RIS_FAQ") String risFaq,
+      @JsonKey(name: "DAT_FAQ") DateTime? datFaq,
+      @JsonKey(name: "COD_STA_FAQ") String? codStaFaq,
       bool isExpanded});
 }
 
@@ -172,25 +177,30 @@ class __$$FaqModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$FaqModelImpl implements _FaqModel {
   const _$FaqModelImpl(
-      {required this.idFaq,
-      required this.domFaq,
-      required this.risFaq,
-      this.datFaq,
-      this.codStaFaq,
+      {@JsonKey(name: "id_faq") required this.idFaq,
+      @JsonKey(name: "DOM_FAQ") required this.domFaq,
+      @JsonKey(name: "RIS_FAQ") required this.risFaq,
+      @JsonKey(name: "DAT_FAQ") this.datFaq,
+      @JsonKey(name: "COD_STA_FAQ") this.codStaFaq,
       this.isExpanded = false});
 
   factory _$FaqModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$FaqModelImplFromJson(json);
 
   @override
+  @JsonKey(name: "id_faq")
   final int idFaq;
   @override
+  @JsonKey(name: "DOM_FAQ")
   final String domFaq;
   @override
+  @JsonKey(name: "RIS_FAQ")
   final String risFaq;
   @override
+  @JsonKey(name: "DAT_FAQ")
   final DateTime? datFaq;
   @override
+  @JsonKey(name: "COD_STA_FAQ")
   final String? codStaFaq;
   @override
   @JsonKey()
@@ -239,25 +249,30 @@ class _$FaqModelImpl implements _FaqModel {
 
 abstract class _FaqModel implements FaqModel {
   const factory _FaqModel(
-      {required final int idFaq,
-      required final String domFaq,
-      required final String risFaq,
-      final DateTime? datFaq,
-      final String? codStaFaq,
+      {@JsonKey(name: "id_faq") required final int idFaq,
+      @JsonKey(name: "DOM_FAQ") required final String domFaq,
+      @JsonKey(name: "RIS_FAQ") required final String risFaq,
+      @JsonKey(name: "DAT_FAQ") final DateTime? datFaq,
+      @JsonKey(name: "COD_STA_FAQ") final String? codStaFaq,
       final bool isExpanded}) = _$FaqModelImpl;
 
   factory _FaqModel.fromJson(Map<String, dynamic> json) =
       _$FaqModelImpl.fromJson;
 
   @override
+  @JsonKey(name: "id_faq")
   int get idFaq;
   @override
+  @JsonKey(name: "DOM_FAQ")
   String get domFaq;
   @override
+  @JsonKey(name: "RIS_FAQ")
   String get risFaq;
   @override
+  @JsonKey(name: "DAT_FAQ")
   DateTime? get datFaq;
   @override
+  @JsonKey(name: "COD_STA_FAQ")
   String? get codStaFaq;
   @override
   bool get isExpanded;

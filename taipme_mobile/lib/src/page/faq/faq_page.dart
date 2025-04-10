@@ -23,6 +23,7 @@ class FaqPage extends ConsumerWidget {
           padding: const EdgeInsets.fromLTRB(24, 40, 24, 0),
           child: faqController.when(
             data: (List<FaqModel>? faqList) {
+              debugPrint('FAQ List: $faqList'); 
               if (faqList == null || faqList.isEmpty) {
                 return const Text(
                   'Nessuna FAQ disponibile',

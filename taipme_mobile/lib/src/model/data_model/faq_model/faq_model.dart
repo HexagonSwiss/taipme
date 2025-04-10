@@ -6,11 +6,11 @@ part 'faq_model.g.dart';
 @freezed
 class FaqModel with _$FaqModel {
   const factory FaqModel({
-    required int idFaq,
-    required String domFaq,
-    required String risFaq,
-    DateTime? datFaq,
-    String? codStaFaq,
+    @JsonKey(name: "id_faq") required int idFaq,
+    @JsonKey(name: "DOM_FAQ") required String domFaq,
+    @JsonKey(name: "RIS_FAQ") required String risFaq,
+    @JsonKey(name: "DAT_FAQ") DateTime? datFaq,
+    @JsonKey(name: "COD_STA_FAQ") String? codStaFaq,
     @Default(false) bool isExpanded,
   }) = _FaqModel;
 

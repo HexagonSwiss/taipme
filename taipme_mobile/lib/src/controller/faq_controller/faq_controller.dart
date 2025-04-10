@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:taipme_mobile/src/model/data_model/faq_model/faq_model.dart';
@@ -10,6 +11,7 @@ part 'faq_controller.g.dart';
 Future<List<FaqModel>?> faqController(Ref ref) async {
   final FaqRepository faqRepository = ref.read(faqRepositoryProvider.notifier);
   final ResultModel<List<FaqModel>> result = await faqRepository.getChatList();
+  debugPrint('Controller Result: ${result.data}');
   if (result.error != null) {
     throw Exception(result.error);
   }

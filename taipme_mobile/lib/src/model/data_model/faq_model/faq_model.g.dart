@@ -8,22 +8,22 @@ part of 'faq_model.dart';
 
 _$FaqModelImpl _$$FaqModelImplFromJson(Map<String, dynamic> json) =>
     _$FaqModelImpl(
-      idFaq: (json['idFaq'] as num).toInt(),
-      domFaq: json['domFaq'] as String,
-      risFaq: json['risFaq'] as String,
-      datFaq: json['datFaq'] == null
+      idFaq: (json['id_faq'] as num).toInt(),
+      domFaq: json['DOM_FAQ'] as String,
+      risFaq: json['RIS_FAQ'] as String,
+      datFaq: json['DAT_FAQ'] == null
           ? null
-          : DateTime.parse(json['datFaq'] as String),
-      codStaFaq: json['codStaFaq'] as String?,
+          : DateTime.parse(json['DAT_FAQ'] as String),
+      codStaFaq: json['COD_STA_FAQ'] as String?,
       isExpanded: json['isExpanded'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$FaqModelImplToJson(_$FaqModelImpl instance) =>
     <String, dynamic>{
-      'idFaq': instance.idFaq,
-      'domFaq': instance.domFaq,
-      'risFaq': instance.risFaq,
-      'datFaq': instance.datFaq?.toIso8601String(),
-      'codStaFaq': instance.codStaFaq,
+      'id_faq': instance.idFaq,
+      'DOM_FAQ': instance.domFaq,
+      'RIS_FAQ': instance.risFaq,
+      'DAT_FAQ': instance.datFaq?.toIso8601String(),
+      'COD_STA_FAQ': instance.codStaFaq,
       'isExpanded': instance.isExpanded,
     };

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:http/http.dart' as http;
 import 'package:taipme_mobile/src/model/data_model/faq_model/faq_model.dart';
@@ -13,10 +14,21 @@ class FaqRepository extends _$FaqRepository {
 
   Future<ResultModel<List<FaqModel>>> getChatList() async {
     final Uri uri =
-        Uri.parse('http://localhost:8081/WhitePaper/api/mobile/faqs');
+        Uri.parse('http://localhost:8081/WhitePaper/faqs_mobile');
 
     try {
-      final http.Response response = await http.get(uri);
+      
+      final Map<String, String> headers = {
+        "Content-Type": "application/json",
+        "X-Request-Source": "mobile",
+      };
+
+      final http.Response response = await http.get(uri, headers: headers);
+
+      debugPrint('Response status: ${response.statusCode}');
+      debugPrint('Response body: ${response.body}');
+      debugPrint('Response headers: ${response.headers}');
+      debugPrint('Response request: ${response.request}');
 
       if (response.statusCode == 200) {
         final List<dynamic> decodedJson = jsonDecode(response.body);

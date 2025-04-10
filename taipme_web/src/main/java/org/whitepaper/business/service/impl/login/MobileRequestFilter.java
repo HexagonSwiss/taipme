@@ -1,6 +1,7 @@
 package org.whitepaper.business.service.impl.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.whitepaper.mobile.controller.MobileFaqApiController;
 import org.whitepaper.mobile.service.MobileAuthService;
 import org.whitepaper.web.controller.InfoController;
 
@@ -9,9 +10,7 @@ import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-//import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -29,8 +28,10 @@ public class MobileRequestFilter implements Filter {
 	
 	@Autowired
 	private MobileAuthService mobileAuthService;
-	
-	
+
+	@Autowired
+	private MobileFaqApiController mobileFaqApiController;
+
 	
    @Override
    public void doFilter(javax.servlet.ServletRequest request, javax.servlet.ServletResponse response, FilterChain chain)
@@ -72,6 +73,9 @@ public class MobileRequestFilter implements Filter {
 	            case "/login_mobile":
 	            	mobileAuthService.loginMobile(username, password, httpResponse);
 	                break;
+				case "/faqs_mobile":
+					mobileFaqApiController.getAllFaqs();
+					break;
 	            case "/registrati_mobile":
 	                // Gestisci la registrazione se necessario
 	                break;
