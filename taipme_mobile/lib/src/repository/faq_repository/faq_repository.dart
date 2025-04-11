@@ -13,22 +13,17 @@ class FaqRepository extends _$FaqRepository {
   void build() {}
 
   Future<ResultModel<List<FaqModel>>> getChatList() async {
-    final Uri uri =
-        Uri.parse('http://localhost:8081/WhitePaper/faqs_mobile');
+    final Uri uri = Uri.parse('http://localhost:8081/WhitePaper/faqs_mobile');
+
+    final Map<String, String> headers = {
+      "Content-Type": "application/json",
+      "X-Request-Source": "mobile",
+    };
 
     try {
-      
-      final Map<String, String> headers = {
-        "Content-Type": "application/json",
-        "X-Request-Source": "mobile",
-      };
-
       final http.Response response = await http.get(uri, headers: headers);
 
-      debugPrint('Response status: ${response.statusCode}');
-      debugPrint('Response body: ${response.body}');
-      debugPrint('Response headers: ${response.headers}');
-      debugPrint('Response request: ${response.request}');
+      debugPrint('Response: $response');
 
       if (response.statusCode == 200) {
         final List<dynamic> decodedJson = jsonDecode(response.body);
