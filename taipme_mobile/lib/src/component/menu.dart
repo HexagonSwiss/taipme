@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
+import 'package:taipme_mobile/src/util/helper/external_app_launcher/external_app_launcher.dart';
 
 class Menu extends ConsumerWidget {
   const Menu({super.key});
@@ -19,10 +20,8 @@ class Menu extends ConsumerWidget {
       shadowColor: TaipmeStyle.backgroundColor,
       backgroundColor: TaipmeStyle.primaryColor,
       width: 230,
-      child: Container(
-        height: MediaQuery.of(context)
-            .size
-            .height, // Altezza pari all'intero schermo
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
             Padding(
@@ -34,7 +33,7 @@ class Menu extends ConsumerWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          ref.read(goRouterProvider).go('/chat-home-page');
+                          ref.read(goRouterProvider).go('/home-page');
                         },
                         child: Container(
                           alignment: Alignment.centerLeft,
@@ -59,20 +58,21 @@ class Menu extends ConsumerWidget {
                     children: [
                       const SizedBox(height: 40),
                       TextButton(
-                          onPressed: () {
-                            ref.read(goRouterProvider).go('/faq-page');
-                          },
-                          child: Row(
-                            children: [
-                              Text(
-                                'FAQ',
-                                style: TextStyle(
-                                    fontSize: TaipmeStyle.miniTextSize,
-                                    fontWeight: TaipmeStyle.lightFontWeight,
-                                    color: TaipmeStyle.backgroundColor),
-                              ),
-                            ],
-                          )),
+                        onPressed: () {
+                          ref.read(goRouterProvider).go('/faq-page');
+                        },
+                        child: Row(
+                          children: [
+                            Text(
+                              'FAQ',
+                              style: TextStyle(
+                                  fontSize: TaipmeStyle.miniTextSize,
+                                  fontWeight: TaipmeStyle.lightFontWeight,
+                                  color: TaipmeStyle.backgroundColor),
+                            ),
+                          ],
+                        ),
+                      ),
                       SizedBox(height: spaceBetweenItems),
                       TextButton(
                           onPressed: () {
@@ -108,7 +108,10 @@ class Menu extends ConsumerWidget {
                       SizedBox(height: spaceBetweenItems),
                       TextButton(
                           onPressed: () {
-                            ref.read(goRouterProvider).go('/faq-page');
+                            ref
+                                .read(externalAppLauncherProvider.notifier)
+                                .openTelegram();
+                            // ref.read(goRouterProvider).go('/faq-page');
                           },
                           child: Row(
                             children: [
@@ -124,7 +127,10 @@ class Menu extends ConsumerWidget {
                       SizedBox(height: spaceBetweenItems),
                       TextButton(
                           onPressed: () {
-                            ref.read(goRouterProvider).go('/faq-page');
+                            ref
+                                .read(externalAppLauncherProvider.notifier)
+                                .openWhatsApp();
+                            // ref.read(goRouterProvider).go('/faq-page');
                           },
                           child: Row(
                             children: [

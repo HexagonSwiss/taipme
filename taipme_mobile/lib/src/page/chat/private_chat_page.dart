@@ -7,22 +7,26 @@ import 'package:taipme_mobile/src/component/menu.dart';
 import 'package:taipme_mobile/src/component/message_card.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
-class ReportPage extends ConsumerStatefulWidget {
-  const ReportPage({super.key, required this.message});
-
-  final String message;
+class PrivateChatPage extends ConsumerStatefulWidget {
+  const PrivateChatPage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ReportPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _PrivateChatPageState();
 }
 
-class _ReportPageState extends ConsumerState<ReportPage> {
+class _PrivateChatPageState extends ConsumerState<PrivateChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: TaipmeStyle.backgroundColor,
       appBar: CustomHeader(),
       endDrawer: const Menu(),
+      bottomNavigationBar: CustomFooter(
+        isChatSelected: true,
+        isHomeSelected: false,
+        isSettingsSelected: false,
+      ),
       body: Column(
         children: [
           SizedBox(
@@ -30,8 +34,7 @@ class _ReportPageState extends ConsumerState<ReportPage> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: TextButton(
-                onPressed: () =>
-                    ref.read(goRouterProvider).go('/home-page'),
+                onPressed: () => ref.read(goRouterProvider).go('/home-page'),
                 child: Text(
                   '_indietro',
                   style: TextStyle(
@@ -43,39 +46,36 @@ class _ReportPageState extends ConsumerState<ReportPage> {
           ),
           SizedBox(height: 16),
           Expanded(
-            flex: 30,
+            flex: 40,
             child: MessageCard(
-              message: 'Messagio da segnalare',
-              textAlign: TextAlign.start,
-              showReportButton: false,
-              icon: Icons.info_outline,
-              shouldRotate: false,
+              message: 'Primo messagio della chat',
               isReadOnly: true,
-              preLoadedMessage: widget.message,
+              showReportButton: false,
             ),
           ),
           SizedBox(height: 24),
           Expanded(
-            flex: 70,
-            child: MessageCard(
-              message: 'Motivazione (opzionale)',
-              textAlign: TextAlign.start,
-              showReportButton: false,
-              icon: Icons.info_outline,
-              shouldRotate: false,
-              title: '_segnala',
-              onPressed: () => ref.read(goRouterProvider).go(
-                    '/report-confirmation-page',
-                  ),
+            flex: 60,
+            child: Center(
+              child: Text(
+                'Chat Messages',
+                style: TextStyle(
+                  fontSize: 24,
+                  color: TaipmeStyle.inputFieldTextColor,
+                ),
+              ),
             ),
           ),
-          SizedBox(height: 24),
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              '_strappa',
+              style: TextStyle(color: TaipmeStyle.inputFieldTextColor),
+            ),
+          ),
+          const Spacer(),
+          SizedBox(height: 48),
         ],
-      ),
-      bottomNavigationBar: CustomFooter(
-        isChatSelected: false,
-        isHomeSelected: true,
-        isSettingsSelected: false,
       ),
     );
   }

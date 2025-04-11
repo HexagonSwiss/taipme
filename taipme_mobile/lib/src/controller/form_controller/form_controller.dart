@@ -1,9 +1,9 @@
 import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
-import 'package:taipme_mobile/src/util/service/snackbar_service/snackbar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taipme_mobile/src/util/helper/snackbar/snackbar.dart';
 
 part 'form_controller.g.dart';
 
@@ -20,11 +20,22 @@ class FormController extends _$FormController {
     return emailRegex.hasMatch(input);
   }
 
-  String? comparePasswords(String? firstPassword, String? secondPassword, BuildContext context) {
-    debugPrint('Controller: comparePasswords firstPassword is $firstPassword, secondPassword is $secondPassword');
-    if (firstPassword == null || secondPassword == null) return AppLocalizations.of(context)!.passwordValidatorMandatory;
-    if (firstPassword.isEmpty || secondPassword.isEmpty) return AppLocalizations.of(context)!.passwordValidatorMandatory;
-    if (firstPassword != secondPassword) return AppLocalizations.of(context)!.passwordValidatorMatch;
+  String? comparePasswords(
+    String? firstPassword,
+    String? secondPassword,
+    BuildContext context,
+  ) {
+    debugPrint(
+        'Controller: comparePasswords firstPassword is $firstPassword, secondPassword is $secondPassword');
+    if (firstPassword == null || secondPassword == null) {
+      return AppLocalizations.of(context)!.passwordValidatorMandatory;
+    }
+    if (firstPassword.isEmpty || secondPassword.isEmpty) {
+      return AppLocalizations.of(context)!.passwordValidatorMandatory;
+    }
+    if (firstPassword != secondPassword) {
+      return AppLocalizations.of(context)!.passwordValidatorMatch;
+    }
     return null;
   }
 
@@ -76,20 +87,6 @@ class FormController extends _$FormController {
 
   String? validateOptionalField(String? value) => null;
 
-  String? validateGender(String? value, BuildContext context) {
-    String? lowerStringValue;
-    if (value != null) {
-      lowerStringValue = value.toLowerCase();
-    } else {
-      lowerStringValue = value;
-    }
-    if (lowerStringValue == 'uomo' || lowerStringValue == 'donna' || lowerStringValue == 'terapista' || lowerStringValue == 'terapista') {
-      return null;
-    } else {
-      return AppLocalizations.of(context)!.genderFieldIsMandatory;
-    }
-  }
-
   Future<void> handleForm({
     List<Function()>? actions,
     List<Function()>? onEnd,
@@ -100,16 +97,18 @@ class FormController extends _$FormController {
   }) async {
     try {
       setStateToLoading();
-      debugPrint('Controller: handleForm loading state is $state, trying to validate form');
+      debugPrint(
+          'Controller: handleForm loading state is $state, trying to validate form');
       final isValid = globalKey.currentState!.validate();
       debugPrint('Controller: handleForm value of isValid is $isValid');
 
       if (!isValid) {
-        ref.read(snackBarServiceProvider(text: AppLocalizations.of(context)!.formControllerFormValidator));
+        ref.read(snackBarProvider(
+            text: AppLocalizations.of(context)!.formControllerFormValidator).future);
         setStateToAvailable();
         return;
       }
-      
+
       globalKey.currentState!.save();
       debugPrint('Controller: handleForm form is validated');
 
@@ -123,7 +122,9 @@ class FormController extends _$FormController {
       for (var action in actions) {
         final ResultModel<dynamic> actionResult = await action();
         if (actionResult.error != null) {
-          if (context.mounted) ref.read(snackBarServiceProvider(text: actionResult.error!).future);
+          if (context.mounted) {
+            ref.read(snackBarProvider(text: actionResult.error!).future);
+          }
 
           setStateToAvailable();
 
@@ -136,7 +137,8 @@ class FormController extends _$FormController {
         }
       }
 
-      debugPrint('Controller: handleForm main functions executed, moving to onEnd');
+      debugPrint(
+          'Controller: handleForm main functions executed, moving to onEnd');
 
       if (onEnd != null) {
         for (var action in onEnd) {
@@ -148,7 +150,10 @@ class FormController extends _$FormController {
       setStateToAvailable();
       if (route != null) ref.read(goRouterProvider).go(route);
     } catch (error) {
-      if (context.mounted) ref.read(snackBarServiceProvider(text: AppLocalizations.of(context)!.formError));
+      if (context.mounted) {
+        ref.read(
+            snackBarProvider(text: AppLocalizations.of(context)!.formError));
+      }
       debugPrint('Controller: handleForm error is $error');
       setStateToAvailable();
     }

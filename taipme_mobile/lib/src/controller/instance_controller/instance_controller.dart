@@ -1,6 +1,5 @@
 
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,16 +67,3 @@ class LocaleController extends _$LocaleController {
     }
   }
 }
-
-// FUTURE KEEP ALIVE PROVIDERS
-
-// @Riverpod(keepAlive: true)
-// Stream<Uri> deepLinkStream(Ref ref) async* {
-//   debugPrint('Controller: deepLinkStream is called');
-//   final appLinks = ref.read(appLinksProvider);
-//   await for (Uri uri in appLinks.uriLinkStream) {
-//     debugPrint('Controller: LinkSuscription: uri from stream is: $uri');
-//     ref.read(goRouterProvider).go(uri.path);
-//     yield uri;
-//   }
-// }

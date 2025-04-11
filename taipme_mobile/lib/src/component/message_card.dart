@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
+import 'package:taipme_mobile/src/component/typing_effect/typing_effect_widget.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
 class MessageCard extends ConsumerWidget {
@@ -41,33 +42,34 @@ class MessageCard extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-              flex: isReadOnly && preLoadedMessage != null ? 100 : 30,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 7,
-                      ),
-                      child: Text(
-                        message,
-                        style: TextStyle(
-                          color: TaipmeStyle.primaryColor,
-                        ),
-                      )),
-                  if (preLoadedMessage != null)
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Text(
-                        preLoadedMessage!,
-                        style: TextStyle(
-                          color: TaipmeStyle.inputFieldTextColor,
-                        ),
-                        textAlign: textAlign,
-                      ),
+            flex: isReadOnly && preLoadedMessage != null ? 100 : 30,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: TypingEffectWidget(
+                    fullText: message,
+                    textAlign: textAlign,
+                    textStyle: TextStyle(
+                      color: TaipmeStyle.primaryColor,
                     ),
-                ],
-              )),
+                  ),
+                ),
+                if (preLoadedMessage != null)
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text(
+                      preLoadedMessage!,
+                      style: TextStyle(
+                        color: TaipmeStyle.inputFieldTextColor,
+                      ),
+                      textAlign: textAlign,
+                    ),
+                  ),
+              ],
+            ),
+          ),
           Expanded(
               flex: !isReadOnly ? 0 : 70,
               child: Column(

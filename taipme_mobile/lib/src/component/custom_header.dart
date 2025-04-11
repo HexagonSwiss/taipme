@@ -17,7 +17,7 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
             Consumer(
               builder: (context, ref, child) {
                 return GestureDetector(
-                  onTap: () => ref.read(goRouterProvider).go('/chat-home-page'),
+                  onTap: () => ref.read(goRouterProvider).go('/home-page'),
                   child: Image.asset(
                     'assets/logo/taipme.jpg',
                     width: 150,

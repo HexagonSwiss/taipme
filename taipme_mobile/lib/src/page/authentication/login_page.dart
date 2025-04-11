@@ -110,7 +110,7 @@ class _LoginOrRegisterPage extends ConsumerState<LoginPage> {
                           .read(formControllerProvider.notifier)
                           .handleForm(
                         actions: [],
-                        route: '/chat-home-page',
+                        route: '/home-page',
                         globalKey: loginKey,
                         context: context,
                       );

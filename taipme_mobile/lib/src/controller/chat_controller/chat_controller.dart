@@ -1,5 +1,5 @@
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
-import 'package:taipme_mobile/src/repository/chat_repository/chat_repository.dart';
+import 'package:taipme_mobile/src/service/chat_service/chat_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/foundation.dart';
 

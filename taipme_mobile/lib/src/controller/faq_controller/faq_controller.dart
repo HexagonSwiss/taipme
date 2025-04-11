@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:taipme_mobile/src/model/data_model/faq_model/faq_model.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
-import 'package:taipme_mobile/src/repository/faq_repository/faq_repository.dart';
+import 'package:taipme_mobile/src/service/faq_service/faq_repository.dart';
 
 part 'faq_controller.g.dart';
 

@@ -1,7 +1,7 @@
 import 'package:taipme_mobile/src/controller/instance_controller/instance_controller.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 import 'package:taipme_mobile/src/model/data_model/user_model/user.dart';
-import 'package:taipme_mobile/src/repository/user_repository/user_repository.dart';
+import 'package:taipme_mobile/src/service/user_service/user_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

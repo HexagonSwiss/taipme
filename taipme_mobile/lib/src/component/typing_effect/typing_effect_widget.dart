@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'dart:async'; // Per Timer
 
 class TypingEffectWidget extends StatefulWidget {
+  const TypingEffectWidget({
+    super.key,
+    required this.fullText,
+    this.onTypingComplete,
+    this.typingSpeed = const Duration(milliseconds: 90),
+    this.textAlign = TextAlign.center,
+    this.textStyle = const TextStyle(color: Colors.white, fontSize: 14),
+  });
+
   final String fullText;
   final TextAlign textAlign;
   final TextStyle textStyle;
   final Duration typingSpeed;
-  final VoidCallback onTypingComplete;
-
-  const TypingEffectWidget({
-    super.key,
-    required this.fullText,
-    required this.textAlign,
-    required this.textStyle,
-    required this.typingSpeed,
-    required this.onTypingComplete,
-  });
+  final VoidCallback? onTypingComplete;
 
   @override
   State<TypingEffectWidget> createState() => _TypingEffectWidgetState();
@@ -39,25 +39,23 @@ class _TypingEffectWidgetState extends State<TypingEffectWidget> {
       }
 
       if (charIndex < widget.fullText.length) {
-        setState(() {
-          charIndex++;
-        });
+        setState(() => charIndex++);
       } else {
         timer.cancel();
-        widget.onTypingComplete();
+        if (widget.onTypingComplete != null) {
+          widget.onTypingComplete!();
+        }
       }
     });
   }
 
   void _completeTyping() {
-    // Annulla il timer e mostra il testo completo
     if (_timer != null) {
       _timer?.cancel();
-      setState(() {
-        charIndex = widget.fullText.length; // Imposta l'indice al massimo
-      });
-      widget
-          .onTypingComplete(); // Chiamata al callback quando il typing è completo
+      setState(() => charIndex = widget.fullText.length);
+      if (widget.onTypingComplete != null) {
+        widget.onTypingComplete!();
+      }
     }
   }
 

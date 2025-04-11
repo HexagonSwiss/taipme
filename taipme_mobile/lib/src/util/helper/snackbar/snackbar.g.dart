@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'snackbar_service.dart';
+part of 'snackbar.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$snackBarServiceHash() => r'868eed7e19e9806c1c2939d5e74cfaf397804f98';
+String _$snackBarHash() => r'db7d8072ba7b4b9f64dc876cab68f02b8a278b38';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,23 +29,23 @@ class _SystemHash {
   }
 }
 
-/// See also [snackBarService].
-@ProviderFor(snackBarService)
-const snackBarServiceProvider = SnackBarServiceFamily();
+/// See also [snackBar].
+@ProviderFor(snackBar)
+const snackBarProvider = SnackBarFamily();
 
-/// See also [snackBarService].
-class SnackBarServiceFamily extends Family<AsyncValue<SnackBarClosedReason>> {
-  /// See also [snackBarService].
-  const SnackBarServiceFamily();
+/// See also [snackBar].
+class SnackBarFamily extends Family<AsyncValue<SnackBarClosedReason?>> {
+  /// See also [snackBar].
+  const SnackBarFamily();
 
-  /// See also [snackBarService].
-  SnackBarServiceProvider call({
+  /// See also [snackBar].
+  SnackBarProvider call({
     required String text,
     Duration duration = const Duration(seconds: 3),
     bool successOrFail = false,
     BuildContext? contextFromParameter,
   }) {
-    return SnackBarServiceProvider(
+    return SnackBarProvider(
       text: text,
       duration: duration,
       successOrFail: successOrFail,
@@ -54,8 +54,8 @@ class SnackBarServiceFamily extends Family<AsyncValue<SnackBarClosedReason>> {
   }
 
   @override
-  SnackBarServiceProvider getProviderOverride(
-    covariant SnackBarServiceProvider provider,
+  SnackBarProvider getProviderOverride(
+    covariant SnackBarProvider provider,
   ) {
     return call(
       text: provider.text,
@@ -77,42 +77,41 @@ class SnackBarServiceFamily extends Family<AsyncValue<SnackBarClosedReason>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'snackBarServiceProvider';
+  String? get name => r'snackBarProvider';
 }
 
-/// See also [snackBarService].
-class SnackBarServiceProvider
-    extends AutoDisposeFutureProvider<SnackBarClosedReason> {
-  /// See also [snackBarService].
-  SnackBarServiceProvider({
+/// See also [snackBar].
+class SnackBarProvider
+    extends AutoDisposeFutureProvider<SnackBarClosedReason?> {
+  /// See also [snackBar].
+  SnackBarProvider({
     required String text,
     Duration duration = const Duration(seconds: 3),
     bool successOrFail = false,
     BuildContext? contextFromParameter,
   }) : this._internal(
-          (ref) => snackBarService(
-            ref as SnackBarServiceRef,
+          (ref) => snackBar(
+            ref as SnackBarRef,
             text: text,
             duration: duration,
             successOrFail: successOrFail,
             contextFromParameter: contextFromParameter,
           ),
-          from: snackBarServiceProvider,
-          name: r'snackBarServiceProvider',
+          from: snackBarProvider,
+          name: r'snackBarProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$snackBarServiceHash,
-          dependencies: SnackBarServiceFamily._dependencies,
-          allTransitiveDependencies:
-              SnackBarServiceFamily._allTransitiveDependencies,
+                  : _$snackBarHash,
+          dependencies: SnackBarFamily._dependencies,
+          allTransitiveDependencies: SnackBarFamily._allTransitiveDependencies,
           text: text,
           duration: duration,
           successOrFail: successOrFail,
           contextFromParameter: contextFromParameter,
         );
 
-  SnackBarServiceProvider._internal(
+  SnackBarProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -132,12 +131,12 @@ class SnackBarServiceProvider
 
   @override
   Override overrideWith(
-    FutureOr<SnackBarClosedReason> Function(SnackBarServiceRef provider) create,
+    FutureOr<SnackBarClosedReason?> Function(SnackBarRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: SnackBarServiceProvider._internal(
-        (ref) => create(ref as SnackBarServiceRef),
+      override: SnackBarProvider._internal(
+        (ref) => create(ref as SnackBarRef),
         from: from,
         name: null,
         dependencies: null,
@@ -152,13 +151,13 @@ class SnackBarServiceProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<SnackBarClosedReason> createElement() {
-    return _SnackBarServiceProviderElement(this);
+  AutoDisposeFutureProviderElement<SnackBarClosedReason?> createElement() {
+    return _SnackBarProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is SnackBarServiceProvider &&
+    return other is SnackBarProvider &&
         other.text == text &&
         other.duration == duration &&
         other.successOrFail == successOrFail &&
@@ -179,7 +178,7 @@ class SnackBarServiceProvider
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin SnackBarServiceRef on AutoDisposeFutureProviderRef<SnackBarClosedReason> {
+mixin SnackBarRef on AutoDisposeFutureProviderRef<SnackBarClosedReason?> {
   /// The parameter `text` of this provider.
   String get text;
 
@@ -193,20 +192,20 @@ mixin SnackBarServiceRef on AutoDisposeFutureProviderRef<SnackBarClosedReason> {
   BuildContext? get contextFromParameter;
 }
 
-class _SnackBarServiceProviderElement
-    extends AutoDisposeFutureProviderElement<SnackBarClosedReason>
-    with SnackBarServiceRef {
-  _SnackBarServiceProviderElement(super.provider);
+class _SnackBarProviderElement
+    extends AutoDisposeFutureProviderElement<SnackBarClosedReason?>
+    with SnackBarRef {
+  _SnackBarProviderElement(super.provider);
 
   @override
-  String get text => (origin as SnackBarServiceProvider).text;
+  String get text => (origin as SnackBarProvider).text;
   @override
-  Duration get duration => (origin as SnackBarServiceProvider).duration;
+  Duration get duration => (origin as SnackBarProvider).duration;
   @override
-  bool get successOrFail => (origin as SnackBarServiceProvider).successOrFail;
+  bool get successOrFail => (origin as SnackBarProvider).successOrFail;
   @override
   BuildContext? get contextFromParameter =>
-      (origin as SnackBarServiceProvider).contextFromParameter;
+      (origin as SnackBarProvider).contextFromParameter;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

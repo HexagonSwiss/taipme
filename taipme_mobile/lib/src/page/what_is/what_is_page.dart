@@ -118,7 +118,7 @@ class _WhatIsPageState extends ConsumerState<WhatIsPage> {
                             TextButton(
                               onPressed: () => ref
                                   .read(goRouterProvider)
-                                  .go('/chat-home-page'),
+                                  .go('/home-page'),
                               child: Text(
                                 '_fine',
                                 style: TextStyle(

@@ -47,7 +47,9 @@ class CustomFooter extends ConsumerWidget {
               ),
               padding: EdgeInsets.all(13),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  ref.read(goRouterProvider).go('/private-chat-page');
+                },
                 icon: Icon(
                   Icons.chat_bubble_outline,
                   color: Colors.white,
@@ -76,7 +78,7 @@ class CustomFooter extends ConsumerWidget {
               padding: EdgeInsets.all(13),
               child: IconButton(
                 onPressed: () =>
-                    ref.read(goRouterProvider).go('/chat-home-page'),
+                    ref.read(goRouterProvider).go('/home-page'),
                 icon: Icon(
                   Icons.home,
                   color: Colors.white,
