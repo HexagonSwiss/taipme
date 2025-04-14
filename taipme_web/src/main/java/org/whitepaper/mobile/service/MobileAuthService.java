@@ -88,12 +88,11 @@ import org.whitepaper.data.repository.jpa.custom.AnaUtenteCustomJpaRepository;
 	        	return customUser;
 	        }
 	        	
-	        //ricerca utente per email
 	        AnaUtente theUtente = loadUtenteByEmail(username, authorities);
-	        if(theUtente != null){
+	        if(theUtente != null) {
 	        	customUser = new CustomUser(theUtente.getEmail(), theUtente.getPwd(), true, true, true, true, authorities);        				             		
 	        	customUser.setIdUser(theUtente.getIdUte());
-	        }else {
+	        } else {
 	           	customUser = new CustomUser(username, "NA", true, true, true, true, authorities);
 	        } 
 	        
