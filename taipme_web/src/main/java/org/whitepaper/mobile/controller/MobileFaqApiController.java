@@ -2,8 +2,8 @@ package org.whitepaper.mobile.controller;
 
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController; 
@@ -20,12 +20,13 @@ public class MobileFaqApiController {
 		System.out.println("MobileFaqApiController bean creato correttamente: " + this);
 	}
 
-    @Resource
+    @Autowired
     private AnaFaqService anaFaqService;
 
 	@RequestMapping(value = "/faq", method = RequestMethod.GET)
     public List<AnaFaq> getAllFaqs() {
         List<AnaFaq> faqList = anaFaqService.findAll();
+        System.out.println("Calling /mobile/faq to retrieve all FAQs");
         return faqList;
     }
 }

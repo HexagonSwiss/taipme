@@ -27,8 +27,10 @@ public class MobileAuthController {
     
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<?> login(@RequestHeader("username") String username, @RequestHeader("password") String password) {
-    	Map<String, Object> result = mobileAuthService.loginMobile(username, password);
-    
+    	System.out.println("Calling /mobile/login with username: " + username);
+		Map<String, Object> result = mobileAuthService.loginMobile(username, password);
+		System.out.println("Login result: " + result);
+
 		if ("ok".equals(result.get("status"))) {
         	return ResponseEntity.ok(result);
     	} else {
