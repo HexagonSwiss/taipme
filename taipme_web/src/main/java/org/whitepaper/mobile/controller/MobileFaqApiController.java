@@ -1,23 +1,27 @@
 package org.whitepaper.mobile.controller;
 
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController; 
-import org.whitepaper.bean.AnaFaq;
-import org.whitepaper.business.service.impl.AnaFaqServiceImpl;
 
-/**
- * REST API Controller for managing FAQs for mobile clients.
- */
+import org.whitepaper.bean.AnaFaq;
+import org.whitepaper.business.service.AnaFaqService;
+
 @RestController 
-@RequestMapping("/api/mobile/faqs")
+@RequestMapping("/mobile/faq")
 public class MobileFaqApiController {
 
-    @Autowired
-    private AnaFaqServiceImpl anaFaqService;
+    @PostConstruct
+	public void init() {
+		System.out.println("MobileFaqApiController bean creato correttamente: " + this);
+	}
+
+    @Resource
+    private AnaFaqService anaFaqService;
 
 	@RequestMapping(method = RequestMethod.GET)
     public List<AnaFaq> getAllFaqs() {

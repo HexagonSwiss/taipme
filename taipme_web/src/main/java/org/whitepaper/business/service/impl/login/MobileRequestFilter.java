@@ -1,41 +1,42 @@
 package org.whitepaper.business.service.impl.login;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.whitepaper.mobile.controller.MobileFaqApiController;
 import org.whitepaper.mobile.service.MobileAuthService;
-import org.whitepaper.web.controller.InfoController;
 
 import javax.annotation.Resource;
+
+import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.UUID;
+import javax.servlet.http.Cookie;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.UUID;
 import java.util.Map;
 import java.util.HashMap;
 
-//@WebFilter(urlPatterns = "/login-mobile")
+
 public class MobileRequestFilter implements Filter {
 
 	@Override
     public void init(FilterConfig filterConfig) throws ServletException {
+		System.out.println("MobileRequestFilter bean creato correttamente: " + this);
     }
 	
-	@Autowired
+	@Resource
 	private MobileAuthService mobileAuthService;
 
-	@Autowired
+	@Resource
 	private MobileFaqApiController mobileFaqApiController;
 
 	
    @Override
-   public void doFilter(javax.servlet.ServletRequest request, javax.servlet.ServletResponse response, FilterChain chain)
-	        throws IOException, ServletException {
+   public void doFilter(javax.servlet.ServletRequest request, javax.servlet.ServletResponse response, FilterChain chain) throws IOException, ServletException {
 	    HttpServletRequest httpRequest = (HttpServletRequest) request;
 	    HttpServletResponse httpResponse = (HttpServletResponse) response;
 
@@ -45,7 +46,7 @@ public class MobileRequestFilter implements Filter {
 	        String requestURI = httpRequest.getRequestURI();
 	        String endpoint = requestURI.substring(httpRequest.getContextPath().length());
 	        
-	        if (!"/login_mobile".equals(endpoint)) {
+	        if (!"/mobile/login".equals(endpoint)) {
 		        boolean isLogged = mobileAuthService.checkSession(httpRequest.getCookies());
 		        if (!isLogged) {
 		        	// Crea una mappa per la risposta JSON
@@ -64,16 +65,15 @@ public class MobileRequestFilter implements Filter {
 		            return;  // Ferma ulteriori elaborazioni
 		        }
 	        }
+
 	        String username = httpRequest.getHeader("username");
 	        String password = httpRequest.getHeader("password");
 
-	        
-
 	        switch (endpoint) {
-	            case "/login_mobile":
+	            case "/mobile/login":
 	            	mobileAuthService.loginMobile(username, password, httpResponse);
 	                break;
-				case "/faqs_mobile":
+				case "/mobile/faq":
 					mobileFaqApiController.getAllFaqs();
 					break;
 	            case "/registrati_mobile":
@@ -83,7 +83,6 @@ public class MobileRequestFilter implements Filter {
 	                // Gestisci la richiesta di recupero
 	                break;
 	            case "/messaggi_mobile":
-	            	
 	            	break;
 	            default:
 	                // Gestisci il caso di default se necessario

@@ -53,13 +53,12 @@
         <intercept-url pattern="/" 					access="permitAll"/>        
         <intercept-url pattern="/login" 			access="permitAll"/>
         
-        <intercept-url pattern="/login_mobile" 		access="permitAll"/>
-        <intercept-url pattern="/faqs_mobile" 	    access="permitAll"/>      
+        <intercept-url pattern="/mobile/login" 		access="permitAll"/>
+        <intercept-url pattern="/mobile/faq" 	    access="permitAll"/>      
                   
         <intercept-url pattern="/registrazione/**" 	access="permitAll" />
         <intercept-url pattern="/info/**" 			access="permitAll"/>
         <intercept-url pattern="/resetpwd/**" 		access="permitAll"/>    
-            
         
         <intercept-url pattern="/admin/**"	 		access="hasAuthority('ADM')" />
         <intercept-url pattern="/anaUtente/**" 		access="hasAuthority('ADM')" />

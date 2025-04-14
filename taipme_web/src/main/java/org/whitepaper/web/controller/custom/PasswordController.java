@@ -168,7 +168,7 @@ public class PasswordController extends AbstractController {
 		}
 	}
 
-	 @RequestMapping(value = "/login_mobile", method = RequestMethod.GET)
+	 @RequestMapping(value = "/mobile/login", method = RequestMethod.GET)
 	    public String loginMobile(@RequestParam(required = false) String username, 
 	                              @RequestParam(required = false) String password) {
 	    	System.out.println("Il filtro ha chiamato loginMobile con username: " + username);
