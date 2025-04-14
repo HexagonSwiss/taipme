@@ -12,7 +12,7 @@ import org.whitepaper.bean.AnaFaq;
 import org.whitepaper.business.service.AnaFaqService;
 
 @RestController 
-@RequestMapping("/mobile/faq")
+@RequestMapping("/mobile")
 public class MobileFaqApiController {
 
     @PostConstruct
@@ -23,7 +23,7 @@ public class MobileFaqApiController {
     @Resource
     private AnaFaqService anaFaqService;
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "/faq", method = RequestMethod.GET)
     public List<AnaFaq> getAllFaqs() {
         List<AnaFaq> faqList = anaFaqService.findAll();
         return faqList;
