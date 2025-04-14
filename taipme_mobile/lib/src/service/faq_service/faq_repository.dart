@@ -13,7 +13,6 @@ class FaqRepository extends _$FaqRepository {
   void build() {}
 
   Future<ResultModel<List<FaqModel>>> getChatList() async {
-    // TO TEST WITH LOCAL EMULATORS IN ANDROID USE 10.0.2.2 BECAUSE LOCAL HOST POINTS TO THE EMULATOR ITSELF
     final Uri uri = Uri.parse('http://10.0.2.2:8081/WhitePaper/mobile/faq');
 
     final Map<String, String> headers = {
