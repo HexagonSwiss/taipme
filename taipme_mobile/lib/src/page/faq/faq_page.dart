@@ -4,7 +4,6 @@ import 'package:taipme_mobile/src/component/custom_header.dart';
 import 'package:taipme_mobile/src/component/faq_body.dart';
 import 'package:taipme_mobile/src/component/menu.dart';
 import 'package:taipme_mobile/src/controller/faq_controller/faq_controller.dart';
-import 'package:taipme_mobile/src/model/data_model/faq_model/faq_model.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
 class FaqPage extends ConsumerWidget {
@@ -12,7 +11,7 @@ class FaqPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final faqController = ref.watch(faqControllerProvider);
+    final faqController = ref.watch(faqControllerProvider);
 
     return Scaffold(
       backgroundColor: TaipmeStyle.backgroundColor,
@@ -21,7 +20,13 @@ class FaqPage extends ConsumerWidget {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(24, 40, 24, 0),
-          child: FaqBody(),
+          child: faqController.when(
+            data: (data) => FaqBody(),
+            error: (error, stackTrace) => Center(
+              child: Text(''),
+            ),
+            loading: () => CircularProgressIndicator(),
+          ),
         ),
       ),
     );

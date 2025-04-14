@@ -13,7 +13,8 @@ class FaqRepository extends _$FaqRepository {
   void build() {}
 
   Future<ResultModel<List<FaqModel>>> getChatList() async {
-    final Uri uri = Uri.parse('http://localhost:8081/WhitePaper/faqs_mobile');
+    // TO TEST WITH LOCAL EMULATORS IN ANDROID USE 10.0.2.2 BECAUSE LOCAL HOST POINTS TO THE EMULATOR ITSELF
+    final Uri uri = Uri.parse('http://10.0.2.2:8081/WhitePaper/mobile/faq');
 
     final Map<String, String> headers = {
       "Content-Type": "application/json",
@@ -23,9 +24,10 @@ class FaqRepository extends _$FaqRepository {
     try {
       final http.Response response = await http.get(uri, headers: headers);
 
-      debugPrint('Response: $response');
+      debugPrint('Repository: FaqRepository Response is: $response');
 
       if (response.statusCode == 200) {
+        debugPrint('Repository: FaqRepository Response body is: ${response.body}');
         final List<dynamic> decodedJson = jsonDecode(response.body);
 
         final List<FaqModel> faqs = decodedJson
@@ -35,10 +37,12 @@ class FaqRepository extends _$FaqRepository {
 
         return ResultModel(data: faqs);
       } else {
-        return ResultModel(error: "Errore: ${response.statusCode}");
+        return ResultModel(
+          error: "Repository: FaqRepo statusCode is: ${response.statusCode}",
+        );
       }
     } catch (e) {
-      return ResultModel(error: "Errore di connessione: $e");
+      return ResultModel(error: "Repository: FaqRepo error is: $e");
     }
   }
 }
