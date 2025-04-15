@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:taipme_mobile/route/route.dart';
-import 'package:taipme_mobile/src/component/typing_effect/typing_effect_widget.dart';
+import 'package:taipme_mobile/src/component/typing_effect_widget.dart';
 
 class LoginOrRegisterPage extends ConsumerStatefulWidget {
   const LoginOrRegisterPage({super.key});
@@ -106,8 +106,8 @@ class _LoginOrRegisterPageState extends ConsumerState<LoginOrRegisterPage> {
                         fullText: displayedText, // Passa il testo da scrivere
                         textAlign: TextAlign.center,
                         textStyle: TextStyle(
-                          color: TaipmeStyle.inputFieldTextColor,
-                          fontSize: TaipmeStyle.miniTextSize,
+                          color: TaipmeStyle.primaryColor,
+                          fontSize: TaipmeStyle.standardTextSize,
                         ),
                         typingSpeed: Duration(milliseconds: 90),
                         onTypingComplete:
@@ -127,7 +127,7 @@ class _LoginOrRegisterPageState extends ConsumerState<LoginOrRegisterPage> {
                               '',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: TaipmeStyle.miniTextSize,
+                                fontSize: TaipmeStyle.standardTextSize,
                               ),
                             ),
                           ),
@@ -137,8 +137,8 @@ class _LoginOrRegisterPageState extends ConsumerState<LoginOrRegisterPage> {
                             child: Text(
                               '_continua',
                               style: TextStyle(
-                                color: TaipmeStyle.inputFieldTextColor,
-                                fontSize: TaipmeStyle.miniTextSize,
+                                color: TaipmeStyle.primaryColor,
+                                fontSize: TaipmeStyle.standardTextSize,
                               ),
                             ),
                           ),
@@ -154,8 +154,8 @@ class _LoginOrRegisterPageState extends ConsumerState<LoginOrRegisterPage> {
                             child: Text(
                               '_accedi',
                               style: TextStyle(
-                                color: TaipmeStyle.inputFieldTextColor,
-                                fontSize: TaipmeStyle.miniTextSize,
+                                color: TaipmeStyle.primaryColor,
+                                fontSize: TaipmeStyle.standardTextSize,
                               ),
                             ),
                           ),
@@ -164,8 +164,8 @@ class _LoginOrRegisterPageState extends ConsumerState<LoginOrRegisterPage> {
                             child: Text(
                               '_registrati',
                               style: TextStyle(
-                                color: TaipmeStyle.inputFieldTextColor,
-                                fontSize: TaipmeStyle.miniTextSize,
+                                color: TaipmeStyle.primaryColor,
+                                fontSize: TaipmeStyle.standardTextSize,
                               ),
                             ),
                           ),

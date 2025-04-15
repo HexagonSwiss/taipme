@@ -5,10 +5,10 @@ import 'package:taipme_mobile/src/model/data_model/faq_model/faq_model.dart';
 import 'dart:convert';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 
-part 'faq_repository.g.dart';
+part 'faq_service.g.dart';
 
 @riverpod
-class FaqRepository extends _$FaqRepository {
+class FaqService extends _$FaqService {
   @override
   void build() {}
 
@@ -23,10 +23,10 @@ class FaqRepository extends _$FaqRepository {
     try {
       final http.Response response = await http.get(uri, headers: headers);
 
-      debugPrint('Repository: FaqRepository Response is: $response');
+      debugPrint('Repository: FaqService Response is: $response');
 
       if (response.statusCode == 200) {
-        debugPrint('Repository: FaqRepository Response body is: ${response.body}');
+        debugPrint('Repository: FaqService Response body is: ${response.body}');
         final List<dynamic> decodedJson = jsonDecode(response.body);
 
         final List<FaqModel> faqs = decodedJson

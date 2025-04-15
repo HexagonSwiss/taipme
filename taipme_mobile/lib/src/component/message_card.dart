@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
-import 'package:taipme_mobile/src/component/typing_effect/typing_effect_widget.dart';
+import 'package:taipme_mobile/src/component/typing_effect_widget.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
 class MessageCard extends ConsumerWidget {
@@ -35,7 +35,7 @@ class MessageCard extends ConsumerWidget {
       padding: const EdgeInsets.all(20),
       width: MediaQuery.of(context).size.width * 0.85,
       decoration: BoxDecoration(
-        border: Border.all(color: TaipmeStyle.borderInput),
+        border: Border.all(color: TaipmeStyle.inputFieldBorderColor),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -62,7 +62,7 @@ class MessageCard extends ConsumerWidget {
                     child: Text(
                       preLoadedMessage!,
                       style: TextStyle(
-                        color: TaipmeStyle.inputFieldTextColor,
+                        color: TaipmeStyle.primaryColor,
                       ),
                       textAlign: textAlign,
                     ),
@@ -83,7 +83,7 @@ class MessageCard extends ConsumerWidget {
                             .go('/report-page', extra: message),
                         icon: Icon(
                           Icons.info_outline,
-                          color: TaipmeStyle.inputFieldTextColor,
+                          color: TaipmeStyle.primaryColor,
                         ),
                       ),
                     ),
@@ -96,7 +96,7 @@ class MessageCard extends ConsumerWidget {
                               if (onPressed != null) onPressed!();
                             },
                             style: TextButton.styleFrom(
-                              backgroundColor: TaipmeStyle.backgroundColorInput,
+                              backgroundColor: TaipmeStyle.appFooterColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),

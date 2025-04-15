@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
-import 'package:taipme_mobile/src/component/custom_footer.dart';
-import 'package:taipme_mobile/src/component/custom_header.dart';
+import 'package:taipme_mobile/src/component/bottom_nav_bar/bottom_nav_bar.dart';
+import 'package:taipme_mobile/src/component/app_bar/custom_header.dart';
 import 'package:taipme_mobile/src/component/menu.dart';
 import 'package:taipme_mobile/src/component/message_card.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
@@ -30,12 +30,11 @@ class _ReportPageState extends ConsumerState<ReportPage> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: TextButton(
-                onPressed: () =>
-                    ref.read(goRouterProvider).go('/home-page'),
+                onPressed: () => ref.read(goRouterProvider).go('/home-page'),
                 child: Text(
                   '_indietro',
                   style: TextStyle(
-                    color: TaipmeStyle.inputFieldTextColor,
+                    color: TaipmeStyle.primaryColor,
                   ),
                 ),
               ),
@@ -72,11 +71,7 @@ class _ReportPageState extends ConsumerState<ReportPage> {
           SizedBox(height: 24),
         ],
       ),
-      bottomNavigationBar: CustomFooter(
-        isChatSelected: false,
-        isHomeSelected: true,
-        isSettingsSelected: false,
-      ),
+      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

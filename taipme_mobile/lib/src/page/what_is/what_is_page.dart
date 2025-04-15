@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
-import 'package:taipme_mobile/src/component/typing_effect/typing_effect_widget.dart';
+import 'package:taipme_mobile/src/component/typing_effect_widget.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
 class WhatIsPage extends ConsumerStatefulWidget {
@@ -74,8 +74,8 @@ class _WhatIsPageState extends ConsumerState<WhatIsPage> {
                           fullText: displayedText, // Passa il testo da scrivere
                           textAlign: TextAlign.center,
                           textStyle: TextStyle(
-                            color: TaipmeStyle.inputFieldTextColor,
-                            fontSize: TaipmeStyle.miniTextSize,
+                            color: TaipmeStyle.primaryColor,
+                            fontSize: TaipmeStyle.standardTextSize,
                           ),
                           typingSpeed: Duration(milliseconds: 90), // Personalizza la velocità
                           onTypingComplete: onTypingComplete, // Imposta il callback quando il testo è completo
@@ -94,7 +94,7 @@ class _WhatIsPageState extends ConsumerState<WhatIsPage> {
                                 '',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: TaipmeStyle.miniTextSize,
+                                  fontSize: TaipmeStyle.standardTextSize,
                                 ),
                               ),
                             ),
@@ -103,8 +103,8 @@ class _WhatIsPageState extends ConsumerState<WhatIsPage> {
                               child: Text(
                                 '_continua',
                                 style: TextStyle(
-                                  color: TaipmeStyle.inputFieldTextColor,
-                                  fontSize: TaipmeStyle.miniTextSize,
+                                  color: TaipmeStyle.primaryColor,
+                                  fontSize: TaipmeStyle.standardTextSize,
                                 ),
                               ),
                             ),
@@ -122,8 +122,8 @@ class _WhatIsPageState extends ConsumerState<WhatIsPage> {
                               child: Text(
                                 '_fine',
                                 style: TextStyle(
-                                  color: TaipmeStyle.inputFieldTextColor,
-                                  fontSize: TaipmeStyle.miniTextSize,
+                                  color: TaipmeStyle.primaryColor,
+                                  fontSize: TaipmeStyle.standardTextSize,
                                 ),
                               ),
                             ),

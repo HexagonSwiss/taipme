@@ -1,5 +1,5 @@
 import 'package:taipme_mobile/route/route.dart';
-import 'package:taipme_mobile/src/controller/instance_controller/instance_controller.dart';
+import 'package:taipme_mobile/src/controller/locale_controller/locale_controller.dart';
 import 'package:taipme_mobile/src/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

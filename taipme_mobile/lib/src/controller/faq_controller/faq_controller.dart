@@ -3,13 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:taipme_mobile/src/model/data_model/faq_model/faq_model.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
-import 'package:taipme_mobile/src/service/faq_service/faq_repository.dart';
+import 'package:taipme_mobile/src/service/faq_service/faq_service.dart';
 
 part 'faq_controller.g.dart';
 
 @riverpod
 Future<List<FaqModel>> faqController(Ref ref) async {
-  final FaqRepository faqRepository = ref.read(faqRepositoryProvider.notifier);
+  final FaqService faqService = ref.read(faqServiceProvider.notifier);
   final List<FaqModel> faqSync = ref.read(faqSyncControllerProvider);
 
   if (faqSync.isNotEmpty) {
@@ -17,7 +17,7 @@ Future<List<FaqModel>> faqController(Ref ref) async {
     return faqSync;
   }
 
-  final ResultModel<List<FaqModel>> result = await faqRepository.getChatList();
+  final ResultModel<List<FaqModel>> result = await faqService.getChatList();
   debugPrint('Controller Result: ${result.data}');
 
   final data = result.data;

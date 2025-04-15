@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:taipme_mobile/src/component/custom_header.dart';
-import 'package:taipme_mobile/src/component/faq_body.dart';
+import 'package:taipme_mobile/src/component/app_bar/custom_header.dart';
+import 'package:taipme_mobile/src/component/faq_page/faq_body.dart';
 import 'package:taipme_mobile/src/component/menu.dart';
 import 'package:taipme_mobile/src/controller/faq_controller/faq_controller.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';

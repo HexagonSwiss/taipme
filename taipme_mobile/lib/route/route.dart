@@ -1,4 +1,4 @@
-import 'package:taipme_mobile/src/page/authentication/forgot_password_confirmation_page.dart';
+import 'package:taipme_mobile/src/page/authentication/password_update_confirmation_page.dart';
 import 'package:taipme_mobile/src/page/authentication/forgot_password_page.dart';
 import 'package:taipme_mobile/src/page/authentication/forgot_password_sent_page.dart';
 import 'package:taipme_mobile/src/page/chat/private_chat_page.dart';
@@ -28,7 +28,7 @@ GoRouter goRouter(Ref ref) {
     routes: <RouteBase>[
       GoRoute(
         path: '/',
-        pageBuilder: (context, state) => const MaterialPage(child: HomePage()),
+        pageBuilder: (context, state) => const MaterialPage(child: LoginPage()),
       ),
       GoRoute(
           path: '/login',
@@ -59,7 +59,7 @@ GoRouter goRouter(Ref ref) {
         pageBuilder: (context, state) {
           final token = state.uri.queryParameters['token'];
           return MaterialPage(
-              child: ForgotPasswordConfirmationPage(token: token!));
+              child: PasswordUpdateConfirmationPage(token: token!));
         },
       ),
       GoRoute(

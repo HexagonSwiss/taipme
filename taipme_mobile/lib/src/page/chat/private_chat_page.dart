@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
-import 'package:taipme_mobile/src/component/custom_footer.dart';
-import 'package:taipme_mobile/src/component/custom_header.dart';
+import 'package:taipme_mobile/src/component/bottom_nav_bar/bottom_nav_bar.dart';
+import 'package:taipme_mobile/src/component/app_bar/custom_header.dart';
 import 'package:taipme_mobile/src/component/menu.dart';
 import 'package:taipme_mobile/src/component/message_card.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
@@ -22,11 +22,7 @@ class _PrivateChatPageState extends ConsumerState<PrivateChatPage> {
       backgroundColor: TaipmeStyle.backgroundColor,
       appBar: CustomHeader(),
       endDrawer: const Menu(),
-      bottomNavigationBar: CustomFooter(
-        isChatSelected: true,
-        isHomeSelected: false,
-        isSettingsSelected: false,
-      ),
+      bottomNavigationBar: BottomNavBar(),
       body: Column(
         children: [
           SizedBox(
@@ -38,7 +34,7 @@ class _PrivateChatPageState extends ConsumerState<PrivateChatPage> {
                 child: Text(
                   '_indietro',
                   style: TextStyle(
-                    color: TaipmeStyle.inputFieldTextColor,
+                    color: TaipmeStyle.primaryColor,
                   ),
                 ),
               ),
@@ -61,7 +57,7 @@ class _PrivateChatPageState extends ConsumerState<PrivateChatPage> {
                 'Chat Messages',
                 style: TextStyle(
                   fontSize: 24,
-                  color: TaipmeStyle.inputFieldTextColor,
+                  color: TaipmeStyle.primaryColor,
                 ),
               ),
             ),
@@ -70,7 +66,7 @@ class _PrivateChatPageState extends ConsumerState<PrivateChatPage> {
             onPressed: () {},
             child: Text(
               '_strappa',
-              style: TextStyle(color: TaipmeStyle.inputFieldTextColor),
+              style: TextStyle(color: TaipmeStyle.primaryColor),
             ),
           ),
           const Spacer(),

@@ -1,7 +1,7 @@
 import 'package:taipme_mobile/src/controller/instance_controller/instance_controller.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 import 'package:taipme_mobile/src/model/data_model/user_model/user.dart';
-import 'package:taipme_mobile/src/service/user_service/user_repository.dart';
+import 'package:taipme_mobile/src/service/user_service/user_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -19,17 +19,33 @@ class UserController extends _$UserController {
   void updateCachedUser(UserModel user) => state = user;
   void invalidateCachedUser() => state = null;
 
-  Future<ResultModel<Map<String, dynamic>>> loginUser({required String email, required String password}) async {
-    debugPrint('Controller: loginUser is called - Email: $email, Password: $password');
-    final result = await ref.read(userRepositoryProvider.notifier).loginUser(email: email, password: password);
+  Future<ResultModel<Map<String, dynamic>>> loginUser({
+    required String email,
+    required String password,
+  }) async {
+    debugPrint('Controller: loginUser is called with: $email and $password');
 
-  if (result.error != null) {
+    final result = await ref
+        .read(userServiceProvider.notifier)
+        .loginUser(email: email, password: password);
+
+    if (result.error != null) {
       debugPrint('Controller: loginUser error is ${result.error}');
       return ResultModel(error: result.error);
     } else {
       debugPrint('Controller: loginUser result is ${result.data}');
       return ResultModel(data: result.data);
     }
+  }
+
+  Future<bool> updatePassword({
+    required String email,
+    required String password,
+    required String newPassword,
+    required String newPasswordConfirmation,
+  }) async {
+    Future.delayed(const Duration(seconds: 1));
+    return true;
   }
 }
 

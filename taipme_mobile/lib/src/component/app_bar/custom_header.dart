@@ -10,10 +10,10 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
+        elevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Logo
             Consumer(
               builder: (context, ref, child) {
                 return GestureDetector(
@@ -26,22 +26,16 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
                 );
               },
             ),
-            // Icona Menu per aprire il Drawer
             IconButton(
               icon: Icon(Icons.menu, color: Colors.white),
               onPressed: () => Scaffold.of(context).openEndDrawer(),
             ),
           ],
         ),
-        elevation: 0,
       ),
       body: Column(
         children: [
-          // Aggiungi un SizedBox per separare la AppBar dal resto del contenuto
-          SizedBox(height: 150), // Puoi regolare questa altezza come preferisci
-          Center(
-            child: Text("Content goes here"),
-          ),
+          SizedBox(height: 150),
         ],
       ),
     );

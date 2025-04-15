@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:taipme_mobile/src/component/custom_header.dart';
+import 'package:taipme_mobile/src/component/app_bar/custom_header.dart';
 import 'package:taipme_mobile/src/component/menu.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
@@ -31,8 +31,8 @@ class _ContactUsPageState extends ConsumerState<ContactUsPage> {
                   Text(
                     'TaipMe nasce da un pensiero libero e sociale, la piattaforma di TaipMe è a tua disposizione. Chiedi e con piacere ti risponderemo.',
                     style: TextStyle(
-                      color: TaipmeStyle.inputFieldTextColor,
-                      fontSize: TaipmeStyle.miniTextSize,
+                      color: TaipmeStyle.primaryColor,
+                      fontSize: TaipmeStyle.standardTextSize,
                     ),
                   ),
                 ],
@@ -43,8 +43,8 @@ class _ContactUsPageState extends ConsumerState<ContactUsPage> {
                   Text(
                     'Informazioni, business, collaborazioni, curiosità, per conoscerci, scrivi a:',
                     style: TextStyle(
-                      color: TaipmeStyle.inputFieldTextColor,
-                      fontSize: TaipmeStyle.miniTextSize,
+                      color: TaipmeStyle.primaryColor,
+                      fontSize: TaipmeStyle.standardTextSize,
                     ),
                   ),
                 ],
@@ -58,8 +58,8 @@ class _ContactUsPageState extends ConsumerState<ContactUsPage> {
                     Text(
                       '_team@taipme.com|',
                       style: TextStyle(
-                        color: TaipmeStyle.inputFieldTextColor,
-                        fontSize: TaipmeStyle.miniTextSize,
+                        color: TaipmeStyle.primaryColor,
+                        fontSize: TaipmeStyle.standardTextSize,
                       ),
                       textAlign: TextAlign.left,
                     ),

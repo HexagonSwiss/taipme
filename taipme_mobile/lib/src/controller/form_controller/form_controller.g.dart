@@ -6,7 +6,7 @@ part of 'form_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$formControllerHash() => r'd54f8cabc377b487be4641f49601319627c0d88b';
+String _$formControllerHash() => r'bc4fdfd0284af3652781ed2bdfcb950594d1c686';
 
 /// See also [FormController].
 @ProviderFor(FormController)

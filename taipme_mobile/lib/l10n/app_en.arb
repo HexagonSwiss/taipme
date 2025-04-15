@@ -42,10 +42,5 @@
     "forgotPasswordUpdate": "Update password",
     "returnToLastPage": "Click here to return to",
     "registrationConfirmed": "Registration Confirmed",
-    "registrationConfirmedDescription": "Go to login.",
-    "chooseCategory": "Choose the category you prefer",
-    "sea": "Sea",
-    "mountain": "Mountain",
-    "activity": "Activity",
-    "destination": "Destination"
+    "registrationConfirmedDescription": "Go to login."
 }

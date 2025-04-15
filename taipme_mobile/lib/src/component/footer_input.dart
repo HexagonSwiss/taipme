@@ -1,40 +1,41 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
 class FooterInput extends ConsumerStatefulWidget {
+  const FooterInput({
+    super.key,
+    required this.title,
+    required this.titleLink,
+    required this.state,
+    required this.action,
+    required this.actionLink,
+  });
+
   final String title;
   final String titleLink;
   final String state;
   final String action;
   final String actionLink;
 
-  const FooterInput({super.key, required this.title, required this.titleLink, required this.state, required this.action, required this.actionLink});
-
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _FooterInputState();
-  
 }
 
 class _FooterInputState extends ConsumerState<FooterInput> {
-   
   @override
   Widget build(BuildContext context) {
-    if (kDebugMode) {
-      print("ChatHomePAGE!");
-    } // Log durante il build
     return Column(
       children: [
         TextButton(
-           onPressed: () => ref.read(goRouterProvider).go(widget.titleLink),
+          onPressed: () => ref.read(goRouterProvider).go(widget.titleLink),
           child: Text(
-            textAlign: TextAlign.center, 
+            textAlign: TextAlign.center,
             widget.title,
             style: TextStyle(
               color: TaipmeStyle.primaryColor,
-              fontSize: TaipmeStyle.miniTextSize,
+              fontSize: TaipmeStyle.standardTextSize,
             ),
           ),
         ),
@@ -44,7 +45,7 @@ class _FooterInputState extends ConsumerState<FooterInput> {
           textAlign: TextAlign.center,
           style: TextStyle(
             color: TaipmeStyle.primaryColor,
-            fontSize: TaipmeStyle.miniTextSize
+            fontSize: TaipmeStyle.standardTextSize,
           ),
         ),
         TextButton(
@@ -54,7 +55,7 @@ class _FooterInputState extends ConsumerState<FooterInput> {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: TaipmeStyle.primaryColor,
-              fontSize: TaipmeStyle.miniTextSize
+              fontSize: TaipmeStyle.standardTextSize,
             ),
           ),
         ),

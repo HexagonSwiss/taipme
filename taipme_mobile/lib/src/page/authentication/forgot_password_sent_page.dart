@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:taipme_mobile/src/component/titlle_input.dart';
+import 'package:taipme_mobile/src/component/title_input.dart';
 import 'package:taipme_mobile/src/component/footer_input.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
@@ -21,7 +21,7 @@ class _ForgotPasswordSentPageState extends ConsumerState<ForgotPasswordSentPage>
         child: Column(
           children: [
             const Spacer(flex: 2), // Spazio in cima
-            TitleInput(title: 'recupero password'),
+            PageTitle(title: 'recupero password'),
             const Spacer(flex: 1), // Spazio tra titolo e form
             _buildForm(),
             const Spacer(flex: 2), // Spazio tra form e footer
@@ -40,7 +40,7 @@ Widget _buildForm() {
           'Controlla la tua casella postale e segui il link per reimpostare la tua password!',
           textAlign: TextAlign.center, 
           style: TextStyle(
-            fontSize: TaipmeStyle.miniTextSize,
+            fontSize: TaipmeStyle.standardTextSize,
             color: TaipmeStyle.primaryColor,
           ),
         ),          

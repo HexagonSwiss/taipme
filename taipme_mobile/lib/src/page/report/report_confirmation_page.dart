@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:taipme_mobile/src/component/custom_footer.dart';
-import 'package:taipme_mobile/src/component/custom_header.dart';
+import 'package:taipme_mobile/src/component/bottom_nav_bar/bottom_nav_bar.dart';
+import 'package:taipme_mobile/src/component/app_bar/custom_header.dart';
 import 'package:taipme_mobile/src/component/menu.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
@@ -18,7 +18,7 @@ class _ReportConfirmationPageState
   @override
   Widget build(BuildContext context) {
     final textStyle = TextStyle(
-      color: TaipmeStyle.inputFieldTextColor,
+      color: TaipmeStyle.primaryColor,
       fontSize: 16,
       fontWeight: FontWeight.w400,
     );
@@ -27,11 +27,7 @@ class _ReportConfirmationPageState
       backgroundColor: TaipmeStyle.backgroundColor,
       appBar: CustomHeader(),
       endDrawer: const Menu(),
-      bottomNavigationBar: CustomFooter(
-        isChatSelected: false,
-        isHomeSelected: true,
-        isSettingsSelected: false,
-      ),
+      bottomNavigationBar: BottomNavBar(),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(24, 24, 0, 0),
         child: Column(

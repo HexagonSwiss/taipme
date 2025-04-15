@@ -66,8 +66,8 @@ class Menu extends ConsumerWidget {
                             Text(
                               'FAQ',
                               style: TextStyle(
-                                  fontSize: TaipmeStyle.miniTextSize,
-                                  fontWeight: TaipmeStyle.lightFontWeight,
+                                  fontSize: TaipmeStyle.standardTextSize,
+                                  fontWeight: TaipmeStyle.standardFontWeight,
                                   color: TaipmeStyle.backgroundColor),
                             ),
                           ],
@@ -83,8 +83,8 @@ class Menu extends ConsumerWidget {
                               Text(
                                 'Contattaci',
                                 style: TextStyle(
-                                    fontSize: TaipmeStyle.miniTextSize,
-                                    fontWeight: TaipmeStyle.lightFontWeight,
+                                    fontSize: TaipmeStyle.standardTextSize,
+                                    fontWeight: TaipmeStyle.standardFontWeight,
                                     color: TaipmeStyle.backgroundColor),
                               ),
                             ],
@@ -99,8 +99,8 @@ class Menu extends ConsumerWidget {
                               Text(
                                 'cos’è Taipme',
                                 style: TextStyle(
-                                    fontSize: TaipmeStyle.miniTextSize,
-                                    fontWeight: TaipmeStyle.lightFontWeight,
+                                    fontSize: TaipmeStyle.standardTextSize,
+                                    fontWeight: TaipmeStyle.standardFontWeight,
                                     color: TaipmeStyle.backgroundColor),
                               ),
                             ],
@@ -118,8 +118,8 @@ class Menu extends ConsumerWidget {
                               Text(
                                 'telegram',
                                 style: TextStyle(
-                                    fontSize: TaipmeStyle.miniTextSize,
-                                    fontWeight: TaipmeStyle.lightFontWeight,
+                                    fontSize: TaipmeStyle.standardTextSize,
+                                    fontWeight: TaipmeStyle.standardFontWeight,
                                     color: TaipmeStyle.backgroundColor),
                               ),
                             ],
@@ -137,8 +137,8 @@ class Menu extends ConsumerWidget {
                               Text(
                                 'whatsapp',
                                 style: TextStyle(
-                                    fontSize: TaipmeStyle.miniTextSize,
-                                    fontWeight: TaipmeStyle.lightFontWeight,
+                                    fontSize: TaipmeStyle.standardTextSize,
+                                    fontWeight: TaipmeStyle.standardFontWeight,
                                     color: TaipmeStyle.backgroundColor),
                               ),
                             ],

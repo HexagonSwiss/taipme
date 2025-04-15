@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_build_context_in_providers
 import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,25 @@ class FormController extends _$FormController {
     }
     if (firstPassword != secondPassword) {
       return AppLocalizations.of(context)!.passwordValidatorMatch;
+    }
+    return null;
+  }
+
+  String? guaranteeDifferentPasswords(
+    String? firstPassword,
+    String? secondPassword,
+    BuildContext context,
+  ) {
+    debugPrint(
+        'Controller: guaranteeDifferentPasswords firstPassword is $firstPassword, secondPassword is $secondPassword');
+    if (firstPassword == null || secondPassword == null) {
+      return AppLocalizations.of(context)!.passwordValidatorMandatory;
+    }
+    if (firstPassword.isEmpty || secondPassword.isEmpty) {
+      return AppLocalizations.of(context)!.passwordValidatorMandatory;
+    }
+    if (firstPassword == secondPassword) {
+      return 'I due password devono essere diverse';
     }
     return null;
   }
@@ -104,7 +124,8 @@ class FormController extends _$FormController {
 
       if (!isValid) {
         ref.read(snackBarProvider(
-            text: AppLocalizations.of(context)!.formControllerFormValidator).future);
+                text: AppLocalizations.of(context)!.formControllerFormValidator)
+            .future);
         setStateToAvailable();
         return;
       }

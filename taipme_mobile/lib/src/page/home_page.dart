@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taipme_mobile/src/component/custom_footer.dart';
-import 'package:taipme_mobile/src/component/custom_header.dart';
+import 'package:taipme_mobile/src/component/bottom_nav_bar/bottom_nav_bar.dart';
+import 'package:taipme_mobile/src/component/app_bar/custom_header.dart';
 import 'package:taipme_mobile/src/component/menu.dart';
 import 'package:taipme_mobile/src/component/message_card.dart';
 import 'package:taipme_mobile/src/component/wiggling_icon.dart';
@@ -49,7 +49,8 @@ class _ChatHomePageState extends State<HomePage>
               decoration: InputDecoration(
                 hintText: '#cerca',
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: TaipmeStyle.borderInput),
+                  borderSide:
+                      BorderSide(color: TaipmeStyle.inputFieldBorderColor),
                 ),
               ),
             ),
@@ -88,7 +89,7 @@ class _ChatHomePageState extends State<HomePage>
                 TextButton(
                   onPressed: () {},
                   style: TextButton.styleFrom(
-                    backgroundColor: TaipmeStyle.backgroundColorInput,
+                    backgroundColor: TaipmeStyle.appFooterColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -112,11 +113,7 @@ class _ChatHomePageState extends State<HomePage>
           ),
         ],
       ),
-      bottomNavigationBar: CustomFooter(
-        isChatSelected: false, // Imposta quale icona è selezionata
-        isHomeSelected: true,
-        isSettingsSelected: false,
-      ),
+      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

@@ -31,5 +31,3 @@ Replace `192.168.x.x` with your machine's actual IP address.
 ### Notes
 - Ensure your development machine and the physical device are connected to the same network.
 - If you encounter issues, check your backend server's firewall or network settings to ensure it allows connections from your device.
-
-Let me know if you need further clarification!
