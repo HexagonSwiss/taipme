@@ -2,7 +2,9 @@ import 'package:taipme_mobile/src/page/authentication/password_update_confirmati
 import 'package:taipme_mobile/src/page/authentication/forgot_password_page.dart';
 import 'package:taipme_mobile/src/page/authentication/forgot_password_sent_page.dart';
 import 'package:taipme_mobile/src/page/chat/private_chat_page.dart';
+import 'package:taipme_mobile/src/page/new_message_page.dart';
 import 'package:taipme_mobile/src/page/registration/login_or_register_page.dart';
+import 'package:taipme_mobile/src/page/registration/registration_confirmation_page.dart';
 import 'package:taipme_mobile/src/page/registration/registration_page.dart';
 import 'package:taipme_mobile/src/page/registration/registration_sent_page.dart';
 import 'package:taipme_mobile/src/page/home_page.dart';
@@ -29,8 +31,7 @@ GoRouter goRouter(Ref ref) {
     routes: <RouteBase>[
       GoRoute(
         path: '/',
-        pageBuilder: (context, state) =>
-            const MaterialPage(child: LoginOrRegisterPage()),
+        pageBuilder: (context, state) => const MaterialPage(child:LoginOrRegisterPage()), //,
       ),
       GoRoute(
         path: '/login-or-register',
@@ -40,16 +41,6 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         path: '/login',
         pageBuilder: (context, state) => const MaterialPage(child: LoginPage()),
-      ),
-      GoRoute(
-        path: '/register',
-        pageBuilder: (context, state) =>
-            MaterialPage(child: RegistrationPage()),
-      ),
-      GoRoute(
-        path: '/registration-sent',
-        pageBuilder: (context, state) =>
-            const MaterialPage(child: RegistrationSentPage()),
       ),
       GoRoute(
         path: '/forgot-password',
@@ -62,7 +53,7 @@ GoRouter goRouter(Ref ref) {
             const MaterialPage(child: ForgotPasswordSentPage()),
       ),
       GoRoute(
-        path: '/forgot-password-confirmation',
+        path: '/password-update-confirmation',
         pageBuilder: (context, state) {
           final token = state.uri.queryParameters['token'];
           return MaterialPage(
@@ -70,11 +61,29 @@ GoRouter goRouter(Ref ref) {
         },
       ),
       GoRoute(
+        path: '/register',
+        pageBuilder: (context, state) =>
+            MaterialPage(child: RegistrationPage()),
+      ),
+      GoRoute(
+        path: '/registration-sent',
+        pageBuilder: (context, state) =>
+            const MaterialPage(child: RegistrationSentPage()),
+      ),
+      GoRoute(
+        path: '/registration-confirmed',
+        pageBuilder: (context, state) {
+          final token = state.uri.queryParameters['token'];
+          return MaterialPage(
+              child: RegistrationConfirmationPage(token: token!));
+        },
+      ),
+      GoRoute(
         path: '/home-page',
         pageBuilder: (context, state) => const MaterialPage(child: HomePage()),
       ),
       GoRoute(
-        path: '/private-chat-page',
+        path: '/chat-page',
         pageBuilder: (context, state) =>
             const MaterialPage(child: PrivateChatPage()),
       ),
@@ -84,6 +93,10 @@ GoRouter goRouter(Ref ref) {
           final String? message = state.extra as String?;
           return MaterialPage(child: ReportPage(message: message!));
         },
+      ),
+      GoRoute(
+        path: '/new-message-page',
+        pageBuilder: (context, state) => MaterialPage(child: NewMessagePage()),
       ),
       GoRoute(
         path: '/report-confirmation-page',

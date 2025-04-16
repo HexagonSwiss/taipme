@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
+import 'package:taipme_mobile/src/controller/bottom_nav_controller/bottom_nav_controller.dart';
+import 'package:taipme_mobile/src/util/enum/bottom_nav_enum.dart';
 
 class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
   const CustomHeader({super.key});
@@ -17,7 +19,12 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
             Consumer(
               builder: (context, ref, child) {
                 return GestureDetector(
-                  onTap: () => ref.read(goRouterProvider).go('/home-page'),
+                  onTap: () {
+                    ref
+                        .read(bottomNavControllerProvider.notifier)
+                        .setBottomNav(BottomNavEnum.home);
+                    ref.read(goRouterProvider).go('/home-page');
+                  },
                   child: Image.asset(
                     'assets/logo/taipme.jpg',
                     width: 150,

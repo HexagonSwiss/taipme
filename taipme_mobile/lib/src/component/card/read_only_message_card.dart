@@ -49,6 +49,7 @@ class MessageCard extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: TypeWriter(
+                    id: message,
                     fullText: message,
                     textAlign: textAlign,
                     textStyle: TextStyle(

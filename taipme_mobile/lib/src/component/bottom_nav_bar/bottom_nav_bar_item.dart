@@ -44,7 +44,11 @@ class BottomNavBarItem extends ConsumerWidget {
             ref.read(goRouterProvider).go(route);
           },
           icon: Icon(
-            Icons.chat_bubble_outline,
+            switch (bottomNavEnum) {
+          BottomNavEnum.home => Icons.home_outlined,
+          BottomNavEnum.chat => Icons.chat_bubble_outline_rounded,
+          BottomNavEnum.settings => Icons.settings_outlined,
+            },
             color: Colors.white,
           ),
         ),

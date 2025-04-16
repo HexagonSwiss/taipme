@@ -7,6 +7,7 @@ class TypeWriter extends ConsumerWidget {
   const TypeWriter({
     super.key,
     required this.fullText,
+    required this.id,
     this.onTypingComplete,
     this.typingSpeed = const Duration(milliseconds: 90),
     this.textAlign = TextAlign.center,
@@ -14,6 +15,7 @@ class TypeWriter extends ConsumerWidget {
   });
 
   final String fullText;
+  final String id;
   final TextAlign textAlign;
   final TextStyle textStyle;
   final Duration typingSpeed;
@@ -22,9 +24,9 @@ class TypeWriter extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final int charIndex = ref.watch(charIndexProvider(fullText));
-    final bool isTypingComplete = ref.watch(isTypingCompleteProvider);
+    final bool isTypingComplete = ref.watch(isTypingCompleteProvider(id));
 
-    ref.listen<Timer?>(typingTimerProvider(typingSpeed), (_, timer) {
+    ref.listen<Timer?>(typingTimerProvider(typingSpeed, id), (_, timer) {
       if (timer == null && isTypingComplete && onTypingComplete != null) {
         onTypingComplete!();
       }
@@ -32,9 +34,9 @@ class TypeWriter extends ConsumerWidget {
 
     return GestureDetector(
       onTap: () {
-        ref.read(typingTimerProvider(typingSpeed).notifier).stop();
+        ref.read(typingTimerProvider(typingSpeed, id).notifier).stop();
         ref.read(charIndexProvider(fullText).notifier).complete(fullText);
-        ref.read(isTypingCompleteProvider.notifier).setTypingComplete();
+        ref.read(isTypingCompleteProvider(id).notifier).setTypingComplete();
         if (onTypingComplete != null) {
           onTypingComplete!();
         }

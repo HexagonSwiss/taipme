@@ -6,7 +6,7 @@ part of 'typing_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$clickCountHash() => r'48f9774585d28e5298409195ea3f59b99b7386b5';
+String _$clickCountHash() => r'f334cdb79566a0ae1b2c8661522e7a0cf62747a3';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -171,22 +171,150 @@ class _ClickCountProviderElement
   int get maxCount => (origin as ClickCountProvider).maxCount;
 }
 
-String _$isTypingCompleteHash() => r'6abd482436ea3d5ebbebd9c4812cb9d984a9bde2';
+String _$isTypingCompleteHash() => r'e8f7cf40fed6cc3f11e8514f50de6635053f8ca6';
+
+abstract class _$IsTypingComplete extends BuildlessAutoDisposeNotifier<bool> {
+  late final String id;
+
+  bool build(
+    String id,
+  );
+}
 
 /// See also [IsTypingComplete].
 @ProviderFor(IsTypingComplete)
-final isTypingCompleteProvider =
-    AutoDisposeNotifierProvider<IsTypingComplete, bool>.internal(
-  IsTypingComplete.new,
-  name: r'isTypingCompleteProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$isTypingCompleteHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const isTypingCompleteProvider = IsTypingCompleteFamily();
 
-typedef _$IsTypingComplete = AutoDisposeNotifier<bool>;
+/// See also [IsTypingComplete].
+class IsTypingCompleteFamily extends Family<bool> {
+  /// See also [IsTypingComplete].
+  const IsTypingCompleteFamily();
+
+  /// See also [IsTypingComplete].
+  IsTypingCompleteProvider call(
+    String id,
+  ) {
+    return IsTypingCompleteProvider(
+      id,
+    );
+  }
+
+  @override
+  IsTypingCompleteProvider getProviderOverride(
+    covariant IsTypingCompleteProvider provider,
+  ) {
+    return call(
+      provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'isTypingCompleteProvider';
+}
+
+/// See also [IsTypingComplete].
+class IsTypingCompleteProvider
+    extends AutoDisposeNotifierProviderImpl<IsTypingComplete, bool> {
+  /// See also [IsTypingComplete].
+  IsTypingCompleteProvider(
+    String id,
+  ) : this._internal(
+          () => IsTypingComplete()..id = id,
+          from: isTypingCompleteProvider,
+          name: r'isTypingCompleteProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$isTypingCompleteHash,
+          dependencies: IsTypingCompleteFamily._dependencies,
+          allTransitiveDependencies:
+              IsTypingCompleteFamily._allTransitiveDependencies,
+          id: id,
+        );
+
+  IsTypingCompleteProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.id,
+  }) : super.internal();
+
+  final String id;
+
+  @override
+  bool runNotifierBuild(
+    covariant IsTypingComplete notifier,
+  ) {
+    return notifier.build(
+      id,
+    );
+  }
+
+  @override
+  Override overrideWith(IsTypingComplete Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: IsTypingCompleteProvider._internal(
+        () => create()..id = id,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        id: id,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeNotifierProviderElement<IsTypingComplete, bool> createElement() {
+    return _IsTypingCompleteProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is IsTypingCompleteProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin IsTypingCompleteRef on AutoDisposeNotifierProviderRef<bool> {
+  /// The parameter `id` of this provider.
+  String get id;
+}
+
+class _IsTypingCompleteProviderElement
+    extends AutoDisposeNotifierProviderElement<IsTypingComplete, bool>
+    with IsTypingCompleteRef {
+  _IsTypingCompleteProviderElement(super.provider);
+
+  @override
+  String get id => (origin as IsTypingCompleteProvider).id;
+}
+
 String _$displayedTextHash() => r'79c63f4ec94994f12c4424aacfbe3b4afcb537da';
 
 abstract class _$DisplayedText extends BuildlessAutoDisposeNotifier<String> {
@@ -474,13 +602,15 @@ class _CharIndexProviderElement
   String get textLength => (origin as CharIndexProvider).textLength;
 }
 
-String _$typingTimerHash() => r'359c563bd9aa112e044d6c244bbdfcff40b66f1d';
+String _$typingTimerHash() => r'b638679383f0242be760ba983da724076ff443d4';
 
 abstract class _$TypingTimer extends BuildlessAutoDisposeNotifier<Timer?> {
   late final Duration typingSpeed;
+  late final String id;
 
   Timer? build(
     Duration typingSpeed,
+    String id,
   );
 }
 
@@ -496,9 +626,11 @@ class TypingTimerFamily extends Family<Timer?> {
   /// See also [TypingTimer].
   TypingTimerProvider call(
     Duration typingSpeed,
+    String id,
   ) {
     return TypingTimerProvider(
       typingSpeed,
+      id,
     );
   }
 
@@ -508,6 +640,7 @@ class TypingTimerFamily extends Family<Timer?> {
   ) {
     return call(
       provider.typingSpeed,
+      provider.id,
     );
   }
 
@@ -532,8 +665,11 @@ class TypingTimerProvider
   /// See also [TypingTimer].
   TypingTimerProvider(
     Duration typingSpeed,
+    String id,
   ) : this._internal(
-          () => TypingTimer()..typingSpeed = typingSpeed,
+          () => TypingTimer()
+            ..typingSpeed = typingSpeed
+            ..id = id,
           from: typingTimerProvider,
           name: r'typingTimerProvider',
           debugGetCreateSourceHash:
@@ -544,6 +680,7 @@ class TypingTimerProvider
           allTransitiveDependencies:
               TypingTimerFamily._allTransitiveDependencies,
           typingSpeed: typingSpeed,
+          id: id,
         );
 
   TypingTimerProvider._internal(
@@ -554,9 +691,11 @@ class TypingTimerProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.typingSpeed,
+    required this.id,
   }) : super.internal();
 
   final Duration typingSpeed;
+  final String id;
 
   @override
   Timer? runNotifierBuild(
@@ -564,6 +703,7 @@ class TypingTimerProvider
   ) {
     return notifier.build(
       typingSpeed,
+      id,
     );
   }
 
@@ -572,13 +712,16 @@ class TypingTimerProvider
     return ProviderOverride(
       origin: this,
       override: TypingTimerProvider._internal(
-        () => create()..typingSpeed = typingSpeed,
+        () => create()
+          ..typingSpeed = typingSpeed
+          ..id = id,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         typingSpeed: typingSpeed,
+        id: id,
       ),
     );
   }
@@ -590,13 +733,16 @@ class TypingTimerProvider
 
   @override
   bool operator ==(Object other) {
-    return other is TypingTimerProvider && other.typingSpeed == typingSpeed;
+    return other is TypingTimerProvider &&
+        other.typingSpeed == typingSpeed &&
+        other.id == id;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, typingSpeed.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -607,6 +753,9 @@ class TypingTimerProvider
 mixin TypingTimerRef on AutoDisposeNotifierProviderRef<Timer?> {
   /// The parameter `typingSpeed` of this provider.
   Duration get typingSpeed;
+
+  /// The parameter `id` of this provider.
+  String get id;
 }
 
 class _TypingTimerProviderElement
@@ -616,6 +765,8 @@ class _TypingTimerProviderElement
 
   @override
   Duration get typingSpeed => (origin as TypingTimerProvider).typingSpeed;
+  @override
+  String get id => (origin as TypingTimerProvider).id;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

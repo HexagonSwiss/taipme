@@ -1,119 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/component/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:taipme_mobile/src/component/app_bar/custom_header.dart';
+import 'package:taipme_mobile/src/component/button/secondary_button.dart';
 import 'package:taipme_mobile/src/component/drawer/end_drawer.dart';
-import 'package:taipme_mobile/src/component/card/read_only_message_card.dart';
+import 'package:taipme_mobile/src/component/home_page/home_message_carousel.dart';
+import 'package:taipme_mobile/src/component/home_page/search_field.dart';
 import 'package:taipme_mobile/src/component/wiggling_icon.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-// TODO: GET DATA FROM THE BACKEND
-
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _ChatHomePageState();
-}
-
-class _ChatHomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
-  String selectedImage = 'home'; // Valore iniziale per l'icona attiva
-  int currentIndex = 0; // Indice corrente per il PageView
-
-  void updateImage(String imageName) =>
-      setState(() => selectedImage = imageName);
-
-  final List<Widget> swiperItems = [
-    MessageCard(
-        message:
-            "Quando meno te l'aspetti, tutto cambia all'improvviso #ottimismo"),
-    MessageCard(message: "Le sfide rendono la vita interessante."),
-    MessageCard(message: "Con pazienza tutto arriva al momento giusto."),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: TaipmeStyle.backgroundColor,
       appBar: const CustomHeader(),
       endDrawer: const EndDrawer(),
+      bottomNavigationBar: BottomNavBar(),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(26), // Padding intorno al TextField
-            child: TextField(
-              style: const TextStyle(
-                color: TaipmeStyle.primaryColor,
-                fontSize: 16,
-              ),
-              decoration: InputDecoration(
-                hintText: '#cerca',
-                enabledBorder: UnderlineInputBorder(
-                  borderSide:
-                      BorderSide(color: TaipmeStyle.inputFieldBorderColor),
-                ),
-              ),
-            ),
+          Expanded(
+            flex: 10,
+            child: SearchField(),
           ),
           Expanded(
-            child: PageView.builder(
-              itemCount: swiperItems.length,
-              onPageChanged: (index) {
-                setState(() => currentIndex = index);
-              },
-              itemBuilder: (context, index) {
-                // Aggiungi margine destro per far vedere la card successiva
-                return swiperItems[index];
-              },
-              // Impostiamo il viewportFraction per far vedere una porzione della card successiva
-              controller: PageController(
-                viewportFraction: 0.85,
-              ), // 85% della larghezza per ogni card
-            ),
+            flex: 65,
+            child: HomeMessageCarousel(),
           ),
-          Container(
-            margin: const EdgeInsets.only(
-              top: 16,
-              right: 0,
-              bottom: 43,
-              left: 0,
-            ),
-            padding: const EdgeInsets.all(0),
+          Expanded(
+            flex: 25,
             child: Column(
-              mainAxisSize:
-                  MainAxisSize.min, // Minimizza l'altezza del container
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 WigglingIcon(),
-                const SizedBox(height: 16), // Spaziatura tra immagine e bottone
-                TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                    backgroundColor: TaipmeStyle.appFooterColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
-                    child: Row(
-                      children: [
-                        const Text(
-                          '_scrivi',
-                          style: TextStyle(color: TaipmeStyle.primaryColor),
-                        ),
-                        const Spacer(), // Spinge l'icona a destra
-                        const Icon(Icons.add, color: TaipmeStyle.primaryColor),
-                      ],
-                    ),
-                  ),
+                const SizedBox(height: 16),
+                SecondaryButton(
+                  title: '_${AppLocalizations.of(context)!.write}',
+                  onPressed: () {
+                    ref.read(goRouterProvider).go('/new-message-page');
+                  },
+                  icon: Icons.add,
                 ),
               ],
             ),
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavBar(),
     );
   }
 }

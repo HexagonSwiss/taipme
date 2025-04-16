@@ -4,8 +4,8 @@ import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/component/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:taipme_mobile/src/component/app_bar/custom_header.dart';
 import 'package:taipme_mobile/src/component/drawer/end_drawer.dart';
-import 'package:taipme_mobile/src/component/card/read_only_message_card.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PrivateChatPage extends ConsumerStatefulWidget {
   const PrivateChatPage({super.key});
@@ -25,6 +25,7 @@ class _PrivateChatPageState extends ConsumerState<PrivateChatPage> {
       bottomNavigationBar: BottomNavBar(),
       body: Column(
         children: [
+          // Go Back Button
           SizedBox(
             width: MediaQuery.sizeOf(context).width * 0.85,
             child: Align(
@@ -32,7 +33,7 @@ class _PrivateChatPageState extends ConsumerState<PrivateChatPage> {
               child: TextButton(
                 onPressed: () => ref.read(goRouterProvider).go('/home-page'),
                 child: Text(
-                  '_indietro',
+                  '_${AppLocalizations.of(context)!.goBack}',
                   style: TextStyle(
                     color: TaipmeStyle.primaryColor,
                   ),
@@ -40,37 +41,41 @@ class _PrivateChatPageState extends ConsumerState<PrivateChatPage> {
               ),
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
+          // Work in Progress Section
           Expanded(
             flex: 40,
-            child: MessageCard(
-              message: 'Primo messagio della chat',
-              isReadOnly: true,
-              showReportButton: false,
-            ),
-          ),
-          SizedBox(height: 24),
-          Expanded(
-            flex: 60,
             child: Center(
-              child: Text(
-                'Chat Messages',
-                style: TextStyle(
-                  fontSize: 24,
-                  color: TaipmeStyle.primaryColor,
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.construction, // Work in progress icon
+                    size: 64,
+                    color: TaipmeStyle.primaryColor,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Stiamo lavorando su...',
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: TaipmeStyle.primaryColor,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
+          // Torn Button
           TextButton(
             onPressed: () {},
             child: Text(
-              '_strappa',
+              '_${AppLocalizations.of(context)!.torn}',
               style: TextStyle(color: TaipmeStyle.primaryColor),
             ),
           ),
           const Spacer(),
-          SizedBox(height: 48),
+          const SizedBox(height: 48),
         ],
       ),
     );

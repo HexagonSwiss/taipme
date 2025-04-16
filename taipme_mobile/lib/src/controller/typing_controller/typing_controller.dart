@@ -8,10 +8,10 @@ class ClickCount extends _$ClickCount {
   @override
   int build(int maxCount) => 0;
 
-  increment() {
+  increment(String id) {
     if (state < maxCount) {
       state++;
-      ref.read(isTypingCompleteProvider.notifier).resetTypingComplete();
+      ref.read(isTypingCompleteProvider(id).notifier).resetTypingComplete();
     }
   }
 
@@ -23,7 +23,7 @@ class ClickCount extends _$ClickCount {
 @riverpod
 class IsTypingComplete extends _$IsTypingComplete {
   @override
-  bool build() => false;
+  bool build(String id) => false;
 
   setTypingComplete({Function? callback}) {
     state = true;
@@ -76,7 +76,7 @@ class CharIndex extends _$CharIndex {
 @riverpod
 class TypingTimer extends _$TypingTimer {
   @override
-  Timer? build(Duration typingSpeed) {
+  Timer? build(Duration typingSpeed, String id) {
     return null;
   }
 
@@ -89,7 +89,7 @@ class TypingTimer extends _$TypingTimer {
         charIndexNotifier.increment(textLength);
       } else {
         timer.cancel();
-        ref.read(isTypingCompleteProvider.notifier).setTypingComplete();
+        ref.read(isTypingCompleteProvider(id).notifier).setTypingComplete();
       }
     });
     state = state;

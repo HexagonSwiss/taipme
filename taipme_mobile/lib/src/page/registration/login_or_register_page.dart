@@ -14,15 +14,19 @@ class LoginOrRegisterPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final int clickCount = ref.watch(clickCountProvider(2));
-    final bool isTypingComplete = ref.watch(isTypingCompleteProvider);
     final List<String> textList =
         ref.read(translatedTextProvider.notifier).getintroText(context);
     final String displayedText = ref.watch(displayedTextProvider(textList));
+    final bool isTypingComplete = ref.watch(isTypingCompleteProvider(displayedText.hashCode.toString()));
 
-    Future(() {
-      ref
-          .read(typingTimerProvider(const Duration(milliseconds: 90)).notifier)
-          .start(displayedText);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!isTypingComplete) {
+        ref.read(charIndexProvider(displayedText).notifier).reset();
+        ref
+            .read(
+                typingTimerProvider(const Duration(milliseconds: 90), displayedText.hashCode.toString()).notifier)
+            .start(displayedText);
+      }
     });
 
     return Scaffold(
@@ -43,6 +47,7 @@ class LoginOrRegisterPage extends ConsumerWidget {
                 height: 150.0,
                 padding: const EdgeInsets.all(16.0),
                 child: TypeWriter(
+                  id: displayedText.hashCode.toString(),
                   fullText: displayedText, 
                   textAlign: TextAlign.center,
                   textStyle: TextStyle(
@@ -56,7 +61,7 @@ class LoginOrRegisterPage extends ConsumerWidget {
                 TextButton(
                   onPressed: isTypingComplete
                       ? () =>
-                          ref.read(clickCountProvider(2).notifier).increment()
+                          ref.read(clickCountProvider(2).notifier).increment(displayedText.hashCode.toString())
                       : null,
                   child: Text(
                     '_${AppLocalizations.of(context)!.continueTo}',

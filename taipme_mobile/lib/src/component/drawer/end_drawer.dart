@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/component/drawer/drawer_item.dart';
+import 'package:taipme_mobile/src/component/drawer/language_button.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:taipme_mobile/src/util/helper/external_app_launcher/external_app_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -91,6 +92,22 @@ class EndDrawer extends ConsumerWidget {
                               .read(externalAppLauncherProvider.notifier)
                               .openWhatsApp();
                         },
+                      ),
+                      LanguageButton(),
+                      SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.12),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Divider(
+                          color: TaipmeStyle.backgroundColor,
+                          thickness: 1,
+                          height: 1,
+                        ),
+                      ),
+                      DrawerItem(
+                        title: 'logout',
+                        onPressed: () =>
+                            ref.read(goRouterProvider).go('/login'),
                       ),
                     ],
                   ),

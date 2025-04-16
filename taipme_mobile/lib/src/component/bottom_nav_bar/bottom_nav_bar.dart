@@ -22,7 +22,7 @@ class BottomNavBar extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           BottomNavBarItem(
-            route: '/private-chat-page',
+            route: '/chat-page',
             bottomNavEnum: BottomNavEnum.chat,
           ),
           BottomNavBarItem(
@@ -30,7 +30,7 @@ class BottomNavBar extends ConsumerWidget {
             bottomNavEnum: BottomNavEnum.home,
           ),
           BottomNavBarItem(
-            route: 'settings-page',
+            route: '/settings-page',
             bottomNavEnum: BottomNavEnum.settings,
           ),
         ],

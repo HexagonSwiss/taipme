@@ -6,7 +6,6 @@ import 'package:taipme_mobile/src/component/page_structure/form_page_structure.d
 import 'package:taipme_mobile/src/component/button/footer_actions.dart';
 import 'package:taipme_mobile/src/controller/form_controller/form_controller.dart';
 import 'package:taipme_mobile/src/controller/input_error_controller/input_error_controller.dart';
-import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:taipme_mobile/src/component/input_field.dart';
 import 'package:taipme_mobile/src/util/key/key.dart';
@@ -78,11 +77,11 @@ class _LoginOrRegisterPage extends ConsumerState<LoginPage> {
           onPressed: () async {
             await ref.read(formControllerProvider.notifier).handleForm(
               actions: [
-                () async =>
-                    await ref.read(userControllerProvider.notifier).loginUser(
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                        ),
+                // () async =>
+                //     await ref.read(userControllerProvider.notifier).loginUser(
+                //           email: _emailController.text,
+                //           password: _passwordController.text,
+                //         ),
               ],
               route: '/home-page',
               globalKey: loginKey,

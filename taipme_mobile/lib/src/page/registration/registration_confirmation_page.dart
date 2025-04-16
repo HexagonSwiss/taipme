@@ -7,11 +7,20 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // TODO: ADD BUSINESS LOGIC TO CONFIRM REGISTRATION
 
-class RegistrationConfirmationPage extends ConsumerWidget {
-  const RegistrationConfirmationPage({super.key});
+class RegistrationConfirmationPage extends ConsumerStatefulWidget {
+  const RegistrationConfirmationPage({super.key, required this.token});
+
+  final String token;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RegistrationConfirmationPage> createState() =>
+      _RegistrationConfirmationPageState();
+}
+
+class _RegistrationConfirmationPageState
+    extends ConsumerState<RegistrationConfirmationPage> {
+  @override
+  Widget build(BuildContext context) {
     return StaticPageStructure(
       title: AppLocalizations.of(context)!.registrationConfirmedMessage,
       description:

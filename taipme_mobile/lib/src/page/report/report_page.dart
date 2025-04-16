@@ -6,6 +6,7 @@ import 'package:taipme_mobile/src/component/app_bar/custom_header.dart';
 import 'package:taipme_mobile/src/component/drawer/end_drawer.dart';
 import 'package:taipme_mobile/src/component/card/read_only_message_card.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReportPage extends ConsumerStatefulWidget {
   const ReportPage({super.key, required this.message});
@@ -32,7 +33,7 @@ class _ReportPageState extends ConsumerState<ReportPage> {
               child: TextButton(
                 onPressed: () => ref.read(goRouterProvider).go('/home-page'),
                 child: Text(
-                  '_indietro',
+                  AppLocalizations.of(context)!.goBack,
                   style: TextStyle(
                     color: TaipmeStyle.primaryColor,
                   ),
@@ -44,7 +45,7 @@ class _ReportPageState extends ConsumerState<ReportPage> {
           Expanded(
             flex: 30,
             child: MessageCard(
-              message: 'Messagio da segnalare',
+              message: AppLocalizations.of(context)!.messageToBeReported,
               textAlign: TextAlign.start,
               showReportButton: false,
               icon: Icons.info_outline,
@@ -57,15 +58,14 @@ class _ReportPageState extends ConsumerState<ReportPage> {
           Expanded(
             flex: 70,
             child: MessageCard(
-              message: 'Motivazione (opzionale)',
+              message: AppLocalizations.of(context)!.motivationOptional,
               textAlign: TextAlign.start,
               showReportButton: false,
               icon: Icons.info_outline,
               shouldRotate: false,
-              title: '_segnala',
-              onPressed: () => ref.read(goRouterProvider).go(
-                    '/report-confirmation-page',
-                  ),
+              title: AppLocalizations.of(context)!.reportMessage,
+              onPressed: () =>
+                  ref.read(goRouterProvider).go('/report-confirmation-page'),
             ),
           ),
           SizedBox(height: 24),

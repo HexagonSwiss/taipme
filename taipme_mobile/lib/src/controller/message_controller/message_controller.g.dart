@@ -1,0 +1,26 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'message_controller.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$messageControllerHash() => r'e2303fefcc3894035c5ebaac0c959e3f9303f677';
+
+/// See also [MessageController].
+@ProviderFor(MessageController)
+final messageControllerProvider =
+    NotifierProvider<MessageController, List<MessageModel>>.internal(
+  MessageController.new,
+  name: r'messageControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$messageControllerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$MessageController = Notifier<List<MessageModel>>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

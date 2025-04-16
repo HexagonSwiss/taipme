@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:taipme_mobile/src/component/bottom_nav_bar/bottom_nav_bar.dart';
-import 'package:taipme_mobile/src/component/app_bar/custom_header.dart';
 import 'package:taipme_mobile/src/component/input_field.dart';
-import 'package:taipme_mobile/src/component/drawer/end_drawer.dart';
 import 'package:taipme_mobile/src/component/button/primary_button.dart';
+import 'package:taipme_mobile/src/component/page_structure/logged_page_structure.dart';
+import 'package:taipme_mobile/src/component/text/page_title.dart';
 import 'package:taipme_mobile/src/controller/form_controller/form_controller.dart';
 import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
-import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:taipme_mobile/src/util/key/key.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
@@ -42,81 +41,76 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: TaipmeStyle.backgroundColor,
-      appBar: const CustomHeader(),
-      endDrawer: const EndDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Form(
-          key: profileKey,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InputField(
-                  controller: _emailController,
-                  focusNode: _emailFocusNode,
-                  nextFocusNode: _passwordFocusNode,
-                  hintText: 'e-mail',
-                  icon: Icons.person,
-                  hasSuffixIcon: true,
-                  isReadOnly: true,
-                  validator: (value) => ref
-                      .read(formControllerProvider.notifier)
-                      .validateEmail(value, context),
-                ),
-                const SizedBox(height: 16),
-                InputField(
-                  controller: _passwordController,
-                  focusNode: _passwordFocusNode,
-                  nextFocusNode: _newPasswordFocusNode,
-                  hintText: 'password',
-                  labelText: 'password',
-                  icon: Icons.visibility,
-                  hasSuffixIcon: true,
-                  isPassword: true,
-                  validator: (value) => ref
-                      .read(formControllerProvider.notifier)
-                      .validatePassword(value, context),
-                ),
-                InputField(
-                  controller: _newPasswordController,
-                  focusNode: _newPasswordFocusNode,
-                  nextFocusNode: _newPasswordConfirmationFocusNode,
-                  hintText: 'nuova password',
-                  labelText: 'nuova password',
-                  icon: Icons.visibility,
-                  hasSuffixIcon: true,
-                  isPassword: true,
-                  validator: (value) => ref
-                      .read(formControllerProvider.notifier)
-                      .guaranteeDifferentPasswords(
-                        _passwordController.text,
-                        value,
-                        context,
-                      ),
-                ),
-                InputField(
-                  controller: _newPasswordConfirmationController,
-                  focusNode: _newPasswordConfirmationFocusNode,
-                  hintText: 'conferma password',
-                  labelText: 'conferma password',
-                  icon: Icons.visibility,
-                  hasSuffixIcon: true,
-                  isConfirmation: true,
-                  validator: (value) => ref
-                      .read(formControllerProvider.notifier)
-                      .comparePasswords(
-                        _newPasswordController.text,
-                        value,
-                        context,
-                      ),
-                ),
-                const SizedBox(height: 32),
-                PrimaryButton(
-                  title: '_salva',
+    return LoggedPageStructure(
+      child: Form(
+        key: profileKey,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 24,
+            children: [
+              SizedBox(height: 16),
+              Align(
+                child: PageTitle(title: AppLocalizations.of(context)!.settings),
+              ),
+              SizedBox(height: 16),
+              InputField(
+                controller: _emailController,
+                focusNode: _emailFocusNode,
+                nextFocusNode: _passwordFocusNode,
+                hintText: 'e-mail',
+                icon: Icons.person,
+                hasSuffixIcon: true,
+                validator: (value) => ref
+                    .read(formControllerProvider.notifier)
+                    .validateEmail(value, context),
+              ),
+              InputField(
+                controller: _passwordController,
+                focusNode: _passwordFocusNode,
+                nextFocusNode: _newPasswordFocusNode,
+                hintText: AppLocalizations.of(context)!.password,
+                icon: Icons.visibility,
+                hasSuffixIcon: true,
+                isPassword: true,
+                validator: (value) => ref
+                    .read(formControllerProvider.notifier)
+                    .validatePassword(value, context),
+              ),
+              InputField(
+                controller: _newPasswordController,
+                focusNode: _newPasswordFocusNode,
+                nextFocusNode: _newPasswordConfirmationFocusNode,
+                hintText: AppLocalizations.of(context)!.newPassword,
+                icon: Icons.visibility,
+                hasSuffixIcon: true,
+                isPassword: true,
+                validator: (value) => ref
+                    .read(formControllerProvider.notifier)
+                    .guaranteeDifferentPasswords(
+                      _passwordController.text,
+                      value,
+                      context,
+                    ),
+              ),
+              InputField(
+                controller: _newPasswordConfirmationController,
+                focusNode: _newPasswordConfirmationFocusNode,
+                hintText: AppLocalizations.of(context)!.confirmPassword,
+                icon: Icons.visibility,
+                hasSuffixIcon: true,
+                isConfirmation: true,
+                validator: (value) =>
+                    ref.read(formControllerProvider.notifier).comparePasswords(
+                          _newPasswordController.text,
+                          value,
+                          context,
+                        ),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: PrimaryButton(
+                  title: '_${AppLocalizations.of(context)!.save}',
                   onPressed: () async => await ref
                       .read(formControllerProvider.notifier)
                       .handleForm(
@@ -136,12 +130,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     context: context,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }
