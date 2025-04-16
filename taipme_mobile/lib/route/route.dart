@@ -2,6 +2,7 @@ import 'package:taipme_mobile/src/page/authentication/password_update_confirmati
 import 'package:taipme_mobile/src/page/authentication/forgot_password_page.dart';
 import 'package:taipme_mobile/src/page/authentication/forgot_password_sent_page.dart';
 import 'package:taipme_mobile/src/page/chat/private_chat_page.dart';
+import 'package:taipme_mobile/src/page/registration/login_or_register_page.dart';
 import 'package:taipme_mobile/src/page/registration/registration_page.dart';
 import 'package:taipme_mobile/src/page/registration/registration_sent_page.dart';
 import 'package:taipme_mobile/src/page/home_page.dart';
@@ -28,12 +29,18 @@ GoRouter goRouter(Ref ref) {
     routes: <RouteBase>[
       GoRoute(
         path: '/',
-        pageBuilder: (context, state) => const MaterialPage(child: LoginPage()),
+        pageBuilder: (context, state) =>
+            const MaterialPage(child: LoginOrRegisterPage()),
       ),
       GoRoute(
-          path: '/login',
-          pageBuilder: (context, state) =>
-              const MaterialPage(child: LoginPage())),
+        path: '/login-or-register',
+        pageBuilder: (context, state) =>
+            const MaterialPage(child: LoginOrRegisterPage()),
+      ),
+      GoRoute(
+        path: '/login',
+        pageBuilder: (context, state) => const MaterialPage(child: LoginPage()),
+      ),
       GoRoute(
         path: '/register',
         pageBuilder: (context, state) =>
@@ -68,7 +75,8 @@ GoRouter goRouter(Ref ref) {
       ),
       GoRoute(
         path: '/private-chat-page',
-        pageBuilder: (context, state) => const MaterialPage(child: PrivateChatPage()),
+        pageBuilder: (context, state) =>
+            const MaterialPage(child: PrivateChatPage()),
       ),
       GoRoute(
         path: '/report-page',

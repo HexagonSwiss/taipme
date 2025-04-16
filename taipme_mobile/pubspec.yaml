@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.6 # Use the latest version
 
   # Translations
   flutter_localizations:
@@ -17,38 +16,39 @@ dependencies:
   intl: any
 
   # Security
-  # firebase_app_check: ^0.3.1+3 # OK
-  flutter_dotenv: ^5.1.0 # OK
+  # firebase_app_check: ^0.3.1+3 
+  flutter_dotenv: ^5.1.0 
 
   # Models / Immutability
-  freezed_annotation: ^2.4.1 # OK
-  json_annotation: ^4.9.0 # OK
+  freezed_annotation: ^2.4.1 
+  json_annotation: ^4.9.0 
 
   # Controllers / Providers
-  riverpod_annotation: ^2.5.3 # OK
-  flutter_riverpod: ^2.5.3 # OK
+  riverpod_annotation: ^2.5.3 
+  flutter_riverpod: ^2.5.3 
 
   # Deep Links
   # app_links: ^6.3.3 
 
   # Utility
-  collection: ^1.18.0 # OK
+  collection: ^1.18.0 
 
   # Local Storage
-  shared_preferences: ^2.3.2 # OK
+  shared_preferences: ^2.3.2 
 
   # HTTP Requests
-  http: ^1.2.2 # OK
+  http: ^1.2.2 
 
   # Logo
-  flutter_launcher_icons: ^0.14.3 # OK
+  flutter_launcher_icons: ^0.14.3 
 
   # Routing/Navigation
-  go_router: ^14.6.3 # OK
+  go_router: ^14.6.3 
+  url_launcher: ^6.3.1
 
   # App Initialization
   another_flutter_splash_screen: ^1.2.1
-  url_launcher: ^6.3.1
+  
 
 dev_dependencies:
   flutter_test:

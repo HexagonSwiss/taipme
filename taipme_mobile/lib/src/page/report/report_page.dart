@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/component/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:taipme_mobile/src/component/app_bar/custom_header.dart';
-import 'package:taipme_mobile/src/component/menu.dart';
-import 'package:taipme_mobile/src/component/message_card.dart';
+import 'package:taipme_mobile/src/component/drawer/end_drawer.dart';
+import 'package:taipme_mobile/src/component/card/read_only_message_card.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
 class ReportPage extends ConsumerStatefulWidget {
@@ -22,7 +22,7 @@ class _ReportPageState extends ConsumerState<ReportPage> {
     return Scaffold(
       backgroundColor: TaipmeStyle.backgroundColor,
       appBar: CustomHeader(),
-      endDrawer: const Menu(),
+      endDrawer: const EndDrawer(),
       body: Column(
         children: [
           SizedBox(

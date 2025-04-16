@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:taipme_mobile/src/component/footer_input.dart';
-import 'package:taipme_mobile/src/component/title_input.dart';
+import 'package:taipme_mobile/route/route.dart';
+import 'package:taipme_mobile/src/component/button/footer_actions.dart';
+import 'package:taipme_mobile/src/component/text/page_title.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PasswordUpdateConfirmationPage extends ConsumerStatefulWidget {
   const PasswordUpdateConfirmationPage({super.key, required this.token});
@@ -41,12 +43,10 @@ class _PasswordUpdateConfirmationPageState
             PageTitle(title: 'recupero password'),
             const Spacer(flex: 1), // Spazio tra titolo e form
             const Spacer(flex: 2), // Spazio tra form e footer
-            const FooterInput(
-                title: '_modifica',
-                titleLink: '',
-                state: 'Non hai ancora un account?',
-                action: '_registrati',
-                actionLink: '/register'),
+            FooterActions(
+              title: '_${AppLocalizations.of(context)!.returnToLogin}',
+              titleCallback: () => ref.read(goRouterProvider).go('/login'),
+            ),
             const Spacer(flex: 1), // Spazio inferiore
           ],
         ),

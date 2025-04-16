@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/src/component/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:taipme_mobile/src/component/app_bar/custom_header.dart';
-import 'package:taipme_mobile/src/component/menu.dart';
+import 'package:taipme_mobile/src/component/drawer/end_drawer.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
 class ReportConfirmationPage extends ConsumerStatefulWidget {
@@ -26,7 +26,7 @@ class _ReportConfirmationPageState
     return Scaffold(
       backgroundColor: TaipmeStyle.backgroundColor,
       appBar: CustomHeader(),
-      endDrawer: const Menu(),
+      endDrawer: const EndDrawer(),
       bottomNavigationBar: BottomNavBar(),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(24, 24, 0, 0),

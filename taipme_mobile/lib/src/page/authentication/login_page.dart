@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
-import 'package:taipme_mobile/src/component/primary_button.dart';
-import 'package:taipme_mobile/src/component/title_input.dart';
-import 'package:taipme_mobile/src/component/footer_input.dart';
+import 'package:taipme_mobile/src/component/button/primary_button.dart';
+import 'package:taipme_mobile/src/component/page_structure/form_page_structure.dart';
+import 'package:taipme_mobile/src/component/button/footer_actions.dart';
 import 'package:taipme_mobile/src/controller/form_controller/form_controller.dart';
 import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:taipme_mobile/src/component/input_field.dart';
 import 'package:taipme_mobile/src/util/key/key.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -34,81 +35,64 @@ class _LoginOrRegisterPage extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: TaipmeStyle.backgroundColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Form(
-          key: loginKey,
-          child: Column(
-            children: [
-              const Spacer(flex: 2),
-              PageTitle(title: 'accedi'),
-              const Spacer(flex: 1),
-              InputField(
-                controller: _emailController,
-                focusNode: _emailFocusNode,
-                nextFocusNode: _passwordFocusNode,
-                hintText: 'e-mail',
-                icon: Icons.person,
-                hasSuffixIcon: true,
-                validator: (value) => ref
-                    .read(formControllerProvider.notifier)
-                    .validateEmail(value, context),
-              ),
-              const SizedBox(height: 16),
-              InputField(
-                controller: _passwordController,
-                focusNode: _passwordFocusNode,
-                hintText: 'password',
-                hasSuffixIcon: true,
-                icon: Icons.visibility,
-                isPassword: true,
-                validator: (value) => ref
-                    .read(formControllerProvider.notifier)
-                    .validatePassword(value, context),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () =>
-                      ref.read(goRouterProvider).go('/forgot-password'),
-                  child: const Text(
-                    '_password dimenticata',
-                    style: TextStyle(color: TaipmeStyle.primaryColor),
-                  ),
-                ),
-              ),
-              const Spacer(flex: 2),
-              PrimaryButton(
-                title: '_accedi',
-                onPressed: () async {
-                  await ref.read(formControllerProvider.notifier).handleForm(
-                    actions: [
-                      () async => await ref
-                          .read(userControllerProvider.notifier)
-                          .loginUser(
-                            email: _emailController.text,
-                            password: _passwordController.text,
-                          ),
-                    ],
-                    route: '/home-page',
-                    globalKey: loginKey,
-                    context: context,
-                  );
-                },
-              ),
-              const FooterInput(
-                title: '',
-                titleLink: '',
-                state: 'Non hai ancora un account?',
-                action: '_registrati',
-                actionLink: '/register',
-              ),
-              const Spacer(flex: 1), // Spazio inferiore
-            ],
+    return FormPageStructure(
+      formKey: loginKey,
+      title: '_${AppLocalizations.of(context)!.login}',
+      formFields: <Widget>[
+        InputField(
+          controller: _emailController,
+          focusNode: _emailFocusNode,
+          nextFocusNode: _passwordFocusNode,
+          hintText: 'e-mail',
+          icon: Icons.person,
+          hasSuffixIcon: true,
+          validator: (value) => ref
+              .read(formControllerProvider.notifier)
+              .validateEmail(value, context),
+        ),
+        InputField(
+          controller: _passwordController,
+          focusNode: _passwordFocusNode,
+          hintText: 'password',
+          hasSuffixIcon: true,
+          icon: Icons.visibility,
+          isPassword: true,
+          validator: (value) => ref
+              .read(formControllerProvider.notifier)
+              .validatePassword(value, context),
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+            onPressed: () => ref.read(goRouterProvider).go('/forgot-password'),
+            child: const Text(
+              '_password dimenticata',
+              style: TextStyle(color: TaipmeStyle.primaryColor),
+            ),
           ),
         ),
+        PrimaryButton(
+          title: '_${AppLocalizations.of(context)!.login}',
+          onPressed: () async {
+            await ref.read(formControllerProvider.notifier).handleForm(
+              actions: [
+                () async =>
+                    await ref.read(userControllerProvider.notifier).loginUser(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        ),
+              ],
+              route: '/home-page',
+              globalKey: loginKey,
+              context: context,
+            );
+          },
+        ),
+      ],
+      footer: FooterActions(
+        supportText: '_${AppLocalizations.of(context)!.loginUserHasNoAccount}',
+        subtitle: '_${AppLocalizations.of(context)!.registration}',
+        subtitleCallback: () => ref.read(goRouterProvider).go('/register'),
       ),
     );
   }

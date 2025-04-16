@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/src/component/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:taipme_mobile/src/component/app_bar/custom_header.dart';
 import 'package:taipme_mobile/src/component/input_field.dart';
-import 'package:taipme_mobile/src/component/menu.dart';
-import 'package:taipme_mobile/src/component/primary_button.dart';
+import 'package:taipme_mobile/src/component/drawer/end_drawer.dart';
+import 'package:taipme_mobile/src/component/button/primary_button.dart';
 import 'package:taipme_mobile/src/controller/form_controller/form_controller.dart';
 import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
@@ -45,7 +45,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     return Scaffold(
       backgroundColor: TaipmeStyle.backgroundColor,
       appBar: const CustomHeader(),
-      endDrawer: const Menu(),
+      endDrawer: const EndDrawer(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Form(

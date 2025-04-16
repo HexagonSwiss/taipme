@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
-import 'package:taipme_mobile/src/component/typing_effect_widget.dart';
+import 'package:taipme_mobile/src/component/text/type_writter.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
 class MessageCard extends ConsumerWidget {
@@ -48,7 +48,7 @@ class MessageCard extends ConsumerWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5),
-                  child: TypingEffectWidget(
+                  child: TypeWriter(
                     fullText: message,
                     textAlign: textAlign,
                     textStyle: TextStyle(

@@ -71,8 +71,9 @@ class _TextInputState extends ConsumerState<InputField> {
       ),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        height: hasError != null ? 70 : 56,
+        height: hasError != null ? 76 : 56,
         child: TextFormField(
+          autovalidateMode: AutovalidateMode.onUnfocus,
           readOnly: widget.isReadOnly,
           focusNode: widget.focusNode,
           controller: widget.controller,
@@ -119,7 +120,10 @@ class _TextInputState extends ConsumerState<InputField> {
             suffixIcon: widget.hasSuffixIcon == true
                 ? GestureDetector(
                     onTap: () {
-                      if (!widget.isPassword && !widget.isConfirmation) return;
+                      if (!widget.isPassword && !widget.isConfirmation) {
+                        return;
+                      }
+
                       if (widget.isPassword || widget.isConfirmation) {
                         ref
                             .read(obscureTextControllerProvider(widget.hintText)

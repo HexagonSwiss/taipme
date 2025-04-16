@@ -64,7 +64,6 @@ class FormController extends _$FormController {
     if (value == null || value.isEmpty) {
       return AppLocalizations.of(context)!.emailIsMandatory;
     } else if (!ref.read(formControllerProvider.notifier).isEmail(value)) {
-      setStateToLoading();
       return AppLocalizations.of(context)!.emailValidator;
     }
     return null;
@@ -73,7 +72,6 @@ class FormController extends _$FormController {
   String? validatePassword(String? value, BuildContext context) {
     debugPrint('first password is $value');
     if (value == null) {
-      setStateToLoading();
       return AppLocalizations.of(context)!.passwordValidatorMandatory;
     } else if (value.trim().length < 6) {
       return AppLocalizations.of(context)!.passwordValidatorMandatory;
