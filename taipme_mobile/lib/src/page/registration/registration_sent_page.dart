@@ -18,10 +18,9 @@ class _RegistrationSentPageState extends ConsumerState<RegistrationSentPage> {
   Widget build(BuildContext context) {
     return StaticPageStructure(
       title: '_${AppLocalizations.of(context)!.registration}',
-      description:
-          '_${AppLocalizations.of(context)!.registrationSuccessMessage}',
+      description: AppLocalizations.of(context)!.registrationSuccessMessage,
       footer: FooterActions(
-        title: '_${AppLocalizations.of(context)!.returnToLogin}',
+        title: AppLocalizations.of(context)!.returnToLogin,
         titleCallback: () => ref.read(goRouterProvider).go('/login'),
       ),
     );

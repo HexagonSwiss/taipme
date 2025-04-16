@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/component/button/footer_actions.dart';
+import 'package:taipme_mobile/src/component/button/primary_button.dart';
 import 'package:taipme_mobile/src/component/input_field.dart';
 import 'package:taipme_mobile/src/component/page_structure/form_page_structure.dart';
 import 'package:taipme_mobile/src/controller/form_controller/form_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taipme_mobile/src/controller/input_error_controller/input_error_controller.dart';
+import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
 import 'package:taipme_mobile/src/util/key/key.dart';
 
 class RegistrationPage extends ConsumerStatefulWidget {
@@ -39,7 +42,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
   Widget build(BuildContext context) {
     return FormPageStructure(
       formKey: registrationKey,
-      title: '_${AppLocalizations.of(context)!.registration}',
+      title: AppLocalizations.of(context)!.registration,
       formFields: <Widget>[
         InputField(
           controller: _emailController,
@@ -48,18 +51,16 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
           hintText: 'e-mail',
           icon: Icons.person,
           hasSuffixIcon: true,
-          isReadOnly: true,
+          isReadOnly: false,
           validator: (value) => ref
               .read(formControllerProvider.notifier)
               .validateEmail(value, context),
         ),
-        const SizedBox(height: 16),
         InputField(
           controller: _passwordController,
           focusNode: _passwordFocusNode,
           nextFocusNode: _passwordConfirmationFocusNode,
           hintText: 'password',
-          labelText: 'password',
           icon: Icons.visibility,
           hasSuffixIcon: true,
           isPassword: true,
@@ -67,29 +68,54 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
               .read(formControllerProvider.notifier)
               .validatePassword(value, context),
         ),
-        const SizedBox(height: 16),
         InputField(
           controller: _passwordConfirmationController,
           focusNode: _passwordConfirmationFocusNode,
           hintText: 'conferma password',
-          labelText: 'conferma password',
           icon: Icons.visibility,
           hasSuffixIcon: true,
           isConfirmation: true,
           validator: (value) =>
               ref.read(formControllerProvider.notifier).comparePasswords(
-                    _passwordConfirmationController.text,
+                    _passwordController.text,
                     value,
                     context,
                   ),
         ),
+        SizedBox(height: 16),
+        PrimaryButton(
+          title: '_${AppLocalizations.of(context)!.registration}',
+          onPressed: () async {
+            await ref.read(formControllerProvider.notifier).handleForm(
+              actions: [
+                () async =>
+                    await ref.read(userControllerProvider.notifier).loginUser(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        ),
+              ],
+              route: '/registration-sent',
+              globalKey: registrationKey,
+              context: context,
+            );
+          },
+        ),
       ],
       footer: FooterActions(
-        title: '_${AppLocalizations.of(context)!.registration}',
-        titleCallback: () => ref.read(goRouterProvider).go('/registration'),
-        supportText: '_${AppLocalizations.of(context)!.loginUserHasAnAccount}',
+        supportText: AppLocalizations.of(context)!.loginUserHasAnAccount,
         subtitle: '_${AppLocalizations.of(context)!.login}',
-        subtitleCallback: () => ref.read(goRouterProvider).go('/login'),
+        subtitleCallback: () {
+          ref
+              .read(inputErrorControllerProvider('password').notifier)
+              .clearError();
+          ref
+              .read(inputErrorControllerProvider('e-mail').notifier)
+              .clearError();
+          ref
+              .read(inputErrorControllerProvider('conferma password').notifier)
+              .clearError();
+          ref.read(goRouterProvider).go('/login');
+        },
       ),
     );
   }

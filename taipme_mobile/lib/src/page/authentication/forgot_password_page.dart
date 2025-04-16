@@ -32,10 +32,10 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return FormPageStructure(
       formKey: forgotPasswordKey,
-      title: '_${AppLocalizations.of(context)!.resetPassword}',
+      title: AppLocalizations.of(context)!.resetPassword,
       formFields: <Widget>[
         Text(
-          '_${AppLocalizations.of(context)!.resetPasswordDescription}',
+          AppLocalizations.of(context)!.resetPasswordDescription,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: TaipmeStyle.standardTextSize,
@@ -55,7 +55,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         ),
       ],
       footer: FooterActions(
-        supportText: '_${AppLocalizations.of(context)!.loginUserHasNoAccount}',
+        supportText: AppLocalizations.of(context)!.loginUserHasNoAccount,
         subtitle: '_${AppLocalizations.of(context)!.registration}',
         subtitleCallback: () => ref.read(goRouterProvider).go('/register'),
       ),

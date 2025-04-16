@@ -5,6 +5,7 @@ import 'package:taipme_mobile/src/component/button/primary_button.dart';
 import 'package:taipme_mobile/src/component/page_structure/form_page_structure.dart';
 import 'package:taipme_mobile/src/component/button/footer_actions.dart';
 import 'package:taipme_mobile/src/controller/form_controller/form_controller.dart';
+import 'package:taipme_mobile/src/controller/input_error_controller/input_error_controller.dart';
 import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:taipme_mobile/src/component/input_field.dart';
@@ -37,7 +38,7 @@ class _LoginOrRegisterPage extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     return FormPageStructure(
       formKey: loginKey,
-      title: '_${AppLocalizations.of(context)!.login}',
+      title: AppLocalizations.of(context)!.login,
       formFields: <Widget>[
         InputField(
           controller: _emailController,
@@ -71,6 +72,7 @@ class _LoginOrRegisterPage extends ConsumerState<LoginPage> {
             ),
           ),
         ),
+        SizedBox(height: 16),
         PrimaryButton(
           title: '_${AppLocalizations.of(context)!.login}',
           onPressed: () async {
@@ -90,9 +92,17 @@ class _LoginOrRegisterPage extends ConsumerState<LoginPage> {
         ),
       ],
       footer: FooterActions(
-        supportText: '_${AppLocalizations.of(context)!.loginUserHasNoAccount}',
+        supportText: AppLocalizations.of(context)!.loginUserHasNoAccount,
         subtitle: '_${AppLocalizations.of(context)!.registration}',
-        subtitleCallback: () => ref.read(goRouterProvider).go('/register'),
+        subtitleCallback: () {
+          ref
+              .read(inputErrorControllerProvider('password').notifier)
+              .clearError();
+          ref
+              .read(inputErrorControllerProvider('e-mail').notifier)
+              .clearError();
+          ref.read(goRouterProvider).go('/register');
+        },
       ),
     );
   }

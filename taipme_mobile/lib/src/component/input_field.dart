@@ -86,7 +86,7 @@ class _TextInputState extends ConsumerState<InputField> {
               ? TextInputAction.next
               : TextInputAction.done,
           onFieldSubmitted: (String? value) {
-            if (widget.nextFocusNode != null && hasError == null) {
+            if (widget.nextFocusNode != null) {
               FocusScope.of(context).requestFocus(widget.nextFocusNode);
             } else {
               FocusScope.of(context).unfocus();
@@ -138,10 +138,20 @@ class _TextInputState extends ConsumerState<InputField> {
                               Icons.info_outline,
                               color: TaipmeStyle.errorColor,
                             )
-                          : Icon(
-                              widget.icon,
-                              color: TaipmeStyle.primaryColor,
-                            ),
+                          : (widget.isPassword || widget.isConfirmation)
+                              ? obscureText
+                                  ? Icon(
+                                      Icons.visibility,
+                                      color: TaipmeStyle.primaryColor,
+                                    )
+                                  : Icon(
+                                      Icons.visibility_off,
+                                      color: TaipmeStyle.primaryColor,
+                                    )
+                              : Icon(
+                                  widget.icon,
+                                  color: TaipmeStyle.primaryColor,
+                                ),
                     ),
                   )
                 : null,

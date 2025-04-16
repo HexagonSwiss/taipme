@@ -20,4 +20,9 @@ class InputErrorController extends _$InputErrorController {
       return result;
     };
   }
+
+  void clearError() {
+    debugPrint('Controller: clearError is called');
+    state = null;
+  }
 }

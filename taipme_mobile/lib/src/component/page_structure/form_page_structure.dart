@@ -21,27 +21,37 @@ class FormPageStructure extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: TaipmeStyle.backgroundColor,
+      resizeToAvoidBottomInset: false,
       body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              child: Column(
-                spacing: 16,
-                children: [
-                  const Spacer(flex: 2),
-                  PageTitle(title: title),
-                  const Spacer(flex: 1),
-                  ...formFields,
-                  const Spacer(flex: 2),
-                  if (footer != null) ...[
-                    footer!,
-                  ],
-                  const Spacer(flex: 1),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus &&
+                currentFocus.focusedChild != null) {
+              currentFocus.unfocus();
+            }
+          },
+          child: Form(
+            key: formKey,
+            child: Column(
+              spacing: 16,
+              children: [
+                const Spacer(flex: 2),
+                PageTitle(title: title),
+                const Spacer(flex: 1),
+                ...formFields,
+                const Spacer(flex: 2),
+                if (footer != null) ...[
+                  footer!,
                 ],
-              ),
+                const Spacer(flex: 1),
+              ],
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
