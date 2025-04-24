@@ -20,17 +20,11 @@ MessageReportModel _$MessageReportModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MessageReportModel {
-  @JsonKey(name: "id_msg_segn")
   int get idMsgSegn => throw _privateConstructorUsedError;
-  @JsonKey(name: "id_msg")
   String get idMsg => throw _privateConstructorUsedError;
-  @JsonKey(name: "des_mot")
   String get desMot => throw _privateConstructorUsedError;
-  @JsonKey(name: "dat_segn")
   DateTime? get datSegn => throw _privateConstructorUsedError;
-  @JsonKey(name: "dat_ult_mov")
   String? get datUltMov => throw _privateConstructorUsedError;
-  @JsonKey(name: "id_ute_segn")
   String? get idUteSegn => throw _privateConstructorUsedError;
   bool get isExpanded => throw _privateConstructorUsedError;
 
@@ -51,12 +45,12 @@ abstract class $MessageReportModelCopyWith<$Res> {
       _$MessageReportModelCopyWithImpl<$Res, MessageReportModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: "id_msg_segn") int idMsgSegn,
-      @JsonKey(name: "id_msg") String idMsg,
-      @JsonKey(name: "des_mot") String desMot,
-      @JsonKey(name: "dat_segn") DateTime? datSegn,
-      @JsonKey(name: "dat_ult_mov") String? datUltMov,
-      @JsonKey(name: "id_ute_segn") String? idUteSegn,
+      {int idMsgSegn,
+      String idMsg,
+      String desMot,
+      DateTime? datSegn,
+      String? datUltMov,
+      String? idUteSegn,
       bool isExpanded});
 }
 
@@ -125,12 +119,12 @@ abstract class _$$MessageReportModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "id_msg_segn") int idMsgSegn,
-      @JsonKey(name: "id_msg") String idMsg,
-      @JsonKey(name: "des_mot") String desMot,
-      @JsonKey(name: "dat_segn") DateTime? datSegn,
-      @JsonKey(name: "dat_ult_mov") String? datUltMov,
-      @JsonKey(name: "id_ute_segn") String? idUteSegn,
+      {int idMsgSegn,
+      String idMsg,
+      String desMot,
+      DateTime? datSegn,
+      String? datUltMov,
+      String? idUteSegn,
       bool isExpanded});
 }
 
@@ -192,34 +186,28 @@ class __$$MessageReportModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MessageReportModelImpl implements _MessageReportModel {
   const _$MessageReportModelImpl(
-      {@JsonKey(name: "id_msg_segn") required this.idMsgSegn,
-      @JsonKey(name: "id_msg") required this.idMsg,
-      @JsonKey(name: "des_mot") required this.desMot,
-      @JsonKey(name: "dat_segn") this.datSegn,
-      @JsonKey(name: "dat_ult_mov") this.datUltMov,
-      @JsonKey(name: "id_ute_segn") this.idUteSegn,
+      {required this.idMsgSegn,
+      required this.idMsg,
+      required this.desMot,
+      this.datSegn,
+      this.datUltMov,
+      this.idUteSegn,
       this.isExpanded = false});
 
   factory _$MessageReportModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$MessageReportModelImplFromJson(json);
 
   @override
-  @JsonKey(name: "id_msg_segn")
   final int idMsgSegn;
   @override
-  @JsonKey(name: "id_msg")
   final String idMsg;
   @override
-  @JsonKey(name: "des_mot")
   final String desMot;
   @override
-  @JsonKey(name: "dat_segn")
   final DateTime? datSegn;
   @override
-  @JsonKey(name: "dat_ult_mov")
   final String? datUltMov;
   @override
-  @JsonKey(name: "id_ute_segn")
   final String? idUteSegn;
   @override
   @JsonKey()
@@ -272,34 +260,28 @@ class _$MessageReportModelImpl implements _MessageReportModel {
 
 abstract class _MessageReportModel implements MessageReportModel {
   const factory _MessageReportModel(
-      {@JsonKey(name: "id_msg_segn") required final int idMsgSegn,
-      @JsonKey(name: "id_msg") required final String idMsg,
-      @JsonKey(name: "des_mot") required final String desMot,
-      @JsonKey(name: "dat_segn") final DateTime? datSegn,
-      @JsonKey(name: "dat_ult_mov") final String? datUltMov,
-      @JsonKey(name: "id_ute_segn") final String? idUteSegn,
+      {required final int idMsgSegn,
+      required final String idMsg,
+      required final String desMot,
+      final DateTime? datSegn,
+      final String? datUltMov,
+      final String? idUteSegn,
       final bool isExpanded}) = _$MessageReportModelImpl;
 
   factory _MessageReportModel.fromJson(Map<String, dynamic> json) =
       _$MessageReportModelImpl.fromJson;
 
   @override
-  @JsonKey(name: "id_msg_segn")
   int get idMsgSegn;
   @override
-  @JsonKey(name: "id_msg")
   String get idMsg;
   @override
-  @JsonKey(name: "des_mot")
   String get desMot;
   @override
-  @JsonKey(name: "dat_segn")
   DateTime? get datSegn;
   @override
-  @JsonKey(name: "dat_ult_mov")
   String? get datUltMov;
   @override
-  @JsonKey(name: "id_ute_segn")
   String? get idUteSegn;
   @override
   bool get isExpanded;

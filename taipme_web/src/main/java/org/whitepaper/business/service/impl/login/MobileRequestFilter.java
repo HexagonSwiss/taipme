@@ -16,6 +16,7 @@ public class MobileRequestFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        System.out.println("MobileRequestFilter initialized");
         logger.info("MobileRequestFilter initialized: {}", this);
     }
 	

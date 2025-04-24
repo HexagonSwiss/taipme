@@ -20,15 +20,15 @@ class HomeMessageCard extends ConsumerStatefulWidget {
 class _HomeMessageCardState extends ConsumerState<HomeMessageCard> {
   @override
   Widget build(BuildContext context) {
-    final bool isTypingComplete = ref.watch(isTypingCompleteProvider(widget.message.idMsg)); 
+    final bool isTypingComplete = ref.watch(isTypingCompleteProvider(widget.message.idMsg.toString())); 
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!isTypingComplete) {
-        ref.read(charIndexProvider(widget.message.desMsg).notifier).reset();
+        ref.read(charIndexProvider(widget.message.desMsg ?? '').notifier).reset();
         ref
             .read(
-                typingTimerProvider(const Duration(milliseconds: 90), widget.message.idMsg).notifier)
-            .start(widget.message.desMsg);
+                typingTimerProvider(const Duration(milliseconds: 90), widget.message.idMsg.toString()).notifier)
+            .start(widget.message.desMsg ?? '');
       }
     });
 
@@ -45,16 +45,19 @@ class _HomeMessageCardState extends ConsumerState<HomeMessageCard> {
         children: [
           Expanded(
             flex: 75,
-            child: TypeWriter(fullText: widget.message.desMsg, id: widget.message.idMsg),
+            child: TypeWriter(fullText: widget.message.desMsg ?? '', id: widget.message.idMsg.toString()),
           ),
           Expanded(
             flex: 10,
             child: Align(
               alignment: Alignment.centerRight,
               child: IconButton(
-                onPressed: () => ref
+                onPressed: () {
+                  debugPrint("Reporting message ${widget.message}");
+                  ref
                     .read(goRouterProvider)
-                    .go('/report-page', extra: widget.message.desMsg),
+                    .go('/report-page', extra: widget.message);
+                },
                 icon: Icon(
                   Icons.info_outline,
                   color: TaipmeStyle.primaryColor,

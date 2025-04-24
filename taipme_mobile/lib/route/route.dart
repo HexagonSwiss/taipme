@@ -1,3 +1,4 @@
+import 'package:taipme_mobile/src/model/data_model/message_model/message_model.dart';
 import 'package:taipme_mobile/src/page/authentication/password_update_confirmation_page.dart';
 import 'package:taipme_mobile/src/page/authentication/forgot_password_page.dart';
 import 'package:taipme_mobile/src/page/authentication/forgot_password_sent_page.dart';
@@ -31,7 +32,7 @@ GoRouter goRouter(Ref ref) {
     routes: <RouteBase>[
       GoRoute(
         path: '/',
-        pageBuilder: (context, state) => const MaterialPage(child:LoginOrRegisterPage()), //,
+        pageBuilder: (context, state) => const MaterialPage(child: HomePage()),
       ),
       GoRoute(
         path: '/login-or-register',
@@ -90,8 +91,8 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         path: '/report-page',
         pageBuilder: (context, state) {
-          final String? message = state.extra as String?;
-          return MaterialPage(child: ReportPage(message: message!));
+          final MessageModel message = state.extra as MessageModel;
+          return MaterialPage(child: ReportPage(message: message));
         },
       ),
       GoRoute(

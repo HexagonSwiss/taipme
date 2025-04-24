@@ -54,7 +54,8 @@
         <intercept-url pattern="/login" 			access="permitAll"/>
         
         <intercept-url pattern="/mobile/login" 		access="permitAll"/>
-        <intercept-url pattern="/mobile/faq" 	    access="permitAll"/>      
+        <intercept-url pattern="/mobile/faq" 	    access="permitAll"/>
+        <intercept-url pattern="/mobile/messages/**" 	access="permitAll"/>      
                   
         <intercept-url pattern="/registrazione/**" 	access="permitAll" />
         <intercept-url pattern="/info/**" 			access="permitAll"/>

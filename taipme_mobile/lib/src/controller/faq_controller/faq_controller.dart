@@ -13,23 +13,23 @@ Future<List<FaqModel>> faqController(Ref ref) async {
   final List<FaqModel> faqSync = ref.read(faqSyncControllerProvider);
 
   if (faqSync.isNotEmpty) {
-    debugPrint('Controller: getChatList from sync');
+    debugPrint('Controller: getFaqList from sync');
     return faqSync;
   }
 
-  final ResultModel<List<FaqModel>> result = await faqService.getChatList();
+  final ResultModel<List<FaqModel>> result = await faqService.getFaqList();
   debugPrint('Controller Result: ${result.data}');
 
   final data = result.data;
   final error = result.error;
 
   if (data == null) {
-    debugPrint('Controller: getChatList error is ${result.error}');
+    debugPrint('Controller: getFaqList error is ${result.error}');
     return <FaqModel>[];
   }
 
   if (error != null) {
-    debugPrint('Controller: getChatList error is $error');
+    debugPrint('Controller: getFaqList error is $error');
     return <FaqModel>[];
   }
 

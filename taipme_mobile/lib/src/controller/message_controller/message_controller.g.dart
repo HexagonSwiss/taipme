@@ -6,7 +6,25 @@ part of 'message_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$messageControllerHash() => r'e2303fefcc3894035c5ebaac0c959e3f9303f677';
+String _$getAllMessagesHash() => r'86477871e4c9e03f550d1ae205a91dc07da5a7af';
+
+/// See also [getAllMessages].
+@ProviderFor(getAllMessages)
+final getAllMessagesProvider =
+    AutoDisposeFutureProvider<List<MessageModel>>.internal(
+  getAllMessages,
+  name: r'getAllMessagesProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getAllMessagesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef GetAllMessagesRef = AutoDisposeFutureProviderRef<List<MessageModel>>;
+String _$messageControllerHash() => r'ca5d0e19b800140f6e2cc373639c98c1b774ee58';
 
 /// See also [MessageController].
 @ProviderFor(MessageController)

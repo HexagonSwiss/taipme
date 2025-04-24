@@ -1,6 +1,7 @@
 package org.whitepaper.mobile.controller;
 
 import java.util.List;
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +16,15 @@ import org.whitepaper.business.service.MessaggioService;
 @RequestMapping("/mobile/messages")
 public class MobileMessageController {
 
+    @PostConstruct
+	public void init() {
+		System.out.println("MobileMessageController bean creato correttamente: " + this);
+	}
+
     @Autowired
     private MessaggioService messaggioService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Messaggio> getAllMessages() {
         return messaggioService.findAll();
     }
@@ -28,9 +34,10 @@ public class MobileMessageController {
         return messaggioService.findById(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public Messaggio createMessage(@RequestBody Messaggio messaggio) {
-        return messaggioService.create(messaggio);
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    public Messaggio saveMessage(@RequestBody Messaggio messaggio) {
+        System.out.println("Messaggio ricevuto: " + messaggio);
+        return messaggioService.save(messaggio);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)

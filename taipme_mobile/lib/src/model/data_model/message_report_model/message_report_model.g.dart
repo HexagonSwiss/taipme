@@ -9,25 +9,25 @@ part of 'message_report_model.dart';
 _$MessageReportModelImpl _$$MessageReportModelImplFromJson(
         Map<String, dynamic> json) =>
     _$MessageReportModelImpl(
-      idMsgSegn: (json['id_msg_segn'] as num).toInt(),
-      idMsg: json['id_msg'] as String,
-      desMot: json['des_mot'] as String,
-      datSegn: json['dat_segn'] == null
+      idMsgSegn: (json['idMsgSegn'] as num).toInt(),
+      idMsg: json['idMsg'] as String,
+      desMot: json['desMot'] as String,
+      datSegn: json['datSegn'] == null
           ? null
-          : DateTime.parse(json['dat_segn'] as String),
-      datUltMov: json['dat_ult_mov'] as String?,
-      idUteSegn: json['id_ute_segn'] as String?,
+          : DateTime.parse(json['datSegn'] as String),
+      datUltMov: json['datUltMov'] as String?,
+      idUteSegn: json['idUteSegn'] as String?,
       isExpanded: json['isExpanded'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$MessageReportModelImplToJson(
         _$MessageReportModelImpl instance) =>
     <String, dynamic>{
-      'id_msg_segn': instance.idMsgSegn,
-      'id_msg': instance.idMsg,
-      'des_mot': instance.desMot,
-      'dat_segn': instance.datSegn?.toIso8601String(),
-      'dat_ult_mov': instance.datUltMov,
-      'id_ute_segn': instance.idUteSegn,
+      'idMsgSegn': instance.idMsgSegn,
+      'idMsg': instance.idMsg,
+      'desMot': instance.desMot,
+      'datSegn': instance.datSegn?.toIso8601String(),
+      'datUltMov': instance.datUltMov,
+      'idUteSegn': instance.idUteSegn,
       'isExpanded': instance.isExpanded,
     };

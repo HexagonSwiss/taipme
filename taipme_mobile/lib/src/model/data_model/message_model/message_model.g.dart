@@ -8,20 +8,14 @@ part of 'message_model.dart';
 
 _$MessageModelImpl _$$MessageModelImplFromJson(Map<String, dynamic> json) =>
     _$MessageModelImpl(
-      idMsg: json['idMsg'] as String,
-      desMsg: json['desMsg'] as String,
-      idUteAut: json['idUteAut'] as String,
-      idUteReply: json['idUteReply'] as String?,
-      idMsgReply: json['idMsgReply'] as String?,
-      dataPub: json['dataPub'] == null
-          ? null
-          : DateTime.parse(json['dataPub'] as String),
-      datUltMov: json['datUltMov'] == null
-          ? null
-          : DateTime.parse(json['datUltMov'] as String),
-      idFoglio: json['idFoglio'] == null
-          ? null
-          : DateTime.parse(json['idFoglio'] as String),
+      idMsg: (json['idMsg'] as num?)?.toInt(),
+      idUteAut: (json['idUteAut'] as num?)?.toInt(),
+      idUteReply: (json['idUteReply'] as num?)?.toInt(),
+      idMsgReply: (json['idMsgReply'] as num?)?.toInt(),
+      idFoglio: (json['idFoglio'] as num?)?.toInt(),
+      desMsg: json['desMsg'] as String?,
+      dataPub: _fromJsonTimestamp((json['dataPub'] as num?)?.toInt()),
+      datUltMov: _fromJsonTimestamp((json['datUltMov'] as num?)?.toInt()),
       codTipMsg:
           $enumDecodeNullable(_$MessageTypeEnumEnumMap, json['codTipMsg']) ??
               MessageTypeEnum.public,
@@ -31,13 +25,13 @@ _$MessageModelImpl _$$MessageModelImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$MessageModelImplToJson(_$MessageModelImpl instance) =>
     <String, dynamic>{
       'idMsg': instance.idMsg,
-      'desMsg': instance.desMsg,
       'idUteAut': instance.idUteAut,
       'idUteReply': instance.idUteReply,
       'idMsgReply': instance.idMsgReply,
-      'dataPub': instance.dataPub?.toIso8601String(),
-      'datUltMov': instance.datUltMov?.toIso8601String(),
-      'idFoglio': instance.idFoglio?.toIso8601String(),
+      'idFoglio': instance.idFoglio,
+      'desMsg': instance.desMsg,
+      'dataPub': _toJsonTimestamp(instance.dataPub),
+      'datUltMov': _toJsonTimestamp(instance.datUltMov),
       'codTipMsg': _$MessageTypeEnumEnumMap[instance.codTipMsg]!,
       'isCurrent': instance.isCurrent,
     };

@@ -47,10 +47,11 @@ class _NewMessagePageState extends ConsumerState<NewMessagePage> {
           SizedBox(height: 24),
           PrimaryButton(
             title: AppLocalizations.of(context)!.publish,
-            onPressed: () {
-              ref.read(messageControllerProvider.notifier).addMessage(
-                MessageModel(idMsg: "1", desMsg: textController.text, idUteAut: "1"),
+            onPressed: () async {
+              await ref.read(messageControllerProvider.notifier).addMessage(
+                MessageModel(desMsg: textController.text, idUteAut: 49),
               );
+
               ref.read(goRouterProvider).go('/home-page');
             },
           ),

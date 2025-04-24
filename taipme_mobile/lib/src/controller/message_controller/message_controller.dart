@@ -1,48 +1,51 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:taipme_mobile/src/model/data_model/message_model/message_model.dart';
-import 'package:taipme_mobile/src/util/enum/message_type_enum.dart';
+import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
+import 'package:taipme_mobile/src/service/message_service/message_service.dart';
+import 'package:taipme_mobile/src/util/helper/snackbar/snackbar.dart';
 
 part 'message_controller.g.dart';
+
+@riverpod
+FutureOr<List<MessageModel>> getAllMessages(Ref ref) async {
+  final ResultModel<List<MessageModel>> result =
+      await ref.read(messageServiceProvider.notifier).getAllMessages();
+  final List<MessageModel>? data = result.data;
+  if (data != null && data.isNotEmpty) {
+    ref.watch(messageControllerProvider.notifier).updateStateFromList(data);
+    return data;
+  }
+
+  return [];
+}
 
 @Riverpod(keepAlive: true)
 class MessageController extends _$MessageController {
   @override
-  List<MessageModel> build() {
-    return <MessageModel>[
-      MessageModel(
-        idMsg: "1",
-        desMsg:
-            "Quando meno te l'aspetti, tutto cambia all'improvviso #ottimismo",
-        idUteAut: "1",
-        dataPub: DateTime.now(),
-        datUltMov: DateTime.now(),
-        codTipMsg: MessageTypeEnum.public,
-      ),
-      MessageModel(
-        idMsg: "2",
-        desMsg: "Le sfide rendono la vita interessante.",
-        idUteAut: "2",
-        dataPub: DateTime.now(),
-        datUltMov: DateTime.now(),
-        codTipMsg: MessageTypeEnum.public,
-      ),
-      MessageModel(
-        idMsg: "3",
-        desMsg: "Con pazienza tutto arriva al momento giusto.",
-        idUteAut: "3",
-        dataPub: DateTime.now(),
-        datUltMov: DateTime.now(),
-        codTipMsg: MessageTypeEnum.public,
-      ),
-    ];
-  }
+  List<MessageModel> build() => <MessageModel>[];
 
   void updateStateFromList(List<MessageModel> newList) {
     state = [...state, ...newList];
   }
 
-  void addMessage(MessageModel message) {
-    state = [...state, message];
+  Future<void> addMessage(MessageModel message) async {
+    final ResultModel<MessageModel> result =
+        await ref.read(messageServiceProvider.notifier).saveMessage(message);
+    final MessageModel? data = result.data;
+    final String? error = result.error;
+
+    if (error != null) {
+      ref.read(snackBarProvider(text: '').future);
+      return;
+    }
+
+    if (data != null) {
+      state = [...state, data];
+      ref.read(snackBarProvider(text: 'Message added successfully').future);
+      ref.invalidate(getAllMessagesProvider);
+      return;
+    }
   }
 
   void removeMessage(int index) {
