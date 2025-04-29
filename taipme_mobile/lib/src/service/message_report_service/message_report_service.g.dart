@@ -7,7 +7,7 @@ part of 'message_report_service.dart';
 // **************************************************************************
 
 String _$messageReportServiceHash() =>
-    r'8b15c5769828032db826dfd724d1ac0837264079';
+    r'd321be6bfce590a28d64378e6db159c9db899eed';
 
 /// See also [MessageReportService].
 @ProviderFor(MessageReportService)

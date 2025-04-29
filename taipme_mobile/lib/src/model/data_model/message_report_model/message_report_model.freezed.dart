@@ -20,11 +20,13 @@ MessageReportModel _$MessageReportModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MessageReportModel {
-  int get idMsgSegn => throw _privateConstructorUsedError;
   String get idMsg => throw _privateConstructorUsedError;
   String get desMot => throw _privateConstructorUsedError;
+  int? get idMsgSegn => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
   DateTime? get datSegn => throw _privateConstructorUsedError;
-  String? get datUltMov => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
+  DateTime? get datUltMov => throw _privateConstructorUsedError;
   String? get idUteSegn => throw _privateConstructorUsedError;
   bool get isExpanded => throw _privateConstructorUsedError;
 
@@ -45,11 +47,13 @@ abstract class $MessageReportModelCopyWith<$Res> {
       _$MessageReportModelCopyWithImpl<$Res, MessageReportModel>;
   @useResult
   $Res call(
-      {int idMsgSegn,
-      String idMsg,
+      {String idMsg,
       String desMot,
+      int? idMsgSegn,
+      @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
       DateTime? datSegn,
-      String? datUltMov,
+      @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
+      DateTime? datUltMov,
       String? idUteSegn,
       bool isExpanded});
 }
@@ -69,19 +73,15 @@ class _$MessageReportModelCopyWithImpl<$Res, $Val extends MessageReportModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? idMsgSegn = null,
     Object? idMsg = null,
     Object? desMot = null,
+    Object? idMsgSegn = freezed,
     Object? datSegn = freezed,
     Object? datUltMov = freezed,
     Object? idUteSegn = freezed,
     Object? isExpanded = null,
   }) {
     return _then(_value.copyWith(
-      idMsgSegn: null == idMsgSegn
-          ? _value.idMsgSegn
-          : idMsgSegn // ignore: cast_nullable_to_non_nullable
-              as int,
       idMsg: null == idMsg
           ? _value.idMsg
           : idMsg // ignore: cast_nullable_to_non_nullable
@@ -90,6 +90,10 @@ class _$MessageReportModelCopyWithImpl<$Res, $Val extends MessageReportModel>
           ? _value.desMot
           : desMot // ignore: cast_nullable_to_non_nullable
               as String,
+      idMsgSegn: freezed == idMsgSegn
+          ? _value.idMsgSegn
+          : idMsgSegn // ignore: cast_nullable_to_non_nullable
+              as int?,
       datSegn: freezed == datSegn
           ? _value.datSegn
           : datSegn // ignore: cast_nullable_to_non_nullable
@@ -97,7 +101,7 @@ class _$MessageReportModelCopyWithImpl<$Res, $Val extends MessageReportModel>
       datUltMov: freezed == datUltMov
           ? _value.datUltMov
           : datUltMov // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       idUteSegn: freezed == idUteSegn
           ? _value.idUteSegn
           : idUteSegn // ignore: cast_nullable_to_non_nullable
@@ -119,11 +123,13 @@ abstract class _$$MessageReportModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int idMsgSegn,
-      String idMsg,
+      {String idMsg,
       String desMot,
+      int? idMsgSegn,
+      @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
       DateTime? datSegn,
-      String? datUltMov,
+      @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
+      DateTime? datUltMov,
       String? idUteSegn,
       bool isExpanded});
 }
@@ -141,19 +147,15 @@ class __$$MessageReportModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? idMsgSegn = null,
     Object? idMsg = null,
     Object? desMot = null,
+    Object? idMsgSegn = freezed,
     Object? datSegn = freezed,
     Object? datUltMov = freezed,
     Object? idUteSegn = freezed,
     Object? isExpanded = null,
   }) {
     return _then(_$MessageReportModelImpl(
-      idMsgSegn: null == idMsgSegn
-          ? _value.idMsgSegn
-          : idMsgSegn // ignore: cast_nullable_to_non_nullable
-              as int,
       idMsg: null == idMsg
           ? _value.idMsg
           : idMsg // ignore: cast_nullable_to_non_nullable
@@ -162,6 +164,10 @@ class __$$MessageReportModelImplCopyWithImpl<$Res>
           ? _value.desMot
           : desMot // ignore: cast_nullable_to_non_nullable
               as String,
+      idMsgSegn: freezed == idMsgSegn
+          ? _value.idMsgSegn
+          : idMsgSegn // ignore: cast_nullable_to_non_nullable
+              as int?,
       datSegn: freezed == datSegn
           ? _value.datSegn
           : datSegn // ignore: cast_nullable_to_non_nullable
@@ -169,7 +175,7 @@ class __$$MessageReportModelImplCopyWithImpl<$Res>
       datUltMov: freezed == datUltMov
           ? _value.datUltMov
           : datUltMov // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       idUteSegn: freezed == idUteSegn
           ? _value.idUteSegn
           : idUteSegn // ignore: cast_nullable_to_non_nullable
@@ -186,10 +192,12 @@ class __$$MessageReportModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MessageReportModelImpl implements _MessageReportModel {
   const _$MessageReportModelImpl(
-      {required this.idMsgSegn,
-      required this.idMsg,
+      {required this.idMsg,
       required this.desMot,
+      this.idMsgSegn,
+      @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
       this.datSegn,
+      @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
       this.datUltMov,
       this.idUteSegn,
       this.isExpanded = false});
@@ -198,15 +206,17 @@ class _$MessageReportModelImpl implements _MessageReportModel {
       _$$MessageReportModelImplFromJson(json);
 
   @override
-  final int idMsgSegn;
-  @override
   final String idMsg;
   @override
   final String desMot;
   @override
+  final int? idMsgSegn;
+  @override
+  @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
   final DateTime? datSegn;
   @override
-  final String? datUltMov;
+  @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
+  final DateTime? datUltMov;
   @override
   final String? idUteSegn;
   @override
@@ -215,7 +225,7 @@ class _$MessageReportModelImpl implements _MessageReportModel {
 
   @override
   String toString() {
-    return 'MessageReportModel(idMsgSegn: $idMsgSegn, idMsg: $idMsg, desMot: $desMot, datSegn: $datSegn, datUltMov: $datUltMov, idUteSegn: $idUteSegn, isExpanded: $isExpanded)';
+    return 'MessageReportModel(idMsg: $idMsg, desMot: $desMot, idMsgSegn: $idMsgSegn, datSegn: $datSegn, datUltMov: $datUltMov, idUteSegn: $idUteSegn, isExpanded: $isExpanded)';
   }
 
   @override
@@ -223,10 +233,10 @@ class _$MessageReportModelImpl implements _MessageReportModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageReportModelImpl &&
-            (identical(other.idMsgSegn, idMsgSegn) ||
-                other.idMsgSegn == idMsgSegn) &&
             (identical(other.idMsg, idMsg) || other.idMsg == idMsg) &&
             (identical(other.desMot, desMot) || other.desMot == desMot) &&
+            (identical(other.idMsgSegn, idMsgSegn) ||
+                other.idMsgSegn == idMsgSegn) &&
             (identical(other.datSegn, datSegn) || other.datSegn == datSegn) &&
             (identical(other.datUltMov, datUltMov) ||
                 other.datUltMov == datUltMov) &&
@@ -238,7 +248,7 @@ class _$MessageReportModelImpl implements _MessageReportModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, idMsgSegn, idMsg, desMot,
+  int get hashCode => Object.hash(runtimeType, idMsg, desMot, idMsgSegn,
       datSegn, datUltMov, idUteSegn, isExpanded);
 
   /// Create a copy of MessageReportModel
@@ -260,11 +270,13 @@ class _$MessageReportModelImpl implements _MessageReportModel {
 
 abstract class _MessageReportModel implements MessageReportModel {
   const factory _MessageReportModel(
-      {required final int idMsgSegn,
-      required final String idMsg,
+      {required final String idMsg,
       required final String desMot,
+      final int? idMsgSegn,
+      @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
       final DateTime? datSegn,
-      final String? datUltMov,
+      @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
+      final DateTime? datUltMov,
       final String? idUteSegn,
       final bool isExpanded}) = _$MessageReportModelImpl;
 
@@ -272,15 +284,17 @@ abstract class _MessageReportModel implements MessageReportModel {
       _$MessageReportModelImpl.fromJson;
 
   @override
-  int get idMsgSegn;
-  @override
   String get idMsg;
   @override
   String get desMot;
   @override
+  int? get idMsgSegn;
+  @override
+  @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
   DateTime? get datSegn;
   @override
-  String? get datUltMov;
+  @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
+  DateTime? get datUltMov;
   @override
   String? get idUteSegn;
   @override

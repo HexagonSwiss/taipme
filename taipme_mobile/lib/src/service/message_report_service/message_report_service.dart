@@ -23,9 +23,8 @@ class MessageReportService extends _$MessageReportService {
 
     // Create MessageReportModel using MessageModel properties
     final MessageReportModel messageReport = MessageReportModel(
-      idMsgSegn: 0, // Assuming 0 as a placeholder for the report ID
       idMsg: message.idMsg.toString(),
-      desMot: "Reported via app", // Example motivation text
+      desMot: "Reported via app",
       datSegn: DateTime.now(),
       idUteSegn: message.idUteAut?.toString(),
     );

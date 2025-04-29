@@ -7,13 +7,15 @@ import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dar
 
 part 'faq_service.g.dart';
 
+final String baseUrl = 'http://10.0.2.2:8081/WhitePaper/mobile/faq';
+
 @riverpod
 class FaqService extends _$FaqService {
   @override
   void build() {}
 
   Future<ResultModel<List<FaqModel>>> getFaqList() async {
-    final Uri uri = Uri.parse('http://10.0.2.2:8081/WhitePaper/mobile/faq');
+    final Uri uri = Uri.parse('$baseUrl/all');
 
     final Map<String, String> headers = {
       "Content-Type": "application/json",

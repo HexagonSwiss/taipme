@@ -69,7 +69,7 @@ public class Messaggio implements Serializable {
     //indica se l'autore del messaggio is utente registrato
     private boolean msgUteReg;
     
-    private boolean foundMsgPubRandom = true;;
+    private boolean foundMsgPubRandom = true;
     
     //----------------------------------------------------------------------
     // GETTER & SETTER FOR THE KEY FIELD

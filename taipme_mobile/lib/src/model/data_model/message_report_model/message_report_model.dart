@@ -6,11 +6,11 @@ part 'message_report_model.g.dart';
 @freezed
 class MessageReportModel with _$MessageReportModel {
   const factory MessageReportModel({
-    required int idMsgSegn,
     required String idMsg,
     required String desMot,
-    DateTime? datSegn,
-    String? datUltMov,
+    int? idMsgSegn,
+    @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp) DateTime? datSegn,
+    @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp) DateTime? datUltMov,
     String? idUteSegn,
     @Default(false) bool isExpanded,
   }) = _MessageReportModel;
@@ -18,3 +18,8 @@ class MessageReportModel with _$MessageReportModel {
   factory MessageReportModel.fromJson(Map<String, Object?> json) =>
       _$MessageReportModelFromJson(json);
 }
+
+DateTime? _fromJsonTimestamp(int? timestamp) =>
+    timestamp != null ? DateTime.fromMillisecondsSinceEpoch(timestamp) : null;
+
+int? _toJsonTimestamp(DateTime? date) => date?.millisecondsSinceEpoch;

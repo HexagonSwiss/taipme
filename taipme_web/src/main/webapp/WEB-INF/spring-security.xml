@@ -19,10 +19,7 @@
 <http pattern="/logDownload.jsp" security="none" />
 <http pattern="/logViewer.jsp" security="none" />
 
-
-
  <http auto-config="true" use-expressions="true">
-
         
 	<access-denied-handler error-page="/403" />        
 	
@@ -53,9 +50,10 @@
         <intercept-url pattern="/" 					access="permitAll"/>        
         <intercept-url pattern="/login" 			access="permitAll"/>
         
-        <intercept-url pattern="/mobile/login" 		access="permitAll"/>
-        <intercept-url pattern="/mobile/faq" 	    access="permitAll"/>
-        <intercept-url pattern="/mobile/messages/**" 	access="permitAll"/>      
+        <intercept-url pattern="/mobile/auth/**" 		access="permitAll"/>
+        <intercept-url pattern="/mobile/faq/**" 	    access="permitAll"/>
+        <intercept-url pattern="/mobile/messages/**" 	access="permitAll"/>
+        <intercept-url pattern="/mobile/message-reports/**" access="permitAll"/>      
                   
         <intercept-url pattern="/registrazione/**" 	access="permitAll" />
         <intercept-url pattern="/info/**" 			access="permitAll"/>
@@ -77,8 +75,6 @@
         <intercept-url pattern="/**" access="isAuthenticated()"/>
              
 </http>
-       
-
 
     <authentication-manager  alias="authenticationManager">
         <authentication-provider user-service-ref="userDetailsService">
@@ -95,6 +91,5 @@
 
     <beans:bean id="textEncryptor" class="org.springframework.security.crypto.encrypt.Encryptors"  factory-method="noOpText" />   
     <beans:bean id="MobileRequestFilter" class="org.whitepaper.business.service.impl.login.MobileRequestFilter" />
-    
 
 </beans:beans>

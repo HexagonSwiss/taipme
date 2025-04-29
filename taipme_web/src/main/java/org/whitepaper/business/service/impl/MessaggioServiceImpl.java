@@ -17,6 +17,8 @@ import org.whitepaper.bean.jpa.MessaggioEntity;
 import org.whitepaper.business.service.MessaggioService;
 import org.whitepaper.business.service.mapping.MessaggioServiceMapper;
 import org.whitepaper.data.repository.jpa.MessaggioJpaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of MessaggioService
@@ -24,6 +26,8 @@ import org.whitepaper.data.repository.jpa.MessaggioJpaRepository;
 @Component
 @Transactional
 public class MessaggioServiceImpl implements MessaggioService {
+
+	private static final Logger logger = LoggerFactory.getLogger(MessaggioServiceImpl.class);
 
 	@Resource
 	private MessaggioJpaRepository messaggioJpaRepository;
@@ -33,53 +37,70 @@ public class MessaggioServiceImpl implements MessaggioService {
 	
 	@Override
 	public Messaggio findById(Integer idMsg) {
+		logger.debug("Entering findById method with idMsg: {}", idMsg);
 		MessaggioEntity messaggioEntity = messaggioJpaRepository.findOne(idMsg);
-		return messaggioServiceMapper.mapMessaggioEntityToMessaggio(messaggioEntity);
+		Messaggio messaggio = messaggioServiceMapper.mapMessaggioEntityToMessaggio(messaggioEntity);
+		logger.debug("Retrieved message: {}", messaggio);
+		return messaggio;
 	}
 
 	@Override
 	public List<Messaggio> findAll() {
+		logger.debug("Entering findAll method");
 		Iterable<MessaggioEntity> entities = messaggioJpaRepository.findAll();
 		List<Messaggio> beans = new ArrayList<Messaggio>();
 		for(MessaggioEntity messaggioEntity : entities) {
 			beans.add(messaggioServiceMapper.mapMessaggioEntityToMessaggio(messaggioEntity));
 		}
+		logger.debug("Retrieved {} messages", beans.size());
 		return beans;
 	}
 
 	@Override
 	public Messaggio save(Messaggio messaggio) {
-		return update(messaggio) ;
+		logger.debug("Entering save method with message: {}", messaggio);
+		Messaggio updatedMessage = update(messaggio);
+		logger.debug("Saved message: {}", updatedMessage);
+		return updatedMessage;
 	}
 
 	@Override
 	public Messaggio create(Messaggio messaggio) {
+		logger.debug("Entering create method with message: {}", messaggio);
 		MessaggioEntity messaggioEntity = null; 
 		if ( null!=messaggio && messaggio.getIdMsg()!=null )
 			messaggioEntity = messaggioJpaRepository.findOne(messaggio.getIdMsg());
 		
 		if( messaggioEntity != null ) {
+			logger.error("Message with id {} already exists", messaggio.getIdMsg());
 			throw new IllegalStateException("already.exists");
 		}
 		messaggioEntity = new MessaggioEntity();
 		messaggioServiceMapper.mapMessaggioToMessaggioEntity(messaggio, messaggioEntity);
 		messaggioEntity.setDatUltMov( Calendar.getInstance().getTime() );
 		MessaggioEntity messaggioEntitySaved = messaggioJpaRepository.save(messaggioEntity);
-		return messaggioServiceMapper.mapMessaggioEntityToMessaggio(messaggioEntitySaved);
+		Messaggio createdMessage = messaggioServiceMapper.mapMessaggioEntityToMessaggio(messaggioEntitySaved);
+		logger.debug("Created message: {}", createdMessage);
+		return createdMessage;
 	}
 
 	@Override
 	public Messaggio update(Messaggio messaggio) {
+		logger.debug("Entering update method with message: {}", messaggio);
 		MessaggioEntity messaggioEntity = messaggioJpaRepository.findOne(messaggio.getIdMsg());
 		messaggioServiceMapper.mapMessaggioToMessaggioEntity(messaggio, messaggioEntity);
 		messaggioEntity.setDatUltMov( Calendar.getInstance().getTime() );
 		MessaggioEntity messaggioEntitySaved = messaggioJpaRepository.save(messaggioEntity);
-		return messaggioServiceMapper.mapMessaggioEntityToMessaggio(messaggioEntitySaved);
+		Messaggio updatedMessage = messaggioServiceMapper.mapMessaggioEntityToMessaggio(messaggioEntitySaved);
+		logger.debug("Updated message: {}", updatedMessage);
+		return updatedMessage;
 	}
 
 	@Override
 	public void delete(Integer idMsg) {
+		logger.debug("Entering delete method with idMsg: {}", idMsg);
 		messaggioJpaRepository.delete(idMsg);
+		logger.debug("Deleted message with idMsg: {}", idMsg);
 	}
 
 	public MessaggioJpaRepository getMessaggioJpaRepository() {
