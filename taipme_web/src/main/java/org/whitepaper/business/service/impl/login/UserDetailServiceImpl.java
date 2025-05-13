@@ -23,8 +23,6 @@ import org.whitepaper.data.repository.jpa.custom.AnaUtenteCustomJpaRepository;
 @Transactional
 public class UserDetailServiceImpl implements UserDetailsService {
 
-
-	
 	@Resource
 	private AnaUtenteCustomJpaRepository anaUtenteCustomJpaRepository;
 	

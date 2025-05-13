@@ -19,7 +19,7 @@ import javax.annotation.PostConstruct;
 
 import org.whitepaper.business.service.impl.custom.JwtTokenService;
 import org.whitepaper.mobile.dto.JwtResponse;
-import org.whitepaper.mobile.dto.LoginRequest;
+import org.whitepaper.mobile.dto.JwtRequest;
 import org.whitepaper.bean.AnaUtente;
 
 @RestController
@@ -43,7 +43,7 @@ public class MobileAuthController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest authenticationRequest) {
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) {
 		logger.debug("Attempting authentication for user: {}", authenticationRequest.getUsername());
 
 		try {
@@ -56,7 +56,7 @@ public class MobileAuthController {
 			final String token = jwtTokenService.generateToken(userDetails);
 
 			logger.debug("Authentication successful for user: {}. Returning JWT.", userDetails.getUsername());
-			return ResponseEntity.ok(new JwtResponse(token));
+			return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
 
 		} catch (BadCredentialsException e) {
 			logger.warn("Authentication failed for user: {}", authenticationRequest.getUsername(), e);

@@ -4,9 +4,8 @@ import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 
-public class CustomUser extends User implements UserDetails {
+public class CustomUser extends User {
 
    private static final long serialVersionUID = -3531439484732724601L;
 
@@ -20,8 +19,6 @@ public class CustomUser extends User implements UserDetails {
 	        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);	        	        
 	}
 
-
-
    public Integer getIdUser() {
 	   return idUser;
    }
@@ -32,7 +29,4 @@ public class CustomUser extends User implements UserDetails {
    public static long getSerialversionuid() {
 	   return serialVersionUID;
    }
-
-
-
 }

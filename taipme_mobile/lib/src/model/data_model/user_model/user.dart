@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:taipme_mobile/src/util/enum/profile_code_enum.dart';
 
 part 'user.freezed.dart';
 part 'user.g.dart';
@@ -6,24 +7,18 @@ part 'user.g.dart';
 @freezed
 class UserModel with _$UserModel {
   const factory UserModel({
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    DateTime? deletedAt,
-    DateTime? birthDate,
-    String? id,
-    String? firebaseMessagingId,
-    String? email,
-    String? password,
-    String? phoneNumber,
-    String? name,
-    String? lastName,
-    String? profileImage, // Download URL OR StoragePath
-    String? addressString,
-    @Default(false) bool isEmailVerified,
-    @Default(false) bool consentToTermsOfService,
-    @Default(false) bool consentToPrivacyPolicy,
-    @Default(false) bool consentToNewsletter,
-    @Default(false) bool consentToPushNotifications,
+    required int idUte,
+    required String email,
+    required String pwd,
+    required ProfileCodeEnum codTipPrf,
+    required DateTime datUltMov,
+    String? username,
+    DateTime? datCreUte,
+    String? emailConf, // optional
+    String? pwdConf, // optional
+    String? pwdNew, // optional
+    String? conUid, // optional
+    String? desTipPrf, // optional
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, Object?> json) => _$UserModelFromJson(json);

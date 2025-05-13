@@ -1,15 +1,19 @@
 package org.whitepaper.mobile.dto;
 
 public class JwtResponse {
-    private String token;
+    private final String jwttoken;
+    private final String username;
 
-    // Constructor
-    public JwtResponse(String token) {
-        this.token = token;
+    public JwtResponse(String jwttoken, String username) {
+        this.jwttoken = jwttoken;
+        this.username = username;
     }
 
-    // Getter (needed by Jackson for serialization)
     public String getToken() {
-        return token;
+        return this.jwttoken;
+    }
+
+    public String getUsername() {
+        return this.username;
     }
 }

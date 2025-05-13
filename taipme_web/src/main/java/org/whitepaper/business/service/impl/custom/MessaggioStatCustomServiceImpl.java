@@ -18,8 +18,6 @@ import org.whitepaper.bean.jpa.MessaggioStatEntity;
 import org.whitepaper.business.service.custom.MessaggioStatCustomService;
 import org.whitepaper.data.repository.jpa.MessaggioStatJpaRepository;
 import org.whitepaper.data.repository.jpa.custom.AggregateMsgPerDatPub;
-import org.whitepaper.utility.UtilityFunction;
-
 
 @Component
 @Transactional(rollbackFor = Exception.class)

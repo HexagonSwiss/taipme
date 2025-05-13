@@ -4,7 +4,6 @@
  */
 package org.whitepaper.business.service.impl.custom;
 
-import java.text.ParseException;
 import java.util.Calendar;
 
 import javax.annotation.Resource;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.whitepaper.bean.AnaUtente;
 import org.whitepaper.bean.jpa.AnaUtenteEntity;
-import org.whitepaper.bean.login.ProfiloUser;
 import org.whitepaper.business.service.AnaUtenteService;
 import org.whitepaper.business.service.custom.GestUtenteService;
 import org.whitepaper.business.service.mapping.AnaUtenteServiceMapper;

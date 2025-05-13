@@ -13,7 +13,7 @@ public class EncoderGenerator {
 
 	}
 
-	public static boolean isEncodeMatchgDecode(String encode, String decoded) {
+	public static boolean isEncodeMatchingDecode(String encode, String decoded) {
 		
 		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();  
 		boolean isPasswordMatches = bcrypt.matches(encode, decoded);

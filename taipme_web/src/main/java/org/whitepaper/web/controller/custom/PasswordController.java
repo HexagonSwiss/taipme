@@ -144,7 +144,7 @@ public class PasswordController extends AbstractController {
 					return "redirect:/password";					
 				}
 								  
-				boolean isPasswordMatches = EncoderGenerator.isEncodeMatchgDecode(anaUtente.getPwd(), anaUtenteDB.getPwd());
+				boolean isPasswordMatches = EncoderGenerator.isEncodeMatchingDecode(anaUtente.getPwd(), anaUtenteDB.getPwd());
 				if ( !isPasswordMatches ) {
 					messageHelper.addMessage(redirectAttributes, new Message(MessageType.DANGER,"NotNull.anaUtente.pwd.current.ko"));					
 					return "redirect:/password";					

@@ -20,25 +20,18 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserModel {
-  DateTime? get createdAt => throw _privateConstructorUsedError;
-  DateTime? get updatedAt => throw _privateConstructorUsedError;
-  DateTime? get deletedAt => throw _privateConstructorUsedError;
-  DateTime? get birthDate => throw _privateConstructorUsedError;
-  String? get id => throw _privateConstructorUsedError;
-  String? get firebaseMessagingId => throw _privateConstructorUsedError;
-  String? get email => throw _privateConstructorUsedError;
-  String? get password => throw _privateConstructorUsedError;
-  String? get phoneNumber => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  String? get lastName => throw _privateConstructorUsedError;
-  String? get profileImage =>
-      throw _privateConstructorUsedError; // Download URL OR StoragePath
-  String? get addressString => throw _privateConstructorUsedError;
-  bool get isEmailVerified => throw _privateConstructorUsedError;
-  bool get consentToTermsOfService => throw _privateConstructorUsedError;
-  bool get consentToPrivacyPolicy => throw _privateConstructorUsedError;
-  bool get consentToNewsletter => throw _privateConstructorUsedError;
-  bool get consentToPushNotifications => throw _privateConstructorUsedError;
+  int get idUte => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
+  String get pwd => throw _privateConstructorUsedError;
+  ProfileCodeEnum get codTipPrf => throw _privateConstructorUsedError;
+  DateTime get datUltMov => throw _privateConstructorUsedError;
+  String? get username => throw _privateConstructorUsedError;
+  DateTime? get datCreUte => throw _privateConstructorUsedError;
+  String? get emailConf => throw _privateConstructorUsedError; // optional
+  String? get pwdConf => throw _privateConstructorUsedError; // optional
+  String? get pwdNew => throw _privateConstructorUsedError; // optional
+  String? get conUid => throw _privateConstructorUsedError; // optional
+  String? get desTipPrf => throw _privateConstructorUsedError;
 
   /// Serializes this UserModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -56,24 +49,18 @@ abstract class $UserModelCopyWith<$Res> {
       _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
   $Res call(
-      {DateTime? createdAt,
-      DateTime? updatedAt,
-      DateTime? deletedAt,
-      DateTime? birthDate,
-      String? id,
-      String? firebaseMessagingId,
-      String? email,
-      String? password,
-      String? phoneNumber,
-      String? name,
-      String? lastName,
-      String? profileImage,
-      String? addressString,
-      bool isEmailVerified,
-      bool consentToTermsOfService,
-      bool consentToPrivacyPolicy,
-      bool consentToNewsletter,
-      bool consentToPushNotifications});
+      {int idUte,
+      String email,
+      String pwd,
+      ProfileCodeEnum codTipPrf,
+      DateTime datUltMov,
+      String? username,
+      DateTime? datCreUte,
+      String? emailConf,
+      String? pwdConf,
+      String? pwdNew,
+      String? conUid,
+      String? desTipPrf});
 }
 
 /// @nodoc
@@ -91,98 +78,68 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
-    Object? deletedAt = freezed,
-    Object? birthDate = freezed,
-    Object? id = freezed,
-    Object? firebaseMessagingId = freezed,
-    Object? email = freezed,
-    Object? password = freezed,
-    Object? phoneNumber = freezed,
-    Object? name = freezed,
-    Object? lastName = freezed,
-    Object? profileImage = freezed,
-    Object? addressString = freezed,
-    Object? isEmailVerified = null,
-    Object? consentToTermsOfService = null,
-    Object? consentToPrivacyPolicy = null,
-    Object? consentToNewsletter = null,
-    Object? consentToPushNotifications = null,
+    Object? idUte = null,
+    Object? email = null,
+    Object? pwd = null,
+    Object? codTipPrf = null,
+    Object? datUltMov = null,
+    Object? username = freezed,
+    Object? datCreUte = freezed,
+    Object? emailConf = freezed,
+    Object? pwdConf = freezed,
+    Object? pwdNew = freezed,
+    Object? conUid = freezed,
+    Object? desTipPrf = freezed,
   }) {
     return _then(_value.copyWith(
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      deletedAt: freezed == deletedAt
-          ? _value.deletedAt
-          : deletedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      birthDate: freezed == birthDate
-          ? _value.birthDate
-          : birthDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      firebaseMessagingId: freezed == firebaseMessagingId
-          ? _value.firebaseMessagingId
-          : firebaseMessagingId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: freezed == email
+      idUte: null == idUte
+          ? _value.idUte
+          : idUte // ignore: cast_nullable_to_non_nullable
+              as int,
+      email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      pwd: null == pwd
+          ? _value.pwd
+          : pwd // ignore: cast_nullable_to_non_nullable
+              as String,
+      codTipPrf: null == codTipPrf
+          ? _value.codTipPrf
+          : codTipPrf // ignore: cast_nullable_to_non_nullable
+              as ProfileCodeEnum,
+      datUltMov: null == datUltMov
+          ? _value.datUltMov
+          : datUltMov // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
               as String?,
-      password: freezed == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
+      datCreUte: freezed == datCreUte
+          ? _value.datCreUte
+          : datCreUte // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      emailConf: freezed == emailConf
+          ? _value.emailConf
+          : emailConf // ignore: cast_nullable_to_non_nullable
               as String?,
-      phoneNumber: freezed == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
+      pwdConf: freezed == pwdConf
+          ? _value.pwdConf
+          : pwdConf // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      pwdNew: freezed == pwdNew
+          ? _value.pwdNew
+          : pwdNew // ignore: cast_nullable_to_non_nullable
               as String?,
-      lastName: freezed == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
+      conUid: freezed == conUid
+          ? _value.conUid
+          : conUid // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImage: freezed == profileImage
-          ? _value.profileImage
-          : profileImage // ignore: cast_nullable_to_non_nullable
+      desTipPrf: freezed == desTipPrf
+          ? _value.desTipPrf
+          : desTipPrf // ignore: cast_nullable_to_non_nullable
               as String?,
-      addressString: freezed == addressString
-          ? _value.addressString
-          : addressString // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isEmailVerified: null == isEmailVerified
-          ? _value.isEmailVerified
-          : isEmailVerified // ignore: cast_nullable_to_non_nullable
-              as bool,
-      consentToTermsOfService: null == consentToTermsOfService
-          ? _value.consentToTermsOfService
-          : consentToTermsOfService // ignore: cast_nullable_to_non_nullable
-              as bool,
-      consentToPrivacyPolicy: null == consentToPrivacyPolicy
-          ? _value.consentToPrivacyPolicy
-          : consentToPrivacyPolicy // ignore: cast_nullable_to_non_nullable
-              as bool,
-      consentToNewsletter: null == consentToNewsletter
-          ? _value.consentToNewsletter
-          : consentToNewsletter // ignore: cast_nullable_to_non_nullable
-              as bool,
-      consentToPushNotifications: null == consentToPushNotifications
-          ? _value.consentToPushNotifications
-          : consentToPushNotifications // ignore: cast_nullable_to_non_nullable
-              as bool,
     ) as $Val);
   }
 }
@@ -196,24 +153,18 @@ abstract class _$$UserModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DateTime? createdAt,
-      DateTime? updatedAt,
-      DateTime? deletedAt,
-      DateTime? birthDate,
-      String? id,
-      String? firebaseMessagingId,
-      String? email,
-      String? password,
-      String? phoneNumber,
-      String? name,
-      String? lastName,
-      String? profileImage,
-      String? addressString,
-      bool isEmailVerified,
-      bool consentToTermsOfService,
-      bool consentToPrivacyPolicy,
-      bool consentToNewsletter,
-      bool consentToPushNotifications});
+      {int idUte,
+      String email,
+      String pwd,
+      ProfileCodeEnum codTipPrf,
+      DateTime datUltMov,
+      String? username,
+      DateTime? datCreUte,
+      String? emailConf,
+      String? pwdConf,
+      String? pwdNew,
+      String? conUid,
+      String? desTipPrf});
 }
 
 /// @nodoc
@@ -229,98 +180,68 @@ class __$$UserModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
-    Object? deletedAt = freezed,
-    Object? birthDate = freezed,
-    Object? id = freezed,
-    Object? firebaseMessagingId = freezed,
-    Object? email = freezed,
-    Object? password = freezed,
-    Object? phoneNumber = freezed,
-    Object? name = freezed,
-    Object? lastName = freezed,
-    Object? profileImage = freezed,
-    Object? addressString = freezed,
-    Object? isEmailVerified = null,
-    Object? consentToTermsOfService = null,
-    Object? consentToPrivacyPolicy = null,
-    Object? consentToNewsletter = null,
-    Object? consentToPushNotifications = null,
+    Object? idUte = null,
+    Object? email = null,
+    Object? pwd = null,
+    Object? codTipPrf = null,
+    Object? datUltMov = null,
+    Object? username = freezed,
+    Object? datCreUte = freezed,
+    Object? emailConf = freezed,
+    Object? pwdConf = freezed,
+    Object? pwdNew = freezed,
+    Object? conUid = freezed,
+    Object? desTipPrf = freezed,
   }) {
     return _then(_$UserModelImpl(
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      deletedAt: freezed == deletedAt
-          ? _value.deletedAt
-          : deletedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      birthDate: freezed == birthDate
-          ? _value.birthDate
-          : birthDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      firebaseMessagingId: freezed == firebaseMessagingId
-          ? _value.firebaseMessagingId
-          : firebaseMessagingId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: freezed == email
+      idUte: null == idUte
+          ? _value.idUte
+          : idUte // ignore: cast_nullable_to_non_nullable
+              as int,
+      email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      pwd: null == pwd
+          ? _value.pwd
+          : pwd // ignore: cast_nullable_to_non_nullable
+              as String,
+      codTipPrf: null == codTipPrf
+          ? _value.codTipPrf
+          : codTipPrf // ignore: cast_nullable_to_non_nullable
+              as ProfileCodeEnum,
+      datUltMov: null == datUltMov
+          ? _value.datUltMov
+          : datUltMov // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
               as String?,
-      password: freezed == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
+      datCreUte: freezed == datCreUte
+          ? _value.datCreUte
+          : datCreUte // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      emailConf: freezed == emailConf
+          ? _value.emailConf
+          : emailConf // ignore: cast_nullable_to_non_nullable
               as String?,
-      phoneNumber: freezed == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
+      pwdConf: freezed == pwdConf
+          ? _value.pwdConf
+          : pwdConf // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      pwdNew: freezed == pwdNew
+          ? _value.pwdNew
+          : pwdNew // ignore: cast_nullable_to_non_nullable
               as String?,
-      lastName: freezed == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
+      conUid: freezed == conUid
+          ? _value.conUid
+          : conUid // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImage: freezed == profileImage
-          ? _value.profileImage
-          : profileImage // ignore: cast_nullable_to_non_nullable
+      desTipPrf: freezed == desTipPrf
+          ? _value.desTipPrf
+          : desTipPrf // ignore: cast_nullable_to_non_nullable
               as String?,
-      addressString: freezed == addressString
-          ? _value.addressString
-          : addressString // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isEmailVerified: null == isEmailVerified
-          ? _value.isEmailVerified
-          : isEmailVerified // ignore: cast_nullable_to_non_nullable
-              as bool,
-      consentToTermsOfService: null == consentToTermsOfService
-          ? _value.consentToTermsOfService
-          : consentToTermsOfService // ignore: cast_nullable_to_non_nullable
-              as bool,
-      consentToPrivacyPolicy: null == consentToPrivacyPolicy
-          ? _value.consentToPrivacyPolicy
-          : consentToPrivacyPolicy // ignore: cast_nullable_to_non_nullable
-              as bool,
-      consentToNewsletter: null == consentToNewsletter
-          ? _value.consentToNewsletter
-          : consentToNewsletter // ignore: cast_nullable_to_non_nullable
-              as bool,
-      consentToPushNotifications: null == consentToPushNotifications
-          ? _value.consentToPushNotifications
-          : consentToPushNotifications // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -329,74 +250,54 @@ class __$$UserModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserModelImpl implements _UserModel {
   const _$UserModelImpl(
-      {this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.birthDate,
-      this.id,
-      this.firebaseMessagingId,
-      this.email,
-      this.password,
-      this.phoneNumber,
-      this.name,
-      this.lastName,
-      this.profileImage,
-      this.addressString,
-      this.isEmailVerified = false,
-      this.consentToTermsOfService = false,
-      this.consentToPrivacyPolicy = false,
-      this.consentToNewsletter = false,
-      this.consentToPushNotifications = false});
+      {required this.idUte,
+      required this.email,
+      required this.pwd,
+      required this.codTipPrf,
+      required this.datUltMov,
+      this.username,
+      this.datCreUte,
+      this.emailConf,
+      this.pwdConf,
+      this.pwdNew,
+      this.conUid,
+      this.desTipPrf});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
 
   @override
-  final DateTime? createdAt;
+  final int idUte;
   @override
-  final DateTime? updatedAt;
+  final String email;
   @override
-  final DateTime? deletedAt;
+  final String pwd;
   @override
-  final DateTime? birthDate;
+  final ProfileCodeEnum codTipPrf;
   @override
-  final String? id;
+  final DateTime datUltMov;
   @override
-  final String? firebaseMessagingId;
+  final String? username;
   @override
-  final String? email;
+  final DateTime? datCreUte;
   @override
-  final String? password;
+  final String? emailConf;
+// optional
   @override
-  final String? phoneNumber;
+  final String? pwdConf;
+// optional
   @override
-  final String? name;
+  final String? pwdNew;
+// optional
   @override
-  final String? lastName;
+  final String? conUid;
+// optional
   @override
-  final String? profileImage;
-// Download URL OR StoragePath
-  @override
-  final String? addressString;
-  @override
-  @JsonKey()
-  final bool isEmailVerified;
-  @override
-  @JsonKey()
-  final bool consentToTermsOfService;
-  @override
-  @JsonKey()
-  final bool consentToPrivacyPolicy;
-  @override
-  @JsonKey()
-  final bool consentToNewsletter;
-  @override
-  @JsonKey()
-  final bool consentToPushNotifications;
+  final String? desTipPrf;
 
   @override
   String toString() {
-    return 'UserModel(createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, birthDate: $birthDate, id: $id, firebaseMessagingId: $firebaseMessagingId, email: $email, password: $password, phoneNumber: $phoneNumber, name: $name, lastName: $lastName, profileImage: $profileImage, addressString: $addressString, isEmailVerified: $isEmailVerified, consentToTermsOfService: $consentToTermsOfService, consentToPrivacyPolicy: $consentToPrivacyPolicy, consentToNewsletter: $consentToNewsletter, consentToPushNotifications: $consentToPushNotifications)';
+    return 'UserModel(idUte: $idUte, email: $email, pwd: $pwd, codTipPrf: $codTipPrf, datUltMov: $datUltMov, username: $username, datCreUte: $datCreUte, emailConf: $emailConf, pwdConf: $pwdConf, pwdNew: $pwdNew, conUid: $conUid, desTipPrf: $desTipPrf)';
   }
 
   @override
@@ -404,66 +305,42 @@ class _$UserModelImpl implements _UserModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserModelImpl &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
-            (identical(other.deletedAt, deletedAt) ||
-                other.deletedAt == deletedAt) &&
-            (identical(other.birthDate, birthDate) ||
-                other.birthDate == birthDate) &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.firebaseMessagingId, firebaseMessagingId) ||
-                other.firebaseMessagingId == firebaseMessagingId) &&
+            (identical(other.idUte, idUte) || other.idUte == idUte) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.password, password) ||
-                other.password == password) &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                other.phoneNumber == phoneNumber) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.lastName, lastName) ||
-                other.lastName == lastName) &&
-            (identical(other.profileImage, profileImage) ||
-                other.profileImage == profileImage) &&
-            (identical(other.addressString, addressString) ||
-                other.addressString == addressString) &&
-            (identical(other.isEmailVerified, isEmailVerified) ||
-                other.isEmailVerified == isEmailVerified) &&
-            (identical(
-                    other.consentToTermsOfService, consentToTermsOfService) ||
-                other.consentToTermsOfService == consentToTermsOfService) &&
-            (identical(other.consentToPrivacyPolicy, consentToPrivacyPolicy) ||
-                other.consentToPrivacyPolicy == consentToPrivacyPolicy) &&
-            (identical(other.consentToNewsletter, consentToNewsletter) ||
-                other.consentToNewsletter == consentToNewsletter) &&
-            (identical(other.consentToPushNotifications,
-                    consentToPushNotifications) ||
-                other.consentToPushNotifications ==
-                    consentToPushNotifications));
+            (identical(other.pwd, pwd) || other.pwd == pwd) &&
+            (identical(other.codTipPrf, codTipPrf) ||
+                other.codTipPrf == codTipPrf) &&
+            (identical(other.datUltMov, datUltMov) ||
+                other.datUltMov == datUltMov) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
+            (identical(other.datCreUte, datCreUte) ||
+                other.datCreUte == datCreUte) &&
+            (identical(other.emailConf, emailConf) ||
+                other.emailConf == emailConf) &&
+            (identical(other.pwdConf, pwdConf) || other.pwdConf == pwdConf) &&
+            (identical(other.pwdNew, pwdNew) || other.pwdNew == pwdNew) &&
+            (identical(other.conUid, conUid) || other.conUid == conUid) &&
+            (identical(other.desTipPrf, desTipPrf) ||
+                other.desTipPrf == desTipPrf));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      createdAt,
-      updatedAt,
-      deletedAt,
-      birthDate,
-      id,
-      firebaseMessagingId,
+      idUte,
       email,
-      password,
-      phoneNumber,
-      name,
-      lastName,
-      profileImage,
-      addressString,
-      isEmailVerified,
-      consentToTermsOfService,
-      consentToPrivacyPolicy,
-      consentToNewsletter,
-      consentToPushNotifications);
+      pwd,
+      codTipPrf,
+      datUltMov,
+      username,
+      datCreUte,
+      emailConf,
+      pwdConf,
+      pwdNew,
+      conUid,
+      desTipPrf);
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
@@ -483,64 +360,46 @@ class _$UserModelImpl implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   const factory _UserModel(
-      {final DateTime? createdAt,
-      final DateTime? updatedAt,
-      final DateTime? deletedAt,
-      final DateTime? birthDate,
-      final String? id,
-      final String? firebaseMessagingId,
-      final String? email,
-      final String? password,
-      final String? phoneNumber,
-      final String? name,
-      final String? lastName,
-      final String? profileImage,
-      final String? addressString,
-      final bool isEmailVerified,
-      final bool consentToTermsOfService,
-      final bool consentToPrivacyPolicy,
-      final bool consentToNewsletter,
-      final bool consentToPushNotifications}) = _$UserModelImpl;
+      {required final int idUte,
+      required final String email,
+      required final String pwd,
+      required final ProfileCodeEnum codTipPrf,
+      required final DateTime datUltMov,
+      final String? username,
+      final DateTime? datCreUte,
+      final String? emailConf,
+      final String? pwdConf,
+      final String? pwdNew,
+      final String? conUid,
+      final String? desTipPrf}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
 
   @override
-  DateTime? get createdAt;
+  int get idUte;
   @override
-  DateTime? get updatedAt;
+  String get email;
   @override
-  DateTime? get deletedAt;
+  String get pwd;
   @override
-  DateTime? get birthDate;
+  ProfileCodeEnum get codTipPrf;
   @override
-  String? get id;
+  DateTime get datUltMov;
   @override
-  String? get firebaseMessagingId;
+  String? get username;
   @override
-  String? get email;
+  DateTime? get datCreUte;
   @override
-  String? get password;
+  String? get emailConf; // optional
   @override
-  String? get phoneNumber;
+  String? get pwdConf; // optional
   @override
-  String? get name;
+  String? get pwdNew; // optional
   @override
-  String? get lastName;
+  String? get conUid; // optional
   @override
-  String? get profileImage; // Download URL OR StoragePath
-  @override
-  String? get addressString;
-  @override
-  bool get isEmailVerified;
-  @override
-  bool get consentToTermsOfService;
-  @override
-  bool get consentToPrivacyPolicy;
-  @override
-  bool get consentToNewsletter;
-  @override
-  bool get consentToPushNotifications;
+  String? get desTipPrf;
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.

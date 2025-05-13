@@ -203,6 +203,4 @@ public class RegistrazioneController extends AbstractController {
 		}
 	}
 
-	
-
 }

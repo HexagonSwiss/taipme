@@ -8,54 +8,41 @@ part of 'user.dart';
 
 _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
     _$UserModelImpl(
-      createdAt: json['createdAt'] == null
+      idUte: (json['idUte'] as num).toInt(),
+      email: json['email'] as String,
+      pwd: json['pwd'] as String,
+      codTipPrf: $enumDecode(_$ProfileCodeEnumEnumMap, json['codTipPrf']),
+      datUltMov: DateTime.parse(json['datUltMov'] as String),
+      username: json['username'] as String?,
+      datCreUte: json['datCreUte'] == null
           ? null
-          : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null
-          ? null
-          : DateTime.parse(json['updatedAt'] as String),
-      deletedAt: json['deletedAt'] == null
-          ? null
-          : DateTime.parse(json['deletedAt'] as String),
-      birthDate: json['birthDate'] == null
-          ? null
-          : DateTime.parse(json['birthDate'] as String),
-      id: json['id'] as String?,
-      firebaseMessagingId: json['firebaseMessagingId'] as String?,
-      email: json['email'] as String?,
-      password: json['password'] as String?,
-      phoneNumber: json['phoneNumber'] as String?,
-      name: json['name'] as String?,
-      lastName: json['lastName'] as String?,
-      profileImage: json['profileImage'] as String?,
-      addressString: json['addressString'] as String?,
-      isEmailVerified: json['isEmailVerified'] as bool? ?? false,
-      consentToTermsOfService:
-          json['consentToTermsOfService'] as bool? ?? false,
-      consentToPrivacyPolicy: json['consentToPrivacyPolicy'] as bool? ?? false,
-      consentToNewsletter: json['consentToNewsletter'] as bool? ?? false,
-      consentToPushNotifications:
-          json['consentToPushNotifications'] as bool? ?? false,
+          : DateTime.parse(json['datCreUte'] as String),
+      emailConf: json['emailConf'] as String?,
+      pwdConf: json['pwdConf'] as String?,
+      pwdNew: json['pwdNew'] as String?,
+      conUid: json['conUid'] as String?,
+      desTipPrf: json['desTipPrf'] as String?,
     );
 
 Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
     <String, dynamic>{
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
-      'deletedAt': instance.deletedAt?.toIso8601String(),
-      'birthDate': instance.birthDate?.toIso8601String(),
-      'id': instance.id,
-      'firebaseMessagingId': instance.firebaseMessagingId,
+      'idUte': instance.idUte,
       'email': instance.email,
-      'password': instance.password,
-      'phoneNumber': instance.phoneNumber,
-      'name': instance.name,
-      'lastName': instance.lastName,
-      'profileImage': instance.profileImage,
-      'addressString': instance.addressString,
-      'isEmailVerified': instance.isEmailVerified,
-      'consentToTermsOfService': instance.consentToTermsOfService,
-      'consentToPrivacyPolicy': instance.consentToPrivacyPolicy,
-      'consentToNewsletter': instance.consentToNewsletter,
-      'consentToPushNotifications': instance.consentToPushNotifications,
+      'pwd': instance.pwd,
+      'codTipPrf': _$ProfileCodeEnumEnumMap[instance.codTipPrf]!,
+      'datUltMov': instance.datUltMov.toIso8601String(),
+      'username': instance.username,
+      'datCreUte': instance.datCreUte?.toIso8601String(),
+      'emailConf': instance.emailConf,
+      'pwdConf': instance.pwdConf,
+      'pwdNew': instance.pwdNew,
+      'conUid': instance.conUid,
+      'desTipPrf': instance.desTipPrf,
     };
+
+const _$ProfileCodeEnumEnumMap = {
+  ProfileCodeEnum.adm: 'ADM',
+  ProfileCodeEnum.any: 'ANY',
+  ProfileCodeEnum.ban: 'BAN',
+  ProfileCodeEnum.reg: 'REG',
+};

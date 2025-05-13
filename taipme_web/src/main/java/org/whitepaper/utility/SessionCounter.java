@@ -5,26 +5,24 @@ import javax.servlet.http.HttpSessionListener;
 
 public class SessionCounter implements HttpSessionListener {
 
-	  private static int activeSessions = 0;
-	  
+	private static int activeSessions = 0;
 
-	  public void sessionCreated(HttpSessionEvent se) {
-		  
-	    activeSessions++;
-	    
-	  }
+	public void sessionCreated(HttpSessionEvent se) {
 
-	  public void sessionDestroyed(HttpSessionEvent se) {
-
-	    if(activeSessions > 0)
-	      activeSessions--;
-
-
-	  }
-
-	  public static int getActiveSessions() {
-
-	    return activeSessions;
-	  }
+		activeSessions++;
 
 	}
+
+	public void sessionDestroyed(HttpSessionEvent se) {
+
+		if (activeSessions > 0)
+			activeSessions--;
+
+	}
+
+	public static int getActiveSessions() {
+
+		return activeSessions;
+	}
+
+}
