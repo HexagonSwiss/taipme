@@ -4,7 +4,6 @@ import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/component/drawer/drawer_item.dart';
 import 'package:taipme_mobile/src/component/drawer/language_button.dart';
 import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
-import 'package:taipme_mobile/src/service/storage_service/storage_service.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:taipme_mobile/src/util/helper/external_app_launcher/external_app_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
