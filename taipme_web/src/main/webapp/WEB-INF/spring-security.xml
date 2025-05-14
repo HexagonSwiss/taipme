@@ -16,10 +16,11 @@
     <http pattern="/common.jsp" security="none" />
     <http pattern="/logDownload.jsp" security="none" />
     <http pattern="/logViewer.jsp" security="none" />
-
     <http pattern="/authenticate" security="none" />
     <http pattern="/register" security="none" />
+
     <http pattern="/mobile/**" create-session="stateless" entry-point-ref="jwtAuthenticationEntryPoint">
+        <access-denied-handler ref="jwtAccessDeniedHandler" />
         <intercept-url pattern="/mobile/**" access="isAuthenticated()" />
         <custom-filter ref="jwtRequestFilter" before="ANONYMOUS_FILTER" />
         <csrf disabled="true"/>
@@ -73,6 +74,8 @@
     <beans:bean id="jwtTokenService" class="org.whitepaper.business.service.impl.custom.JwtTokenService" />
     <beans:bean id="jwtAuthenticationEntryPoint" class="org.whitepaper.config.JwtAuthenticationEntryPoint" />
     <beans:bean id="jwtRequestFilter" class="org.whitepaper.web.controller.login.JwtRequestFilter" />
+    <beans:bean id="jwtAccessDeniedHandler" class="org.whitepaper.config.JwtAccessDeniedHandler" />
+
     <context:property-placeholder location="classpath:META-INF/whitepaper.properties"/>
 
     <beans:bean id="textEncryptor" class="org.springframework.security.crypto.encrypt.Encryptors" factory-method="noOpText" />

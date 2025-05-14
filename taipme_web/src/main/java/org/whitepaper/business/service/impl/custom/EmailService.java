@@ -32,10 +32,10 @@ public class EmailService {
 
 	@Autowired
 	protected JavaMailSender javaMailSender;
-	
+
 	@Autowired
 	protected VelocityEngine velocityEngine;
-	
+
 	@Value("${mail.transport.protocol}")
 	private String protocol;
 	@Value("${mail.smtp.auth}")
@@ -46,10 +46,10 @@ public class EmailService {
 	private String ssl;
 	@Value("${mail.debug}")
 	private String debug;
-	 
 
-	public void sendEmail(String toEmail, String fromEmail, String templateFolder, Map<String, Object> templateContext, File attachment) throws MailException {
-		
+	public void sendEmail(String toEmail, String fromEmail, String templateFolder, Map<String, Object> templateContext,
+			File attachment) throws MailException {
+
 		Assert.hasLength(toEmail);
 		Assert.hasLength(fromEmail);
 		Assert.hasLength(templateFolder);
@@ -58,41 +58,36 @@ public class EmailService {
 		Locale locale = Locale.ITALIAN;
 		String subjectTemplate = getTemplate(templateFolder, "subject", locale, ".txt");
 		String htmlBodyTemplate = getTemplate(templateFolder, "body", locale, ".html");
-		logger.debug(htmlBodyTemplate);
-		//MimeMessage mm = buildMimeMessage(toEmail, fromEmail, templateContext, subjectTemplate, htmlBodyTemplate, attachment);
-		//org.springframework.mail.javamail.JavaMailSenderImpl sender = (org.springframework.mail.javamail.JavaMailSenderImpl) javaMailSender;
-		//sender.setJavaMailProperties(getMailProperties());
-		//try {
-		//	javaMailSender.send(mm);
-	//	} catch(Exception e) {
-			//logger.error("Exception: "+e.getMessage(), e);
-		//}
-	}
-	
-	public void sendEmailMyOggetto(String toEmail, String fromEmail, String templateFolder, Map<String, Object> templateContext, File attachment, String myOggetto) throws MailException {
-		
-		Assert.hasLength(toEmail);
-		Assert.hasLength(fromEmail);
-		Assert.hasLength(templateFolder);
-		Assert.notNull(templateContext);
-		templateContext.put("dateTool", new DateTool());
-		Locale locale = Locale.ITALIAN;
-		String subjectTemplate = getTemplate(templateFolder, "subject", locale, ".txt");
-		String htmlBodyTemplate = getTemplate(templateFolder, "body", locale, ".html");
-		logger.debug(htmlBodyTemplate);		
-		MimeMessage mm = buildMimeMessageMyOggetto(toEmail, fromEmail, templateContext, subjectTemplate, htmlBodyTemplate, attachment, myOggetto);
-		org.springframework.mail.javamail.JavaMailSenderImpl sender = (org.springframework.mail.javamail.JavaMailSenderImpl) javaMailSender;
-		sender.setJavaMailProperties(getMailProperties());
-		//try {
+		logger.debug("HTML Body Template Path: {}", htmlBodyTemplate);
+
+		MimeMessage mm = buildMimeMessage(toEmail, fromEmail, templateContext, subjectTemplate, htmlBodyTemplate,
+				attachment);
+
+		if (javaMailSender instanceof org.springframework.mail.javamail.JavaMailSenderImpl) {
+			org.springframework.mail.javamail.JavaMailSenderImpl sender = (org.springframework.mail.javamail.JavaMailSenderImpl) javaMailSender;
+			sender.setJavaMailProperties(getMailProperties());
+		} else {
+			logger.warn(
+					"javaMailSender is not an instance of JavaMailSenderImpl, cannot set JavaMailProperties here. Ensure it's configured globally.");
+		}
+
+		try {
+			logger.info("Attempting to send email to: {}", toEmail);
 			javaMailSender.send(mm);
-	//	} catch(Exception e) {
-			//logger.error("Exception: "+e.getMessage(), e);
-		//}
+			logger.info("Email successfully sent to: {}", toEmail);
+		} catch (Exception e) {
+			logger.error("Failed to send email to {}. Exception: {}", toEmail, e.getMessage(), e);
+			if (e instanceof MailException) {
+				throw (MailException) e;
+			}
+			throw new MailPreparationException("Failed to send email: " + e.getMessage(), e);
+		}
 	}
-	
-	public void sendEmail(String[] destinatari, String fromEmail, String templateFolder, Map<String, Object> templateContext, File attachment) throws MailException {
-		
-		//Assert.hasLength(toEmail);
+
+	public void sendEmailMyOggetto(String toEmail, String fromEmail, String templateFolder,
+			Map<String, Object> templateContext, File attachment, String myOggetto) throws MailException {
+
+		Assert.hasLength(toEmail);
 		Assert.hasLength(fromEmail);
 		Assert.hasLength(templateFolder);
 		Assert.notNull(templateContext);
@@ -101,33 +96,56 @@ public class EmailService {
 		String subjectTemplate = getTemplate(templateFolder, "subject", locale, ".txt");
 		String htmlBodyTemplate = getTemplate(templateFolder, "body", locale, ".html");
 		logger.debug(htmlBodyTemplate);
-		MimeMessage mm = buildMimeMessage(destinatari, fromEmail, templateContext, subjectTemplate, htmlBodyTemplate, attachment);
+		MimeMessage mm = buildMimeMessageMyOggetto(toEmail, fromEmail, templateContext, subjectTemplate,
+				htmlBodyTemplate, attachment, myOggetto);
 		org.springframework.mail.javamail.JavaMailSenderImpl sender = (org.springframework.mail.javamail.JavaMailSenderImpl) javaMailSender;
 		sender.setJavaMailProperties(getMailProperties());
-		//try {
-		//	javaMailSender.send(mm);
-	//	} catch(Exception e) {
-			//logger.error("Exception: "+e.getMessage(), e);
-		//}
+		// try {
+		javaMailSender.send(mm);
+		// } catch(Exception e) {
+		// logger.error("Exception: "+e.getMessage(), e);
+		// }
 	}
 
+	public void sendEmail(String[] destinatari, String fromEmail, String templateFolder,
+			Map<String, Object> templateContext, File attachment) throws MailException {
 
-	 private Properties getMailProperties() {
-	        Properties properties = new Properties();
-	        properties.setProperty("mail.transport.protocol", protocol);
-	        properties.setProperty("mail.smtp.auth", auth);	        
-	        properties.setProperty("mail.smtp.ssl.enable", "false");
-	        if ("true".equals(ssl.trim()))
-	        	properties.setProperty("mail.smtp.ssl.enable", "true");
-	        
-	        properties.setProperty("mail.smtp.starttls.enable", "false");
-	        if ("true".equals(tls.trim()))
-	        	properties.setProperty("mail.smtp.starttls.enable", "true");
-	        
-	        properties.setProperty("mail.debug", debug);
-	        return properties;
-	    }
-	 
+		// Assert.hasLength(toEmail);
+		Assert.hasLength(fromEmail);
+		Assert.hasLength(templateFolder);
+		Assert.notNull(templateContext);
+		templateContext.put("dateTool", new DateTool());
+		Locale locale = Locale.ITALIAN;
+		String subjectTemplate = getTemplate(templateFolder, "subject", locale, ".txt");
+		String htmlBodyTemplate = getTemplate(templateFolder, "body", locale, ".html");
+		logger.debug(htmlBodyTemplate);
+		MimeMessage mm = buildMimeMessage(destinatari, fromEmail, templateContext, subjectTemplate, htmlBodyTemplate,
+				attachment);
+		org.springframework.mail.javamail.JavaMailSenderImpl sender = (org.springframework.mail.javamail.JavaMailSenderImpl) javaMailSender;
+		sender.setJavaMailProperties(getMailProperties());
+		// try {
+		// javaMailSender.send(mm);
+		// } catch(Exception e) {
+		// logger.error("Exception: "+e.getMessage(), e);
+		// }
+	}
+
+	private Properties getMailProperties() {
+		Properties properties = new Properties();
+		properties.setProperty("mail.transport.protocol", protocol);
+		properties.setProperty("mail.smtp.auth", auth);
+		properties.setProperty("mail.smtp.ssl.enable", "false");
+		if ("true".equals(ssl.trim()))
+			properties.setProperty("mail.smtp.ssl.enable", "true");
+
+		properties.setProperty("mail.smtp.starttls.enable", "false");
+		if ("true".equals(tls.trim()))
+			properties.setProperty("mail.smtp.starttls.enable", "true");
+
+		properties.setProperty("mail.debug", debug);
+		return properties;
+	}
+
 	protected String getTemplate(String templateFolder, String templateBaseName, Locale locale, String templateSuffix) {
 		if (!templateFolder.endsWith("/")) {
 			templateFolder = templateFolder + "/";
@@ -135,15 +153,14 @@ public class EmailService {
 		for (String templatePrefix : getTemplatePrefixesForLocale(templateBaseName, locale)) {
 			StringBuilder filename = new StringBuilder(templateFolder);
 			filename.append(templatePrefix).append(templateSuffix);
-			//if (getClass().getResource("/" + filename.toString()) != null) {
-				return filename.toString();
-		//	}
+			// if (getClass().getResource("/" + filename.toString()) != null) {
+			return filename.toString();
+			// }
 		}
-		throw new IllegalStateException("Template file is missing: " + templateFolder + ":" + templateBaseName + ":" + locale.toString() + ":" + templateSuffix);
+		throw new IllegalStateException("Template file is missing: " + templateFolder + ":" + templateBaseName + ":"
+				+ locale.toString() + ":" + templateSuffix);
 	}
 
-	
-	
 	protected List<String> getTemplatePrefixesForLocale(String templateBaseName, Locale locale) {
 		StringBuilder templatePrefix = new StringBuilder(templateBaseName);
 		List<String> templatePrefixes = new ArrayList<String>();
@@ -166,7 +183,8 @@ public class EmailService {
 		return templatePrefixes;
 	}
 
-	private MimeMessage buildMimeMessage(String toEmail, String fromEmail, Map<String, Object> templateContext, String subjectTemplate, String htmlBodyTemplate, File file) {
+	private MimeMessage buildMimeMessage(String toEmail, String fromEmail, Map<String, Object> templateContext,
+			String subjectTemplate, String htmlBodyTemplate, File file) {
 		MimeMessage mm = javaMailSender.createMimeMessage();
 		try {
 			MimeMessageHelper mmh = new MimeMessageHelper(mm, true, "UTF-8");
@@ -175,10 +193,10 @@ public class EmailService {
 			String htmlBody = mergeTemplateIntoString(htmlBodyTemplate, templateContext);
 			logger.debug(htmlBody);
 			mmh.setText(htmlBody, true);
-			if(file != null)
+			if (file != null)
 				mmh.addAttachment(file.getName(), file);
 			mmh.setTo(toEmail);
-//			mmh.setBcc(bcc);
+			// mmh.setBcc(bcc);
 			mmh.setFrom(fromEmail);
 			mmh.setSubject(subject);
 			return mm;
@@ -188,22 +206,23 @@ public class EmailService {
 			throw new MailPreparationException(me);
 		}
 	}
-	
-	private MimeMessage buildMimeMessageMyOggetto(String toEmail, String fromEmail, Map<String, Object> templateContext, String subjectTemplate, String htmlBodyTemplate, File file, String myOggetto) {
+
+	private MimeMessage buildMimeMessageMyOggetto(String toEmail, String fromEmail, Map<String, Object> templateContext,
+			String subjectTemplate, String htmlBodyTemplate, File file, String myOggetto) {
 		MimeMessage mm = javaMailSender.createMimeMessage();
 		try {
 			MimeMessageHelper mmh = new MimeMessageHelper(mm, true, "UTF-8");
 			String subject = myOggetto;
-			if ( null!=myOggetto && !myOggetto.isEmpty() )
-					subject = mergeTemplateIntoString(subjectTemplate, templateContext);
-			
+			if (null != myOggetto && !myOggetto.isEmpty())
+				subject = mergeTemplateIntoString(subjectTemplate, templateContext);
+
 			String htmlBody = mergeTemplateIntoString(htmlBodyTemplate, templateContext);
 			logger.debug(htmlBody);
 			mmh.setText(htmlBody, true);
-			if(file != null)
+			if (file != null)
 				mmh.addAttachment(file.getName(), file);
 			mmh.setTo(toEmail);
-//			mmh.setBcc(bcc);
+			// mmh.setBcc(bcc);
 			mmh.setFrom(fromEmail);
 			mmh.setSubject(subject);
 			return mm;
@@ -213,8 +232,9 @@ public class EmailService {
 			throw new MailPreparationException(me);
 		}
 	}
-	
-	private MimeMessage buildMimeMessage(String[] toBccEmail, String fromEmail, Map<String, Object> templateContext, String subjectTemplate, String htmlBodyTemplate, File file) {
+
+	private MimeMessage buildMimeMessage(String[] toBccEmail, String fromEmail, Map<String, Object> templateContext,
+			String subjectTemplate, String htmlBodyTemplate, File file) {
 		MimeMessage mm = javaMailSender.createMimeMessage();
 		try {
 			MimeMessageHelper mmh = new MimeMessageHelper(mm, true, "UTF-8");
@@ -223,9 +243,9 @@ public class EmailService {
 			String htmlBody = mergeTemplateIntoString(htmlBodyTemplate, templateContext);
 			logger.debug(htmlBody);
 			mmh.setText(htmlBody, true);
-			if(file != null)
+			if (file != null)
 				mmh.addAttachment(file.getName(), file);
-//			mmh.setTo(toEmail);
+			// mmh.setTo(toEmail);
 			mmh.setBcc(toBccEmail);
 			mmh.setFrom(fromEmail);
 			mmh.setSubject(subject);
@@ -237,7 +257,8 @@ public class EmailService {
 		}
 	}
 
-	protected String mergeTemplateIntoString(String templateLocation, Map<String, Object> templateContext) throws VelocityException {
+	protected String mergeTemplateIntoString(String templateLocation, Map<String, Object> templateContext)
+			throws VelocityException {
 		return VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, templateLocation, "UTF-8", templateContext);
 	}
 }

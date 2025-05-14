@@ -67,7 +67,7 @@ public class GestUtenteServiceImpl implements GestUtenteService {
 			//email conferma
 			sendEmailService.sendConfUtenzaMail(user.getEmail(), linkConferma);
 		} catch (Exception ex) {
-			logger.error("******insertUtente: errore invio email conferma - email:"+anaUtente.getEmail()+" - errore: " + ex.getMessage() );
+			logger.error("******insertUtente: errore invio email conferma - email:"+anaUtente.getEmail()+" - STACK TRACE: ", ex );
 			throw ex;
 		}
 		
