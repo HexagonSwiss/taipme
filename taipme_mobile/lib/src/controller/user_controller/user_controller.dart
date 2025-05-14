@@ -3,6 +3,7 @@ import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dar
 import 'package:taipme_mobile/src/model/data_model/user_model_list/user_login_request_model/user_login_request_model.dart';
 import 'package:taipme_mobile/src/model/data_model/user_model_list/user_model/user_model.dart';
 import 'package:taipme_mobile/src/model/data_model/user_model_list/user_register_request_model/user_register_request_model.dart';
+import 'package:taipme_mobile/src/service/storage_service/storage_service.dart';
 import 'package:taipme_mobile/src/service/user_service/user_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,7 +20,10 @@ class UserController extends _$UserController {
   // STATE
 
   void updateCachedUser(UserModel user) => state = user;
-  void invalidateCachedUser() => state = null;
+  Future<void> invalidateCachedUser() async {
+    await ref.read(storageServiceProvider.notifier).deleteToken();
+    state = null;
+  }
 
   Future<ResultModel<UserModel>> loginUser({
     required String email,
