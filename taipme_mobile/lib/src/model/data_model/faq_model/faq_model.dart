@@ -4,6 +4,8 @@ part 'faq_model.freezed.dart';
 part 'faq_model.g.dart';
 
 // COULD BE SEPARATED INTO TWO MODELS, COMPONENT AND DATA
+// COMPONENT MODEL WOULD HAVE THE ISEXPANDED PROPERTY
+// BUT THIS IS SO SMALL IT COULD BE OVERKILL
 
 @freezed
 class FaqModel with _$FaqModel {

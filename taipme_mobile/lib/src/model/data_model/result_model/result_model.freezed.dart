@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ResultModel<T> {
   T? get data => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
+  int? get statusCode => throw _privateConstructorUsedError;
 
   /// Create a copy of ResultModel
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +33,7 @@ abstract class $ResultModelCopyWith<T, $Res> {
           ResultModel<T> value, $Res Function(ResultModel<T>) then) =
       _$ResultModelCopyWithImpl<T, $Res, ResultModel<T>>;
   @useResult
-  $Res call({T? data, String? error});
+  $Res call({T? data, String? error, int? statusCode});
 }
 
 /// @nodoc
@@ -52,6 +53,7 @@ class _$ResultModelCopyWithImpl<T, $Res, $Val extends ResultModel<T>>
   $Res call({
     Object? data = freezed,
     Object? error = freezed,
+    Object? statusCode = freezed,
   }) {
     return _then(_value.copyWith(
       data: freezed == data
@@ -62,6 +64,10 @@ class _$ResultModelCopyWithImpl<T, $Res, $Val extends ResultModel<T>>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
+      statusCode: freezed == statusCode
+          ? _value.statusCode
+          : statusCode // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -74,7 +80,7 @@ abstract class _$$ResultModelImplCopyWith<T, $Res>
       __$$ResultModelImplCopyWithImpl<T, $Res>;
   @override
   @useResult
-  $Res call({T? data, String? error});
+  $Res call({T? data, String? error, int? statusCode});
 }
 
 /// @nodoc
@@ -92,6 +98,7 @@ class __$$ResultModelImplCopyWithImpl<T, $Res>
   $Res call({
     Object? data = freezed,
     Object? error = freezed,
+    Object? statusCode = freezed,
   }) {
     return _then(_$ResultModelImpl<T>(
       data: freezed == data
@@ -102,6 +109,10 @@ class __$$ResultModelImplCopyWithImpl<T, $Res>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
+      statusCode: freezed == statusCode
+          ? _value.statusCode
+          : statusCode // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -109,16 +120,18 @@ class __$$ResultModelImplCopyWithImpl<T, $Res>
 /// @nodoc
 
 class _$ResultModelImpl<T> implements _ResultModel<T> {
-  const _$ResultModelImpl({this.data, this.error});
+  const _$ResultModelImpl({this.data, this.error, this.statusCode});
 
   @override
   final T? data;
   @override
   final String? error;
+  @override
+  final int? statusCode;
 
   @override
   String toString() {
-    return 'ResultModel<$T>(data: $data, error: $error)';
+    return 'ResultModel<$T>(data: $data, error: $error, statusCode: $statusCode)';
   }
 
   @override
@@ -127,12 +140,14 @@ class _$ResultModelImpl<T> implements _ResultModel<T> {
         (other.runtimeType == runtimeType &&
             other is _$ResultModelImpl<T> &&
             const DeepCollectionEquality().equals(other.data, data) &&
-            (identical(other.error, error) || other.error == error));
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.statusCode, statusCode) ||
+                other.statusCode == statusCode));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(data), error);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(data), error, statusCode);
 
   /// Create a copy of ResultModel
   /// with the given fields replaced by the non-null parameter values.
@@ -145,13 +160,17 @@ class _$ResultModelImpl<T> implements _ResultModel<T> {
 }
 
 abstract class _ResultModel<T> implements ResultModel<T> {
-  const factory _ResultModel({final T? data, final String? error}) =
-      _$ResultModelImpl<T>;
+  const factory _ResultModel(
+      {final T? data,
+      final String? error,
+      final int? statusCode}) = _$ResultModelImpl<T>;
 
   @override
   T? get data;
   @override
   String? get error;
+  @override
+  int? get statusCode;
 
   /// Create a copy of ResultModel
   /// with the given fields replaced by the non-null parameter values.

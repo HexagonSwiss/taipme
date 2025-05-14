@@ -1,3 +1,4 @@
+import 'package:taipme_mobile/src/controller/route_controller/route_controller.dart';
 import 'package:taipme_mobile/src/model/data_model/message_model/message_model.dart';
 import 'package:taipme_mobile/src/page/authentication/password_update_confirmation_page.dart';
 import 'package:taipme_mobile/src/page/authentication/forgot_password_page.dart';
@@ -33,6 +34,7 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         path: '/',
         pageBuilder: (context, state) => const MaterialPage(child: HomePage()),
+        redirect:(context, state) async => await ref.read(routeControllerProvider().future),
       ),
       GoRoute(
         path: '/login-or-register',

@@ -1,6 +1,8 @@
 import 'package:taipme_mobile/src/controller/instance_controller/instance_controller.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
-import 'package:taipme_mobile/src/model/data_model/user_model/user.dart';
+import 'package:taipme_mobile/src/model/data_model/user_model_list/user_login_request_model/user_login_request_model.dart';
+import 'package:taipme_mobile/src/model/data_model/user_model_list/user_model/user_model.dart';
+import 'package:taipme_mobile/src/model/data_model/user_model_list/user_register_request_model/user_register_request_model.dart';
 import 'package:taipme_mobile/src/service/user_service/user_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,33 +21,55 @@ class UserController extends _$UserController {
   void updateCachedUser(UserModel user) => state = user;
   void invalidateCachedUser() => state = null;
 
-  Future<ResultModel<Map<String, dynamic>>> loginUser({
+  Future<ResultModel<UserModel>> loginUser({
     required String email,
     required String password,
   }) async {
     debugPrint('Controller: loginUser is called with: $email and $password');
 
+    final UserLoginRequestModel userRequest = UserLoginRequestModel(
+      email: email,
+      password: password,
+    );
+
     final result = await ref
         .read(userServiceProvider.notifier)
-        .loginUser(email: email, password: password);
+        .authenticateUser(userRequest: userRequest);
 
     if (result.error != null) {
       debugPrint('Controller: loginUser error is ${result.error}');
       return ResultModel(error: result.error);
     } else {
       debugPrint('Controller: loginUser result is ${result.data}');
+      if (result.data != null) updateCachedUser(result.data!);
       return ResultModel(data: result.data);
     }
   }
 
-  Future<bool> updatePassword({
+  Future<ResultModel<bool>> registerUser({
+    String? userName,
     required String email,
     required String password,
-    required String newPassword,
-    required String newPasswordConfirmation,
   }) async {
-    Future.delayed(const Duration(seconds: 1));
-    return true;
+    debugPrint('Controller: registerUser is called with: $email and $password');
+
+    final UserRegisterRequestModel userRequest = UserRegisterRequestModel(
+      userName: userName,
+      email: email,
+      password: password,
+    );
+
+    final result = await ref
+        .read(userServiceProvider.notifier)
+        .registerUser(userRequest: userRequest);
+
+    if (result.error != null) {
+      debugPrint('Controller: registerUser error is ${result.error}');
+      return ResultModel(error: result.error);
+    } else {
+      debugPrint('Controller: registerUser result is ${result.data}');
+      return ResultModel(data: result.data);
+    }
   }
 }
 

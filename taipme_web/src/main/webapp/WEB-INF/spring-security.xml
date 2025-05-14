@@ -16,12 +16,15 @@
     <http pattern="/common.jsp" security="none" />
     <http pattern="/logDownload.jsp" security="none" />
     <http pattern="/logViewer.jsp" security="none" />
-    <http pattern="/authenticate" security="none" />
-    <http pattern="/register" security="none" />
 
     <http pattern="/mobile/**" create-session="stateless" entry-point-ref="jwtAuthenticationEntryPoint">
         <access-denied-handler ref="jwtAccessDeniedHandler" />
+
+        <intercept-url pattern="/mobile/auth/login" access="permitAll" />
+        <intercept-url pattern="/mobile/auth/register" access="permitAll" />
+
         <intercept-url pattern="/mobile/**" access="isAuthenticated()" />
+
         <custom-filter ref="jwtRequestFilter" before="ANONYMOUS_FILTER" />
         <csrf disabled="true"/>
     </http>

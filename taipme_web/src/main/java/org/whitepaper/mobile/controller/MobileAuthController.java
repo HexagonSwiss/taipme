@@ -37,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
+@RequestMapping("/mobile/auth")
 public class MobileAuthController {
 
     private static final Logger authLogger = LoggerFactory.getLogger(MobileAuthController.class);
@@ -58,7 +59,7 @@ public class MobileAuthController {
     private String appBaseUrl;
 
     // --- LOGIN ENDPOINT ---
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         authLogger.info("Authentication attempt for user: {}", authenticationRequest.getUsername());
 

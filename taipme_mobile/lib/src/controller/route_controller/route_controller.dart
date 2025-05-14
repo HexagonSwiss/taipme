@@ -1,43 +1,43 @@
+import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
+import 'package:taipme_mobile/src/service/storage_service/storage_service.dart';
 
-// import 'package:taipme_mobile/src/controller/instance_controller/instance_controller.dart';
-// import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
-// import 'package:taipme_mobile/src/model/data_model/user_model/user.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:riverpod_annotation/riverpod_annotation.dart';
+part 'route_controller.g.dart';
 
-// part 'route_controller.g.dart';
+@riverpod
+FutureOr<String?> routeController(Ref ref, {bool requiresAuth = true}) async {
+  debugPrint('Route: routeController is called');
 
-// @riverpod
-// FutureOr<String?> routeController(Ref ref, {String? backupRoute, bool requiresAuth = false}) async {
-//   final sharedPref = ref.read(sharedPreferencesProvider);
+  try {
+    final bool isFirstTime = await ref.read(isFirstTimeProvider.future);
+    if (isFirstTime) return '/login-or-register';
 
-//   try {
-//     final bool isFirstTime = await ref.read(isFirstTimeProvider.future);
-//     if (isFirstTime) return '/login-or-register';
+    debugPrint('Route: it is not the first time the user opens the app');
 
-//     debugPrint('Route: it is not the first time the user opens the app');
+    final ResultModel<String?> userToken =
+        await ref.read(storageServiceProvider.notifier).getToken();
+    final String? userTokenData = userToken.data;
 
-//     final userId = await sharedPref.getString('user_id');
-//     final userToken = await sharedPref.getString('auth_token');
+    debugPrint('Route: userToken is $userTokenData');
 
-//     if (requiresAuth == true) {
-//       if (userToken == null) return backupRoute ?? '/login-or-register';
+    if (requiresAuth == true) {
+      debugPrint('Route: requiresAuth is true');
 
-//       debugPrint('Route: user is authenticated');
+      if (userTokenData == null) return '/login-or-register';
 
-//       UserModel? currentUser = ref.read(userControllerProvider);
+      debugPrint('Route: user is authenticated in a private route');
 
-//       if (currentUser == null) return backupRoute ?? '/login-or-register';
+      return null;
+    }
 
-//       debugPrint('Route: currentUser id before proceeding to route is ${currentUser.id}');
-//     }
+    debugPrint('Route: requiresAuth is false');
 
-//     return null;
-//   } catch (e) {
-//     debugPrint('Route: error in route navigation is: $e');
-//     return backupRoute ?? '/login-or-register';
-//   }
-// }
-
-
+    return null;
+  } catch (e) {
+    debugPrint('Route: error in route navigation is: $e');
+    return '/login-or-register';
+  }
+}

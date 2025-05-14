@@ -22,7 +22,7 @@ final isFirstTimeProvider = AutoDisposeFutureProvider<bool>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef IsFirstTimeRef = AutoDisposeFutureProviderRef<bool>;
-String _$userControllerHash() => r'70fcae48833fe5534ad0deb1ea73d7795391b3df';
+String _$userControllerHash() => r'278d932ab8e443aea2efe8d40f75f948fb9bdda8';
 
 /// See also [UserController].
 @ProviderFor(UserController)
