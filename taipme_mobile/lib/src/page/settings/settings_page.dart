@@ -115,18 +115,15 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       .read(formControllerProvider.notifier)
                       .handleForm(
                     actions: [
-                      // () async => await ref
-                      //     .read(userControllerProvider.notifier)
-                      //     .updatePassword(
-                      //       email: _emailController.text,
-                      //       password: _passwordController.text,
-                      //       newPassword: _newPasswordController.text,
-                      //       newPasswordConfirmation:
-                      //           _newPasswordConfirmationController.text,
-                      //     ),
+                      () async => await ref
+                          .read(userControllerProvider.notifier)
+                          .changePassword(
+                            currentPassword: _passwordController.text,
+                            newPassword: _newPasswordController.text,
+                          ),
                     ],
-                    route: '/home-page',
-                    globalKey: loginKey,
+                    route: null,
+                    globalKey: profileKey,
                     context: context,
                   ),
                 ),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
+import 'package:taipme_mobile/src/component/button/primary_button.dart';
 import 'package:taipme_mobile/src/component/input_field.dart';
 import 'package:taipme_mobile/src/component/page_structure/form_page_structure.dart';
 import 'package:taipme_mobile/src/component/button/footer_actions.dart';
 import 'package:taipme_mobile/src/controller/form_controller/form_controller.dart';
+import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taipme_mobile/src/util/key/key.dart';
@@ -52,6 +54,24 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           validator: (value) => ref
               .read(formControllerProvider.notifier)
               .validateEmail(value, context),
+        ),
+        SizedBox(height: 16),
+        PrimaryButton(
+          title: '_${AppLocalizations.of(context)!.send}',
+          onPressed: () async {
+            await ref.read(formControllerProvider.notifier).handleForm(
+              actions: [
+                () async => await ref
+                    .read(userControllerProvider.notifier)
+                    .requestPasswordReset(
+                      email: _emailController.text,
+                    ),
+              ],
+              route: '/forgot-password-sent',
+              globalKey: forgotPasswordKey,
+              context: context,
+            );
+          },
         ),
       ],
       footer: FooterActions(

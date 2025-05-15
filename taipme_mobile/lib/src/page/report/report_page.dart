@@ -8,7 +8,7 @@ import 'package:taipme_mobile/src/component/card/read_only_message_card.dart';
 import 'package:taipme_mobile/src/service/message_report_service/message_report_service.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:taipme_mobile/src/model/data_model/message_model/message_model.dart';
+import 'package:taipme_mobile/src/model/data_model/message_model_list/message_model/message_model.dart';
 
 class ReportPage extends ConsumerStatefulWidget {
   const ReportPage({super.key, required this.message});

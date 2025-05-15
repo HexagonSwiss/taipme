@@ -4,7 +4,7 @@ part 'user_register_request_model.freezed.dart';
 part 'user_register_request_model.g.dart';
 
 @freezed
-class UserRegisterRequestModel with _$UserRegisterRequestModel {
+abstract class UserRegisterRequestModel with _$UserRegisterRequestModel {
   const factory UserRegisterRequestModel({
     String? userName,
     required String email,

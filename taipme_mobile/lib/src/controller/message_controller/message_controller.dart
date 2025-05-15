@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:taipme_mobile/src/model/data_model/message_model/message_model.dart';
+import 'package:taipme_mobile/src/model/data_model/message_model_list/message_model/message_model.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 import 'package:taipme_mobile/src/service/message_service/message_service.dart';
 import 'package:taipme_mobile/src/util/helper/snackbar/snackbar.dart';

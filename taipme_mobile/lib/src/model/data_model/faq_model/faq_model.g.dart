@@ -6,8 +6,7 @@ part of 'faq_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$FaqModelImpl _$$FaqModelImplFromJson(Map<String, dynamic> json) =>
-    _$FaqModelImpl(
+_FaqModel _$FaqModelFromJson(Map<String, dynamic> json) => _FaqModel(
       idFaq: (json['idFaq'] as num).toInt(),
       domFaq: json['domFaq'] as String,
       risFaq: json['risFaq'] as String,
@@ -18,8 +17,7 @@ _$FaqModelImpl _$$FaqModelImplFromJson(Map<String, dynamic> json) =>
       isExpanded: json['isExpanded'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$FaqModelImplToJson(_$FaqModelImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$FaqModelToJson(_FaqModel instance) => <String, dynamic>{
       'idFaq': instance.idFaq,
       'domFaq': instance.domFaq,
       'risFaq': instance.risFaq,

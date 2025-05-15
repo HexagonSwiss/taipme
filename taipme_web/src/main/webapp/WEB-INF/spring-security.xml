@@ -22,6 +22,7 @@
 
         <intercept-url pattern="/mobile/auth/login" access="permitAll" />
         <intercept-url pattern="/mobile/auth/register" access="permitAll" />
+        <intercept-url pattern="/mobile/auth/forgot-password" access="permitAll" />
 
         <intercept-url pattern="/mobile/**" access="isAuthenticated()" />
 
@@ -68,9 +69,8 @@
 
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="userDetailsService">
-            <password-encoder hash="bcrypt" />
+            <password-encoder ref="passwordEncoder" />
         </authentication-provider>
-
     </authentication-manager>
 
     <beans:bean id="userDetailsService" class="org.whitepaper.business.service.impl.login.UserDetailServiceImpl" />
@@ -78,6 +78,7 @@
     <beans:bean id="jwtAuthenticationEntryPoint" class="org.whitepaper.config.JwtAuthenticationEntryPoint" />
     <beans:bean id="jwtRequestFilter" class="org.whitepaper.web.controller.login.JwtRequestFilter" />
     <beans:bean id="jwtAccessDeniedHandler" class="org.whitepaper.config.JwtAccessDeniedHandler" />
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
     <context:property-placeholder location="classpath:META-INF/whitepaper.properties"/>
 

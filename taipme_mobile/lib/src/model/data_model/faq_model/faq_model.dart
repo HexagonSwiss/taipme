@@ -8,7 +8,7 @@ part 'faq_model.g.dart';
 // BUT THIS IS SO SMALL IT COULD BE OVERKILL
 
 @freezed
-class FaqModel with _$FaqModel {
+abstract class FaqModel with _$FaqModel {
   const factory FaqModel({
     required int idFaq,
     required String domFaq,

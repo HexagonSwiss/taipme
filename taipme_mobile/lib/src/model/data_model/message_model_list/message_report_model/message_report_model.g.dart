@@ -6,9 +6,8 @@ part of 'message_report_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MessageReportModelImpl _$$MessageReportModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MessageReportModelImpl(
+_MessageReportModel _$MessageReportModelFromJson(Map<String, dynamic> json) =>
+    _MessageReportModel(
       idMsg: json['idMsg'] as String,
       desMot: json['desMot'] as String,
       idMsgSegn: (json['idMsgSegn'] as num?)?.toInt(),
@@ -18,8 +17,7 @@ _$MessageReportModelImpl _$$MessageReportModelImplFromJson(
       isExpanded: json['isExpanded'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$MessageReportModelImplToJson(
-        _$MessageReportModelImpl instance) =>
+Map<String, dynamic> _$MessageReportModelToJson(_MessageReportModel instance) =>
     <String, dynamic>{
       'idMsg': instance.idMsg,
       'desMot': instance.desMot,

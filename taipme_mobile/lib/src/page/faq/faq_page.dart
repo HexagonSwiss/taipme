@@ -22,9 +22,7 @@ class FaqPage extends ConsumerWidget {
           padding: const EdgeInsets.fromLTRB(24, 40, 24, 0),
           child: faqController.when(
             data: (data) => FaqBody(),
-            error: (error, stackTrace) => Center(
-              child: Text(''),
-            ),
+            error: (error, stackTrace) => Center(child: Text('')),
             loading: () => CircularProgressIndicator(),
           ),
         ),

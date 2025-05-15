@@ -1,13 +1,15 @@
-import 'dart:convert';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:http/http.dart' as http;
+import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
+import 'package:taipme_mobile/src/model/data_model/user_model_list/user_change_password_model/user_change_password_model.dart';
 import 'package:taipme_mobile/src/model/data_model/user_model_list/user_login_request_model/user_login_request_model.dart';
 import 'package:taipme_mobile/src/model/data_model/user_model_list/user_model/user_model.dart';
 import 'package:taipme_mobile/src/model/data_model/user_model_list/user_register_request_model/user_register_request_model.dart';
+import 'package:taipme_mobile/src/model/data_model/user_model_list/user_register_response_model/user_register_response_model.dart';
+import 'package:taipme_mobile/src/model/data_model/user_model_list/user_request_password_model/user_request_password_model.dart';
+import 'package:taipme_mobile/src/model/data_model/user_model_list/user_request_password_response_model/user_request_password_response_model.dart';
 import 'package:taipme_mobile/src/service/storage_service/storage_service.dart';
+import 'package:taipme_mobile/src/util/helper/request_builder/request_builder.dart';
 
 part 'user_service.g.dart';
 
@@ -19,127 +21,161 @@ class UserService extends _$UserService {
   Future<ResultModel<UserModel>> authenticateUser({
     required UserLoginRequestModel userRequest,
   }) async {
-    debugPrint("Repository: loginUser is called with user dto: $userRequest");
+    debugPrint(
+      "UserService: authenticateUser called with userRequest: $userRequest",
+    );
 
-    final baseUrl = dotenv.env['API_URL']!;
-    final finalUrL = '$baseUrl/auth/login';
+    final ResultModel<UserModel> response =
+        await ref.read(requestBuilderProvider.notifier).post<UserModel>(
+              endpoint: "/auth/login",
+              body: {
+                'username': userRequest.email,
+                'password': userRequest.password,
+              },
+              parser: (json) => UserModel.fromJson(json),
+            );
 
-    final Uri uri = Uri.parse(finalUrL);
-
-    final Map<String, String> requestBody = {
-      'username': userRequest.email,
-      'password': userRequest.password,
-    };
-
-    final encodedBody = jsonEncode(requestBody);
-
-    final Map<String, String> headers = {
-      "Content-Type": "application/json",
-    };
+    if (response.error != null) {
+      debugPrint(
+        "UserService: authenticateUser failed with error: ${response.error}",
+      );
+      return ResultModel(
+        error: response.error,
+        statusCode: response.statusCode,
+      );
+    }
 
     try {
-      final http.Response response = await http.post(
-        uri,
-        headers: headers,
-        body: encodedBody,
-      );
+      final UserModel data = response.data!;
+      if (data.token != null && data.username.isNotEmpty) {
+        final String token = data.token!;
+        final String username = data.username;
 
-      debugPrint("Repository: loginUser status: ${response.statusCode}");
-      debugPrint("Repository: loginUser response body: ${response.body}");
+        final ResultModel<void> tokenResult =
+            await ref.read(storageServiceProvider.notifier).storeToken(token);
 
-      if (response.statusCode == 200) {
-        try {
-          final decodedResponse = jsonDecode(response.body);
-
-          if (decodedResponse.containsKey('token') &&
-              decodedResponse.containsKey('username')) {
-            debugPrint("UserService: loginUser received token and username");
-
-            final String token = decodedResponse['token'] as String;
-            final String username = decodedResponse['username'] as String;
-
-            final result = await ref
-                .read(storageServiceProvider.notifier)
-                .storeToken(token);
-
-            if (result.error != null) {
-              debugPrint("Repository: loginUser failed to store token");
-              return ResultModel(error: result.error);
-            }
-
-            return ResultModel(
-              data: UserModel.fromJson({'userName': username}),
-              statusCode: response.statusCode,
-            );
-          } else {
-            debugPrint("Repository: loginUser received 200 but no token");
-            return ResultModel(error: "Unexpected response from server.");
-          }
-        } catch (e) {
-          debugPrint("Repository: Error decoding 200 response body: $e");
-          return ResultModel(error: "Failed to process server response.");
+        if (tokenResult.error != null) {
+          debugPrint("UserService: Failed to store token");
+          return ResultModel(error: tokenResult.error);
         }
-      } else if (response.statusCode == 401) {
-        debugPrint("Repository: loginUser authentication failed (401)");
-        return ResultModel(error: response.body);
+
+        return ResultModel(
+          data: UserModel.fromJson({'username': username}),
+          statusCode: response.statusCode,
+        );
       } else {
-        debugPrint("Repository: loginUser code is: ${response.statusCode}");
-        return ResultModel(error: "Server code is ${response.statusCode}");
+        debugPrint("UserService: Missing token or username in response");
+        return ResultModel(error: "Unexpected response from server.");
       }
     } catch (e) {
-      debugPrint("Repository: loginUser network error is: $e");
-      return ResultModel(error: "Si è verificato un errore. Riprovare");
+      debugPrint("UserService: Error processing authenticateUser response: $e");
+      return ResultModel(error: "Failed to process server response.");
     }
   }
 
-  Future<ResultModel<bool>> registerUser({
+  Future<ResultModel<UserRegisterResponseModel>> registerUser({
     required UserRegisterRequestModel userRequest,
   }) async {
     debugPrint(
-        "Repository: registerUser is called with user dto: $userRequest");
+      "UserService: registerUser called with userRequest: $userRequest",
+    );
 
-    final baseUrl = dotenv.env['API_URL']!;
-    final finalUrL = '$baseUrl/auth/register';
-
-    final Uri uri = Uri.parse(finalUrL);
-
-    Map<String, String> requestBody = {
+    Map<String, String> body = {
       'email': userRequest.email,
       'password': userRequest.password,
     };
 
-    final userName = userRequest.userName;
-
-    if (userName != null && userName.isNotEmpty) {
-      requestBody['username'] = userName;
+    if (userRequest.userName != null && userRequest.userName!.isNotEmpty) {
+      body['username'] = userRequest.userName!;
     }
 
-    final encodedBody = jsonEncode(requestBody);
+    final ResultModel<UserRegisterResponseModel> response = await ref
+        .read(requestBuilderProvider.notifier)
+        .post<UserRegisterResponseModel>(
+          endpoint: "/auth/register",
+          body: body,
+          parser: (json) => UserRegisterResponseModel.fromJson(json),
+        );
 
-    final Map<String, String> headers = {
-      "Content-Type": "application/json",
-    };
+    if (response.error != null) {
+      debugPrint(
+        "UserService: registerUser failed with error: ${response.error}",
+      );
+      return ResultModel(error: response.error);
+    }
+
+    return response;
+  }
+
+  Future<ResultModel<UserRequestPasswordResponseModel>> requestPasswordReset({
+    required UserRequestPasswordModel userRequest,
+  }) async {
+    final String email = userRequest.email;
+    debugPrint("UserService: requestPasswordReset called for email: $email");
 
     try {
-      final http.Response response = await http.post(
-        uri,
-        headers: headers,
-        body: encodedBody,
-      );
+      final ResultModel<UserRequestPasswordResponseModel> response = await ref
+          .read(requestBuilderProvider.notifier)
+          .post<UserRequestPasswordResponseModel>(
+            endpoint: "/auth/forgot-password",
+            body: {'email': email},
+            parser: (json) => UserRequestPasswordResponseModel.fromJson(json),
+          );
 
-      debugPrint("Repository: registerUser status: ${response.statusCode}");
-      debugPrint("Repository: registerUser response body: ${response.body}");
-
-      if (response.statusCode == 200) {
-        return ResultModel(data: true, statusCode: response.statusCode);
-      } else if (response.statusCode == 400) {
-        return ResultModel(error: response.body);
-      } else {
-        return ResultModel(error: "Server code is ${response.statusCode}");
+      if (response.error != null) {
+        debugPrint(
+          "UserService: requestPasswordReset failed with error: ${response.error}",
+        );
+        return ResultModel(error: response.error);
       }
+
+      return response;
     } catch (e) {
-      debugPrint("Repository: registerUser network error is: $e");
-      return ResultModel(error: "Si è verificato un errore. Riprovare");
+      debugPrint(
+        "UserService: Error processing requestPasswordReset response: $e",
+      );
+      return ResultModel(error: "Failed to process server response.");
     }
+  }
+
+  Future<ResultModel<UserRequestPasswordResponseModel>> changePassword({
+    required UserChangePasswordModel changePasswordRequest,
+  }) async {
+    debugPrint("UserService: changePassword called.");
+
+    final tk = await ref.read(storageServiceProvider.notifier).getToken();
+
+    if (tk.hasError() || tk.data == null) {
+      debugPrint(
+        "UserService: changePassword - No token found or error retrieving token: ${tk.error}",
+      );
+      return ResultModel(
+        error: "User not authenticated. Please log in again.",
+        statusCode: 401,
+      );
+    }
+
+    final String token = tk.data!;
+
+    final response = await ref
+        .read(requestBuilderProvider.notifier)
+        .post<UserRequestPasswordResponseModel>(
+          endpoint: "/auth/change-password",
+          body: changePasswordRequest.toJson(),
+          token: token,
+          parser: (json) => UserRequestPasswordResponseModel.fromJson(json),
+        );
+
+    if (response.hasError()) {
+      debugPrint(
+        "UserService: changePassword failed. Error: ${response.error}, Status: ${response.statusCode}",
+      );
+      return ResultModel(
+        error: response.error ?? "Failed to change password.",
+        statusCode: response.statusCode,
+      );
+    }
+
+    return ResultModel(data: response.data, statusCode: response.statusCode);
   }
 }

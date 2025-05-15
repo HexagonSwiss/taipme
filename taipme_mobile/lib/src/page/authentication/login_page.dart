@@ -9,7 +9,6 @@ import 'package:taipme_mobile/src/controller/input_error_controller/input_error_
 import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:taipme_mobile/src/component/input_field.dart';
-import 'package:taipme_mobile/src/util/helper/snackbar/snackbar.dart';
 import 'package:taipme_mobile/src/util/key/key.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/rendering.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:http/http.dart' as http;
-import 'package:taipme_mobile/src/model/data_model/message_model/message_model.dart';
+import 'package:taipme_mobile/src/model/data_model/message_model_list/message_model/message_model.dart';
 import 'dart:convert';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 

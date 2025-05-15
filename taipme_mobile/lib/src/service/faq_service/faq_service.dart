@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:http/http.dart' as http;
 import 'package:taipme_mobile/src/model/data_model/faq_model/faq_model.dart';
-import 'dart:convert';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 import 'package:taipme_mobile/src/service/storage_service/storage_service.dart';
+import 'package:taipme_mobile/src/util/helper/request_builder/request_builder.dart';
 
 part 'faq_service.g.dart';
 
@@ -15,52 +13,61 @@ class FaqService extends _$FaqService {
   void build() {}
 
   Future<ResultModel<List<FaqModel>>> getFaqList() async {
-    final baseUrl = dotenv.env['API_URL']!;
-    final finalUrL = '$baseUrl/faq/all';
-
-    final Uri uri = Uri.parse(finalUrL);
+    debugPrint("FaqService: getFaqList called");
 
     final tokenResult =
         await ref.read(storageServiceProvider.notifier).getToken();
 
     if (tokenResult.error != null || tokenResult.data == null) {
-      debugPrint("FaqService: error retrieving token: ${tokenResult.error}");
+      debugPrint("FaqService: Error retrieving token: ${tokenResult.error}");
       return ResultModel(error: "User not logged in", statusCode: 401);
     }
 
     final String token = tokenResult.data!;
     debugPrint("FaqService: Using token for request");
 
-    final Map<String, String> headers = {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "Authorization": "Bearer $token",
-    };
+    final ResultModel<List<FaqModel>> response =
+        await ref.read(requestBuilderProvider.notifier).get<List<FaqModel>>(
+              endpoint: "/faq/all",
+              token: token,
+              parser: _faqParser,
+            );
+
+    if (response.error != null) {
+      debugPrint("FaqService: getFaqList failed with error: ${response.error}");
+      return ResultModel(error: response.error);
+    }
 
     try {
-      final http.Response response = await http.get(uri, headers: headers);
+      return response;
+    } catch (e) {
+      debugPrint("FaqService: Error processing getFaqList response: $e");
+      return ResultModel(error: "Failed to process server response.");
+    }
+  }
 
-      debugPrint('Repository: FaqService Response is: ${response.statusCode}');
-      debugPrint('Repository: FaqService Response body is: ${response.body}');
-
-      if (response.statusCode == 200) {
-        final List<dynamic> decodedJson = jsonDecode(response.body);
-
-        final List<FaqModel> faqs = decodedJson
-            .map((jsonItem) =>
-                FaqModel.fromJson(jsonItem as Map<String, dynamic>))
+  List<FaqModel> _faqParser(dynamic json) {
+    if (json is List) {
+      try {
+        final List<FaqModel> faqs = json
+            .map((item) => FaqModel.fromJson(item))
             .toList();
 
-        return ResultModel(data: faqs);
-      } else {
-        return ResultModel(
-          error:
-              "Repository: FaqRepo statusCode is: ${response.statusCode} and body is: ${response.body}",
+        debugPrint(
+          "FaqService: _faqParser successfully parsed ${faqs.length} FAQs.",
         );
+        return faqs;
+      } catch (e) {
+        debugPrint("FaqService: _faqParser error during mapping/fromJson: $e");
+        throw FormatException("Error parsing FAQ items: ${e.toString()}");
       }
-    } catch (e) {
-      debugPrint('Repository: FaqRepo error is: $e');
-      return ResultModel(error: "Repository: FaqRepo error is: $e");
+    } else {
+      debugPrint(
+        "FaqService: _faqParser expected a List but got ${json.runtimeType}. JSON: $json",
+      );
+      throw FormatException(
+        "Expected a list of FAQs, but received type: ${json.runtimeType}",
+      );
     }
   }
 }

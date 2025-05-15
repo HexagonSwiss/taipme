@@ -4,7 +4,7 @@ part 'message_report_model.freezed.dart';
 part 'message_report_model.g.dart';
 
 @freezed
-class MessageReportModel with _$MessageReportModel {
+abstract class MessageReportModel with _$MessageReportModel {
   const factory MessageReportModel({
     required String idMsg,
     required String desMot,

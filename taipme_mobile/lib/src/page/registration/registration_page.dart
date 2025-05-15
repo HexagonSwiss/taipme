@@ -89,7 +89,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage> {
             await ref.read(formControllerProvider.notifier).handleForm(
               actions: [
                 () async =>
-                    await ref.read(userControllerProvider.notifier).loginUser(
+                    await ref.read(userControllerProvider.notifier).registerUser(
                           email: _emailController.text,
                           password: _passwordController.text,
                         ),

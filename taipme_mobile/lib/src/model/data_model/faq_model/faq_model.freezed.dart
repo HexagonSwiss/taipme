@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,203 +10,33 @@ part of 'faq_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-FaqModel _$FaqModelFromJson(Map<String, dynamic> json) {
-  return _FaqModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$FaqModel {
-  int get idFaq => throw _privateConstructorUsedError;
-  String get domFaq => throw _privateConstructorUsedError;
-  String get risFaq => throw _privateConstructorUsedError;
-  DateTime? get datFaq => throw _privateConstructorUsedError;
-  String? get codStaFaq => throw _privateConstructorUsedError;
-  bool get isExpanded => throw _privateConstructorUsedError;
-
-  /// Serializes this FaqModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  int get idFaq;
+  String get domFaq;
+  String get risFaq;
+  DateTime? get datFaq;
+  String? get codStaFaq;
+  bool get isExpanded;
 
   /// Create a copy of FaqModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $FaqModelCopyWith<FaqModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$FaqModelCopyWithImpl<FaqModel>(this as FaqModel, _$identity);
 
-/// @nodoc
-abstract class $FaqModelCopyWith<$Res> {
-  factory $FaqModelCopyWith(FaqModel value, $Res Function(FaqModel) then) =
-      _$FaqModelCopyWithImpl<$Res, FaqModel>;
-  @useResult
-  $Res call(
-      {int idFaq,
-      String domFaq,
-      String risFaq,
-      DateTime? datFaq,
-      String? codStaFaq,
-      bool isExpanded});
-}
-
-/// @nodoc
-class _$FaqModelCopyWithImpl<$Res, $Val extends FaqModel>
-    implements $FaqModelCopyWith<$Res> {
-  _$FaqModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of FaqModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? idFaq = null,
-    Object? domFaq = null,
-    Object? risFaq = null,
-    Object? datFaq = freezed,
-    Object? codStaFaq = freezed,
-    Object? isExpanded = null,
-  }) {
-    return _then(_value.copyWith(
-      idFaq: null == idFaq
-          ? _value.idFaq
-          : idFaq // ignore: cast_nullable_to_non_nullable
-              as int,
-      domFaq: null == domFaq
-          ? _value.domFaq
-          : domFaq // ignore: cast_nullable_to_non_nullable
-              as String,
-      risFaq: null == risFaq
-          ? _value.risFaq
-          : risFaq // ignore: cast_nullable_to_non_nullable
-              as String,
-      datFaq: freezed == datFaq
-          ? _value.datFaq
-          : datFaq // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      codStaFaq: freezed == codStaFaq
-          ? _value.codStaFaq
-          : codStaFaq // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isExpanded: null == isExpanded
-          ? _value.isExpanded
-          : isExpanded // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$FaqModelImplCopyWith<$Res>
-    implements $FaqModelCopyWith<$Res> {
-  factory _$$FaqModelImplCopyWith(
-          _$FaqModelImpl value, $Res Function(_$FaqModelImpl) then) =
-      __$$FaqModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {int idFaq,
-      String domFaq,
-      String risFaq,
-      DateTime? datFaq,
-      String? codStaFaq,
-      bool isExpanded});
-}
-
-/// @nodoc
-class __$$FaqModelImplCopyWithImpl<$Res>
-    extends _$FaqModelCopyWithImpl<$Res, _$FaqModelImpl>
-    implements _$$FaqModelImplCopyWith<$Res> {
-  __$$FaqModelImplCopyWithImpl(
-      _$FaqModelImpl _value, $Res Function(_$FaqModelImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of FaqModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? idFaq = null,
-    Object? domFaq = null,
-    Object? risFaq = null,
-    Object? datFaq = freezed,
-    Object? codStaFaq = freezed,
-    Object? isExpanded = null,
-  }) {
-    return _then(_$FaqModelImpl(
-      idFaq: null == idFaq
-          ? _value.idFaq
-          : idFaq // ignore: cast_nullable_to_non_nullable
-              as int,
-      domFaq: null == domFaq
-          ? _value.domFaq
-          : domFaq // ignore: cast_nullable_to_non_nullable
-              as String,
-      risFaq: null == risFaq
-          ? _value.risFaq
-          : risFaq // ignore: cast_nullable_to_non_nullable
-              as String,
-      datFaq: freezed == datFaq
-          ? _value.datFaq
-          : datFaq // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      codStaFaq: freezed == codStaFaq
-          ? _value.codStaFaq
-          : codStaFaq // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isExpanded: null == isExpanded
-          ? _value.isExpanded
-          : isExpanded // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$FaqModelImpl implements _FaqModel {
-  const _$FaqModelImpl(
-      {required this.idFaq,
-      required this.domFaq,
-      required this.risFaq,
-      this.datFaq,
-      this.codStaFaq,
-      this.isExpanded = false});
-
-  factory _$FaqModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FaqModelImplFromJson(json);
-
-  @override
-  final int idFaq;
-  @override
-  final String domFaq;
-  @override
-  final String risFaq;
-  @override
-  final DateTime? datFaq;
-  @override
-  final String? codStaFaq;
-  @override
-  @JsonKey()
-  final bool isExpanded;
-
-  @override
-  String toString() {
-    return 'FaqModel(idFaq: $idFaq, domFaq: $domFaq, risFaq: $risFaq, datFaq: $datFaq, codStaFaq: $codStaFaq, isExpanded: $isExpanded)';
-  }
+  /// Serializes this FaqModel to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FaqModelImpl &&
+            other is FaqModel &&
             (identical(other.idFaq, idFaq) || other.idFaq == idFaq) &&
             (identical(other.domFaq, domFaq) || other.domFaq == domFaq) &&
             (identical(other.risFaq, risFaq) || other.risFaq == risFaq) &&
@@ -221,51 +52,204 @@ class _$FaqModelImpl implements _FaqModel {
   int get hashCode => Object.hash(
       runtimeType, idFaq, domFaq, risFaq, datFaq, codStaFaq, isExpanded);
 
-  /// Create a copy of FaqModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$FaqModelImplCopyWith<_$FaqModelImpl> get copyWith =>
-      __$$FaqModelImplCopyWithImpl<_$FaqModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$FaqModelImplToJson(
-      this,
-    );
+  String toString() {
+    return 'FaqModel(idFaq: $idFaq, domFaq: $domFaq, risFaq: $risFaq, datFaq: $datFaq, codStaFaq: $codStaFaq, isExpanded: $isExpanded)';
   }
 }
 
-abstract class _FaqModel implements FaqModel {
-  const factory _FaqModel(
-      {required final int idFaq,
-      required final String domFaq,
-      required final String risFaq,
-      final DateTime? datFaq,
-      final String? codStaFaq,
-      final bool isExpanded}) = _$FaqModelImpl;
+/// @nodoc
+abstract mixin class $FaqModelCopyWith<$Res> {
+  factory $FaqModelCopyWith(FaqModel value, $Res Function(FaqModel) _then) =
+      _$FaqModelCopyWithImpl;
+  @useResult
+  $Res call(
+      {int idFaq,
+      String domFaq,
+      String risFaq,
+      DateTime? datFaq,
+      String? codStaFaq,
+      bool isExpanded});
+}
 
-  factory _FaqModel.fromJson(Map<String, dynamic> json) =
-      _$FaqModelImpl.fromJson;
+/// @nodoc
+class _$FaqModelCopyWithImpl<$Res> implements $FaqModelCopyWith<$Res> {
+  _$FaqModelCopyWithImpl(this._self, this._then);
+
+  final FaqModel _self;
+  final $Res Function(FaqModel) _then;
+
+  /// Create a copy of FaqModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? idFaq = null,
+    Object? domFaq = null,
+    Object? risFaq = null,
+    Object? datFaq = freezed,
+    Object? codStaFaq = freezed,
+    Object? isExpanded = null,
+  }) {
+    return _then(_self.copyWith(
+      idFaq: null == idFaq
+          ? _self.idFaq
+          : idFaq // ignore: cast_nullable_to_non_nullable
+              as int,
+      domFaq: null == domFaq
+          ? _self.domFaq
+          : domFaq // ignore: cast_nullable_to_non_nullable
+              as String,
+      risFaq: null == risFaq
+          ? _self.risFaq
+          : risFaq // ignore: cast_nullable_to_non_nullable
+              as String,
+      datFaq: freezed == datFaq
+          ? _self.datFaq
+          : datFaq // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      codStaFaq: freezed == codStaFaq
+          ? _self.codStaFaq
+          : codStaFaq // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isExpanded: null == isExpanded
+          ? _self.isExpanded
+          : isExpanded // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _FaqModel implements FaqModel {
+  const _FaqModel(
+      {required this.idFaq,
+      required this.domFaq,
+      required this.risFaq,
+      this.datFaq,
+      this.codStaFaq,
+      this.isExpanded = false});
+  factory _FaqModel.fromJson(Map<String, dynamic> json) =>
+      _$FaqModelFromJson(json);
 
   @override
-  int get idFaq;
+  final int idFaq;
   @override
-  String get domFaq;
+  final String domFaq;
   @override
-  String get risFaq;
+  final String risFaq;
   @override
-  DateTime? get datFaq;
+  final DateTime? datFaq;
   @override
-  String? get codStaFaq;
+  final String? codStaFaq;
   @override
-  bool get isExpanded;
+  @JsonKey()
+  final bool isExpanded;
 
   /// Create a copy of FaqModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FaqModelImplCopyWith<_$FaqModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$FaqModelCopyWith<_FaqModel> get copyWith =>
+      __$FaqModelCopyWithImpl<_FaqModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$FaqModelToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _FaqModel &&
+            (identical(other.idFaq, idFaq) || other.idFaq == idFaq) &&
+            (identical(other.domFaq, domFaq) || other.domFaq == domFaq) &&
+            (identical(other.risFaq, risFaq) || other.risFaq == risFaq) &&
+            (identical(other.datFaq, datFaq) || other.datFaq == datFaq) &&
+            (identical(other.codStaFaq, codStaFaq) ||
+                other.codStaFaq == codStaFaq) &&
+            (identical(other.isExpanded, isExpanded) ||
+                other.isExpanded == isExpanded));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, idFaq, domFaq, risFaq, datFaq, codStaFaq, isExpanded);
+
+  @override
+  String toString() {
+    return 'FaqModel(idFaq: $idFaq, domFaq: $domFaq, risFaq: $risFaq, datFaq: $datFaq, codStaFaq: $codStaFaq, isExpanded: $isExpanded)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$FaqModelCopyWith<$Res>
+    implements $FaqModelCopyWith<$Res> {
+  factory _$FaqModelCopyWith(_FaqModel value, $Res Function(_FaqModel) _then) =
+      __$FaqModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {int idFaq,
+      String domFaq,
+      String risFaq,
+      DateTime? datFaq,
+      String? codStaFaq,
+      bool isExpanded});
+}
+
+/// @nodoc
+class __$FaqModelCopyWithImpl<$Res> implements _$FaqModelCopyWith<$Res> {
+  __$FaqModelCopyWithImpl(this._self, this._then);
+
+  final _FaqModel _self;
+  final $Res Function(_FaqModel) _then;
+
+  /// Create a copy of FaqModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? idFaq = null,
+    Object? domFaq = null,
+    Object? risFaq = null,
+    Object? datFaq = freezed,
+    Object? codStaFaq = freezed,
+    Object? isExpanded = null,
+  }) {
+    return _then(_FaqModel(
+      idFaq: null == idFaq
+          ? _self.idFaq
+          : idFaq // ignore: cast_nullable_to_non_nullable
+              as int,
+      domFaq: null == domFaq
+          ? _self.domFaq
+          : domFaq // ignore: cast_nullable_to_non_nullable
+              as String,
+      risFaq: null == risFaq
+          ? _self.risFaq
+          : risFaq // ignore: cast_nullable_to_non_nullable
+              as String,
+      datFaq: freezed == datFaq
+          ? _self.datFaq
+          : datFaq // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      codStaFaq: freezed == codStaFaq
+          ? _self.codStaFaq
+          : codStaFaq // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isExpanded: null == isExpanded
+          ? _self.isExpanded
+          : isExpanded // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+// dart format on

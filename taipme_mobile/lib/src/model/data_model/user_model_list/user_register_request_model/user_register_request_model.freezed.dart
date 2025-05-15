@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,152 +10,31 @@ part of 'user_register_request_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-UserRegisterRequestModel _$UserRegisterRequestModelFromJson(
-    Map<String, dynamic> json) {
-  return _UserRegisterRequestModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$UserRegisterRequestModel {
-  String? get userName => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
-  String get password => throw _privateConstructorUsedError;
-
-  /// Serializes this UserRegisterRequestModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String? get userName;
+  String get email;
+  String get password;
 
   /// Create a copy of UserRegisterRequestModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $UserRegisterRequestModelCopyWith<UserRegisterRequestModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$UserRegisterRequestModelCopyWithImpl<UserRegisterRequestModel>(
+          this as UserRegisterRequestModel, _$identity);
 
-/// @nodoc
-abstract class $UserRegisterRequestModelCopyWith<$Res> {
-  factory $UserRegisterRequestModelCopyWith(UserRegisterRequestModel value,
-          $Res Function(UserRegisterRequestModel) then) =
-      _$UserRegisterRequestModelCopyWithImpl<$Res, UserRegisterRequestModel>;
-  @useResult
-  $Res call({String? userName, String email, String password});
-}
-
-/// @nodoc
-class _$UserRegisterRequestModelCopyWithImpl<$Res,
-        $Val extends UserRegisterRequestModel>
-    implements $UserRegisterRequestModelCopyWith<$Res> {
-  _$UserRegisterRequestModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of UserRegisterRequestModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? userName = freezed,
-    Object? email = null,
-    Object? password = null,
-  }) {
-    return _then(_value.copyWith(
-      userName: freezed == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$UserRegisterRequestModelImplCopyWith<$Res>
-    implements $UserRegisterRequestModelCopyWith<$Res> {
-  factory _$$UserRegisterRequestModelImplCopyWith(
-          _$UserRegisterRequestModelImpl value,
-          $Res Function(_$UserRegisterRequestModelImpl) then) =
-      __$$UserRegisterRequestModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String? userName, String email, String password});
-}
-
-/// @nodoc
-class __$$UserRegisterRequestModelImplCopyWithImpl<$Res>
-    extends _$UserRegisterRequestModelCopyWithImpl<$Res,
-        _$UserRegisterRequestModelImpl>
-    implements _$$UserRegisterRequestModelImplCopyWith<$Res> {
-  __$$UserRegisterRequestModelImplCopyWithImpl(
-      _$UserRegisterRequestModelImpl _value,
-      $Res Function(_$UserRegisterRequestModelImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of UserRegisterRequestModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? userName = freezed,
-    Object? email = null,
-    Object? password = null,
-  }) {
-    return _then(_$UserRegisterRequestModelImpl(
-      userName: freezed == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$UserRegisterRequestModelImpl implements _UserRegisterRequestModel {
-  const _$UserRegisterRequestModelImpl(
-      {this.userName, required this.email, required this.password});
-
-  factory _$UserRegisterRequestModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserRegisterRequestModelImplFromJson(json);
-
-  @override
-  final String? userName;
-  @override
-  final String email;
-  @override
-  final String password;
-
-  @override
-  String toString() {
-    return 'UserRegisterRequestModel(userName: $userName, email: $email, password: $password)';
-  }
+  /// Serializes this UserRegisterRequestModel to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UserRegisterRequestModelImpl &&
+            other is UserRegisterRequestModel &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
             (identical(other.email, email) || other.email == email) &&
@@ -166,43 +46,151 @@ class _$UserRegisterRequestModelImpl implements _UserRegisterRequestModel {
   @override
   int get hashCode => Object.hash(runtimeType, userName, email, password);
 
-  /// Create a copy of UserRegisterRequestModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$UserRegisterRequestModelImplCopyWith<_$UserRegisterRequestModelImpl>
-      get copyWith => __$$UserRegisterRequestModelImplCopyWithImpl<
-          _$UserRegisterRequestModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$UserRegisterRequestModelImplToJson(
-      this,
-    );
+  String toString() {
+    return 'UserRegisterRequestModel(userName: $userName, email: $email, password: $password)';
   }
 }
 
-abstract class _UserRegisterRequestModel implements UserRegisterRequestModel {
-  const factory _UserRegisterRequestModel(
-      {final String? userName,
-      required final String email,
-      required final String password}) = _$UserRegisterRequestModelImpl;
+/// @nodoc
+abstract mixin class $UserRegisterRequestModelCopyWith<$Res> {
+  factory $UserRegisterRequestModelCopyWith(UserRegisterRequestModel value,
+          $Res Function(UserRegisterRequestModel) _then) =
+      _$UserRegisterRequestModelCopyWithImpl;
+  @useResult
+  $Res call({String? userName, String email, String password});
+}
 
-  factory _UserRegisterRequestModel.fromJson(Map<String, dynamic> json) =
-      _$UserRegisterRequestModelImpl.fromJson;
+/// @nodoc
+class _$UserRegisterRequestModelCopyWithImpl<$Res>
+    implements $UserRegisterRequestModelCopyWith<$Res> {
+  _$UserRegisterRequestModelCopyWithImpl(this._self, this._then);
+
+  final UserRegisterRequestModel _self;
+  final $Res Function(UserRegisterRequestModel) _then;
+
+  /// Create a copy of UserRegisterRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userName = freezed,
+    Object? email = null,
+    Object? password = null,
+  }) {
+    return _then(_self.copyWith(
+      userName: freezed == userName
+          ? _self.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      email: null == email
+          ? _self.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: null == password
+          ? _self.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _UserRegisterRequestModel implements UserRegisterRequestModel {
+  const _UserRegisterRequestModel(
+      {this.userName, required this.email, required this.password});
+  factory _UserRegisterRequestModel.fromJson(Map<String, dynamic> json) =>
+      _$UserRegisterRequestModelFromJson(json);
 
   @override
-  String? get userName;
+  final String? userName;
   @override
-  String get email;
+  final String email;
   @override
-  String get password;
+  final String password;
 
   /// Create a copy of UserRegisterRequestModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UserRegisterRequestModelImplCopyWith<_$UserRegisterRequestModelImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$UserRegisterRequestModelCopyWith<_UserRegisterRequestModel> get copyWith =>
+      __$UserRegisterRequestModelCopyWithImpl<_UserRegisterRequestModel>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$UserRegisterRequestModelToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _UserRegisterRequestModel &&
+            (identical(other.userName, userName) ||
+                other.userName == userName) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.password, password) ||
+                other.password == password));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, userName, email, password);
+
+  @override
+  String toString() {
+    return 'UserRegisterRequestModel(userName: $userName, email: $email, password: $password)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$UserRegisterRequestModelCopyWith<$Res>
+    implements $UserRegisterRequestModelCopyWith<$Res> {
+  factory _$UserRegisterRequestModelCopyWith(_UserRegisterRequestModel value,
+          $Res Function(_UserRegisterRequestModel) _then) =
+      __$UserRegisterRequestModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String? userName, String email, String password});
+}
+
+/// @nodoc
+class __$UserRegisterRequestModelCopyWithImpl<$Res>
+    implements _$UserRegisterRequestModelCopyWith<$Res> {
+  __$UserRegisterRequestModelCopyWithImpl(this._self, this._then);
+
+  final _UserRegisterRequestModel _self;
+  final $Res Function(_UserRegisterRequestModel) _then;
+
+  /// Create a copy of UserRegisterRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? userName = freezed,
+    Object? email = null,
+    Object? password = null,
+  }) {
+    return _then(_UserRegisterRequestModel(
+      userName: freezed == userName
+          ? _self.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      email: null == email
+          ? _self.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: null == password
+          ? _self.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+// dart format on

@@ -1,25 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'chat_controller.dart';
+part of 'request_builder.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$chatControllerHash() => r'f364c2df1ac4b2d6309b0a6daf234534116453db';
+String _$requestBuilderHash() => r'5caae12332a970daaf925fe4f2a2e988a9e5f6bf';
 
-/// See also [ChatController].
-@ProviderFor(ChatController)
-final chatControllerProvider = NotifierProvider<ChatController, void>.internal(
-  ChatController.new,
-  name: r'chatControllerProvider',
+/// See also [RequestBuilder].
+@ProviderFor(RequestBuilder)
+final requestBuilderProvider =
+    AutoDisposeNotifierProvider<RequestBuilder, void>.internal(
+  RequestBuilder.new,
+  name: r'requestBuilderProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$chatControllerHash,
+      : _$requestBuilderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ChatController = Notifier<void>;
+typedef _$RequestBuilder = AutoDisposeNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -6,8 +6,8 @@ part of 'message_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MessageModelImpl _$$MessageModelImplFromJson(Map<String, dynamic> json) =>
-    _$MessageModelImpl(
+_MessageModel _$MessageModelFromJson(Map<String, dynamic> json) =>
+    _MessageModel(
       idMsg: (json['idMsg'] as num?)?.toInt(),
       idUteAut: (json['idUteAut'] as num?)?.toInt(),
       idUteReply: (json['idUteReply'] as num?)?.toInt(),
@@ -38,7 +38,7 @@ _$MessageModelImpl _$$MessageModelImplFromJson(Map<String, dynamic> json) =>
       isCurrent: json['isCurrent'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$MessageModelImplToJson(_$MessageModelImpl instance) =>
+Map<String, dynamic> _$MessageModelToJson(_MessageModel instance) =>
     <String, dynamic>{
       'idMsg': instance.idMsg,
       'idUteAut': instance.idUteAut,
