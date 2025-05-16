@@ -1,35 +1,34 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.whitepaper</groupId>
 	<artifactId>WhitePaper</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
-	
-	 <properties>
-        
-        <slf4j.version>1.7.5</slf4j.version>
-        <spring.version>4.1.6.RELEASE</spring.version>
-        <spring.data.jpa.version>1.8.0.RELEASE</spring.data.jpa.version>
-        
-        <spring.security.version>4.0.1.RELEASE</spring.security.version>
-        <spring.social.version>1.1.4.RELEASE</spring.social.version>
-        <spring.social.facebook.version>2.0.3.RELEASE</spring.social.facebook.version>
-        <spring.social.twitter.version>1.1.0.RELEASE</spring.social.twitter.version>
 
-        <tiles.version>2.2.2</tiles.version>
+	<properties>
+
+		<slf4j.version>1.7.5</slf4j.version>
+		<spring.version>4.1.6.RELEASE</spring.version>
+		<spring.data.jpa.version>1.8.0.RELEASE</spring.data.jpa.version>
+
+		<spring.security.version>4.0.1.RELEASE</spring.security.version>
+		<spring.social.version>1.1.4.RELEASE</spring.social.version>
+		<spring.social.facebook.version>2.0.3.RELEASE</spring.social.facebook.version>
+		<spring.social.twitter.version>1.1.0.RELEASE</spring.social.twitter.version>
+
+		<tiles.version>2.2.2</tiles.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-        
-    </properties>
-    	
+
+	</properties>
+
 	<dependencies>
 
 		<dependency>
-    		<groupId>org.javassist</groupId>
-    		<artifactId>javassist</artifactId>
-    		<version>3.29.2-GA</version> 
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.29.2-GA</version>
 		</dependency>
 
 		<!-- Add the JDBC driver here -->
@@ -47,7 +46,7 @@
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<!-- Bean validation -->
 		<dependency>
 			<groupId>javax.validation</groupId>
@@ -57,11 +56,11 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>5.2.4.Final</version> 
+			<version>5.2.4.Final</version>
 		</dependency>
-		
+
 		<!-- Dependencies for Unit Testing -->
-  		<dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit-dep</artifactId>
 			<version>4.11</version>
@@ -74,16 +73,16 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		    <groupId>org.mockito</groupId>
+			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-		    <version>1.9.5</version>
-		    <scope>test</scope>
+			<version>1.9.5</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-test</artifactId>
-		    <version>${spring.version}</version>
-		    <scope>test</scope>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Logging : SLF4J is used by Hibernate -->
@@ -96,7 +95,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			
+
 			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
@@ -105,24 +104,24 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
-    		<groupId>log4j</groupId>
-   			 <artifactId>log4j</artifactId>
-    		<version>1.2.17</version>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
 		</dependency>
 		<dependency>
-    		<groupId>org.jsoup</groupId>
-    		<artifactId>jsoup</artifactId>
-    		<version>1.14.3</version>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.14.3</version>
 		</dependency>
-		
+
 		<!-- Insert contents of : pom_dependencies_persistence.txt -->
 
 		<!-- data -->
 		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
-        </dependency>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
@@ -143,7 +142,7 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.3.3</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
@@ -152,12 +151,12 @@
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId> <!-- org.hibernate.ejb.* -->
+			<artifactId>hibernate-entitymanager</artifactId>			<!-- org.hibernate.ejb.* -->
 			<version>4.2.2.Final</version>
 		</dependency>
 
 		<!-- Dependencies for Unit Testing -->
-  		<dependency>
+		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>2.2.8</version>
@@ -171,12 +170,12 @@
 		</dependency>
 
 		<!-- Insert contents of : pom_dependencies_service.txt -->
-        <dependency>
+		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>0.6.2</version>
 		</dependency>
-		
+
 		<!-- Insert contents of : pom_dependencies_web.txt -->
 		<!-- Spring Web MVC -->
 		<dependency>
@@ -186,23 +185,23 @@
 		</dependency>
 
 		<!-- Tiles -->
-    	<dependency>
-            <groupId>org.apache.tiles</groupId>
-            <artifactId>tiles-core</artifactId>
-            <version>${tiles.version}</version>
-        </dependency>
-    	<dependency>
-            <groupId>org.apache.tiles</groupId>
-            <artifactId>tiles-jsp</artifactId>
-            <version>${tiles.version}</version>
-        </dependency>
-        
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-core</artifactId>
+			<version>${tiles.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version>${tiles.version}</version>
+		</dependency>
+
 		<!-- Servlet/JSP -->
 		<dependency>
-    		<groupId>javax.servlet</groupId>
-    		<artifactId>javax.servlet-api</artifactId>
-    		<version>4.0.1</version>
-    		<scope>provided</scope>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -221,23 +220,23 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.5.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.5.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.5.4</version>
-        </dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.5.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.5.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.5.4</version>
+		</dependency>
 
-<!-- Spring Security -->
+		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
@@ -251,9 +250,9 @@
 		</dependency>
 
 		<dependency>
-    		<groupId>io.jsonwebtoken</groupId>
-    		<artifactId>jjwt</artifactId>
-    		<version>0.9.1</version> 
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
 		</dependency>
 
 		<dependency>
@@ -269,85 +268,85 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>${spring.security.version}</version>
 		</dependency>
-		
-		
+
+
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-context-support</artifactId>
-    <version>${spring.version}</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.velocity/velocity -->
-<dependency>
-    <groupId>org.apache.velocity</groupId>
-    <artifactId>velocity</artifactId>
-    <version>1.7</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
-<dependency>
-    <groupId>com.sun.mail</groupId>
-    <artifactId>javax.mail</artifactId>
-    <version>1.6.2</version>
-</dependency>
-<dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.velocity/velocity -->
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		<dependency>
 			<groupId>velocity-tools</groupId>
 			<artifactId>velocity-tools</artifactId>
 			<version>1.3</version>
 		</dependency>
 
-	
 
 
-        <!-- Spring Social -->
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-config</artifactId>
-            <version>${spring.social.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-core</artifactId>
-            <version>${spring.social.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-security</artifactId>
-            <version>${spring.social.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-web</artifactId>
-            <version>${spring.social.version}</version>
-        </dependency>
-        <!-- Spring Social Facebook -->
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-facebook</artifactId>
-            <version>${spring.social.facebook.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-social-core</artifactId>
-                    <groupId>org.springframework.social</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-social-config</artifactId>
-                    <groupId>org.springframework.social</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>    
-        <!-- Spring Social Twitter -->
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-twitter</artifactId>
-            <version>${spring.social.twitter.version}</version>
-        </dependency>
-    	<!-- MySQL ** Diego -->
-	    <dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
-		    <version>8.0.33</version>
+
+		<!-- Spring Social -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-config</artifactId>
+			<version>${spring.social.version}</version>
 		</dependency>
-	
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-core</artifactId>
+			<version>${spring.social.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-security</artifactId>
+			<version>${spring.social.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-web</artifactId>
+			<version>${spring.social.version}</version>
+		</dependency>
+		<!-- Spring Social Facebook -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-facebook</artifactId>
+			<version>${spring.social.facebook.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-social-core</artifactId>
+					<groupId>org.springframework.social</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-social-config</artifactId>
+					<groupId>org.springframework.social</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- Spring Social Twitter -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-twitter</artifactId>
+			<version>${spring.social.twitter.version}</version>
+		</dependency>
+		<!-- MySQL ** Diego -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.33</version>
+		</dependency>
+
 
 	</dependencies>
 

@@ -25,10 +25,10 @@ import org.whitepaper.bean.AnaUtente;
 import org.whitepaper.business.service.custom.GestUtenteService;
 import org.whitepaper.business.service.impl.custom.JwtTokenService;
 import org.whitepaper.mobile.dto.ChangePasswordRequest;
-import org.whitepaper.mobile.dto.ForgotPasswordRequest; // New DTO
+import org.whitepaper.mobile.dto.ForgotPasswordRequest; 
 import org.whitepaper.mobile.dto.JwtRequest;
 import org.whitepaper.mobile.dto.JwtResponse;
-import org.whitepaper.mobile.dto.ResetPasswordRequest; // New DTO
+import org.whitepaper.mobile.dto.ResetPasswordRequest; 
 import org.whitepaper.mobile.dto.UserRegistrationRequest;
 import org.whitepaper.utility.EncoderGenerator;
 import org.whitepaper.utility.ConstantsDefinition;

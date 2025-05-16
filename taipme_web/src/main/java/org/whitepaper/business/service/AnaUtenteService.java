@@ -21,6 +21,14 @@ public interface AnaUtenteService {
 	AnaUtente findById( Integer idUte  ) ;
 
 	/**
+	 * Finds a user by their email for authentication purposes.
+	 * 
+	 * @param email the email of the user
+	 * @return the user entity if found, otherwise null
+	 */
+	AnaUtente findUtenteByEmail(String email);
+
+	/**
 	 * Loads all entities.
 	 * @return all entities
 	 */

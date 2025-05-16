@@ -180,7 +180,7 @@ public class HomeRegController extends BaseController {
 		return "typewriter/writemsg";
 	}
 	
-	//foglio valido: 1-5
+	// foglio valido: 1-5
 	private boolean checkIdFoglioIsValido(Integer idFoglio, String tipoOperazione) {
 		
 		if ( null==idFoglio || idFoglio.intValue()>ConstantsDefinition.NUM_MAX_FOGLI || idFoglio.intValue()<1 ) {
@@ -283,6 +283,7 @@ public class HomeRegController extends BaseController {
 		
 		//check: un foglio un messaggio		
 		Messaggio messaggioClone = messaggioCustomService.findMsgByAutoreAndIdFoglio(idUtente, messaggio.getIdFoglio());
+		
 		if ( null!=messaggioClone ) {
 			messageHelper.addMessage(redirectAttributes, new Message(MessageType.DANGER,"messaggio.foglio.busy"));
 			return urlPageFoglio;

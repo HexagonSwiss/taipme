@@ -31,7 +31,7 @@ public class AnaUtenteServiceImpl implements AnaUtenteService {
 
 	@Resource
 	private AnaUtenteServiceMapper anaUtenteServiceMapper;
-	
+
 	@Override
 	public AnaUtente findById(Integer idUte) {
 		AnaUtenteEntity anaUtenteEntity = anaUtenteJpaRepository.findOne(idUte);
@@ -39,10 +39,26 @@ public class AnaUtenteServiceImpl implements AnaUtenteService {
 	}
 
 	@Override
+	public AnaUtente findUtenteByEmail(String email) {
+		// Log the email being searched for
+		if (email == null || email.isEmpty()) {
+			throw new IllegalArgumentException("Email cannot be null or empty");
+		}
+
+		AnaUtenteEntity anaUtenteEntity = anaUtenteJpaRepository.findByEmail(email);
+		if (anaUtenteEntity == null) {
+			return null; // Return null if no user is found
+		}
+
+		// Map the entity to the AnaUtente bean and return it
+		return anaUtenteServiceMapper.mapAnaUtenteEntityToAnaUtente(anaUtenteEntity);
+	}
+
+	@Override
 	public List<AnaUtente> findAll() {
 		Iterable<AnaUtenteEntity> entities = anaUtenteJpaRepository.findAll();
 		List<AnaUtente> beans = new ArrayList<AnaUtente>();
-		for(AnaUtenteEntity anaUtenteEntity : entities) {
+		for (AnaUtenteEntity anaUtenteEntity : entities) {
 			beans.add(anaUtenteServiceMapper.mapAnaUtenteEntityToAnaUtente(anaUtenteEntity));
 		}
 		return beans;
@@ -50,23 +66,24 @@ public class AnaUtenteServiceImpl implements AnaUtenteService {
 
 	@Override
 	public AnaUtente save(AnaUtente anaUtente) {
-		return update(anaUtente) ;
+		return update(anaUtente);
 	}
 
 	@Override
 	public AnaUtente create(AnaUtente anaUtente) {
-		
+
 		/***
-		AnaUtenteEntity anaUtenteEntity = anaUtenteJpaRepository.findOne(anaUtente.getIdUte());
-		if( anaUtenteEntity != null ) {
-			throw new IllegalStateException("already.exists");
-		}
-		*/
-		
+		 * AnaUtenteEntity anaUtenteEntity =
+		 * anaUtenteJpaRepository.findOne(anaUtente.getIdUte());
+		 * if( anaUtenteEntity != null ) {
+		 * throw new IllegalStateException("already.exists");
+		 * }
+		 */
+
 		AnaUtenteEntity anaUtenteEntity = new AnaUtenteEntity();
 		anaUtenteServiceMapper.mapAnaUtenteToAnaUtenteEntity(anaUtente, anaUtenteEntity);
-		anaUtenteEntity.setDatUltMov( Calendar.getInstance().getTime() );
-		anaUtenteEntity.setDatCreUte( Calendar.getInstance().getTime() );
+		anaUtenteEntity.setDatUltMov(Calendar.getInstance().getTime());
+		anaUtenteEntity.setDatCreUte(Calendar.getInstance().getTime());
 		anaUtenteEntity.setPwd(EncoderGenerator.encode(anaUtente.getPwd()));
 		AnaUtenteEntity anaUtenteEntitySaved = anaUtenteJpaRepository.save(anaUtenteEntity);
 		return anaUtenteServiceMapper.mapAnaUtenteEntityToAnaUtente(anaUtenteEntitySaved);
@@ -76,8 +93,8 @@ public class AnaUtenteServiceImpl implements AnaUtenteService {
 	public AnaUtente update(AnaUtente anaUtente) {
 		AnaUtenteEntity anaUtenteEntity = anaUtenteJpaRepository.findOne(anaUtente.getIdUte());
 		anaUtenteServiceMapper.mapAnaUtenteToAnaUtenteEntity(anaUtente, anaUtenteEntity);
-		anaUtenteEntity.setDatUltMov( Calendar.getInstance().getTime() );
-		anaUtenteEntity.setDatCreUte( Calendar.getInstance().getTime() );
+		anaUtenteEntity.setDatUltMov(Calendar.getInstance().getTime());
+		anaUtenteEntity.setDatCreUte(Calendar.getInstance().getTime());
 		AnaUtenteEntity anaUtenteEntitySaved = anaUtenteJpaRepository.save(anaUtenteEntity);
 		return anaUtenteServiceMapper.mapAnaUtenteEntityToAnaUtente(anaUtenteEntitySaved);
 	}

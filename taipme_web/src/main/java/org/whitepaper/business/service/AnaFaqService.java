@@ -19,6 +19,8 @@ public interface AnaFaqService {
 	 */
 	AnaFaq findById( Integer idFaq  ) ;
 
+	
+
 	/**
 	 * Loads all entities.
 	 * @return all entities
