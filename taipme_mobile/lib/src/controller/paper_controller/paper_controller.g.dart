@@ -229,5 +229,22 @@ final currentPaperIdProvider =
 );
 
 typedef _$CurrentPaperId = AutoDisposeNotifier<int>;
+String _$paperActionsControllerHash() =>
+    r'6ea591d93efb3564bde88ffa292c2592c4808425';
+
+/// See also [PaperActionsController].
+@ProviderFor(PaperActionsController)
+final paperActionsControllerProvider =
+    AutoDisposeNotifierProvider<PaperActionsController, void>.internal(
+  PaperActionsController.new,
+  name: r'paperActionsControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$paperActionsControllerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$PaperActionsController = AutoDisposeNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,11 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.whitepaper.bean.Messaggio;
 import org.whitepaper.business.service.MessaggioService;
 import org.whitepaper.business.service.custom.MessaggioCustomService;
+import org.whitepaper.mobile.dto.CreateMessageRequestDto;
 import org.whitepaper.mobile.dto.PaperActionFlagsDto;
 import org.whitepaper.mobile.dto.PaperContentDto;
 import org.whitepaper.mobile.dto.PaperStatusDto;
 import org.whitepaper.mobile.dto.UserPapersSummaryDto;
 import org.whitepaper.utility.ConstantsDefinition;
+import org.whitepaper.utility.UtilityFunction;
 import org.whitepaper.bean.AnaUtente;
 import org.whitepaper.business.service.AnaUtenteService;
 
@@ -258,4 +261,102 @@ public class MobilePaperController {
 
         return ResponseEntity.ok(paperContent);
     }
+
+    @RequestMapping(value = "/{paperId}/messages", method = RequestMethod.POST)
+    public ResponseEntity<?> createMessageOnPaper(
+            @PathVariable("paperId") Integer paperId,
+            @RequestBody CreateMessageRequestDto messageRequest) {
+
+        Integer currentUserId = getCurrentUserId();
+        if (currentUserId == null) {
+            return new ResponseEntity<>("{\"error\":\"User not authenticated.\"}", HttpStatus.UNAUTHORIZED);
+        }
+        paperLogger.info("User ID: {} attempting to create message on paper ID: {}", currentUserId, paperId);
+
+        // 1. Validate paperId
+        if (paperId == null || paperId < 1 || paperId > ConstantsDefinition.NUM_MAX_FOGLI) {
+            paperLogger.warn("Invalid paperId for new message: {}", paperId);
+            return new ResponseEntity<>("{\"error\":\"Invalid paper ID.\"}", HttpStatus.BAD_REQUEST);
+        }
+
+        // 2. Validate message content
+        if (UtilityFunction.isFieldBlank(messageRequest.getDesMsg())) {
+            paperLogger.warn("Message description is empty for user ID: {}", currentUserId);
+            return new ResponseEntity<>("{\"error\":\"Message content cannot be empty.\"}", HttpStatus.BAD_REQUEST);
+        }
+
+        // 3. Check if this paperId is available for the user to write a NEW PUBLIC
+        // message
+        // (Similar to HomeRegController.savemsg and writemsg logic)
+        // Rule: "un foglio un messaggio" - user cannot have multiple active authored
+        // public messages on the same paperId.
+        Messaggio existingMessageOnPaperByAuthor = messaggioCustomService.findMsgByAutoreAndIdFoglio(currentUserId,
+                paperId);
+        if (existingMessageOnPaperByAuthor != null) {
+            // If a message exists, it must not be a PUB message or must have been replied
+            // to (making it PRI/LET)
+            // If it's still their own PUB message, they can't post another one on top.
+            if (ConstantsDefinition.CODMSG_PUB.equals(existingMessageOnPaperByAuthor.getCodTipMsg()) &&
+                    existingMessageOnPaperByAuthor.getIdMsgReply() == null) { // Check if it's their unreplied public
+                                                                              // message
+                paperLogger.warn("User ID: {} already has a public message on paper ID: {}. Cannot create another.",
+                        currentUserId, paperId);
+                return new ResponseEntity<>("{\"error\":\"Paper is already in use by your public message.\"}",
+                        HttpStatus.CONFLICT); // 409 Conflict
+            }
+            // If it's a private conversation (PRI/LET), they also can't use this paper for
+            // a *new public* message.
+            // The "write new" action is for an "empty" slot for the user.
+            if (ConstantsDefinition.CODMSG_PRI.equals(existingMessageOnPaperByAuthor.getCodTipMsg()) ||
+                    ConstantsDefinition.CODMSG_LET.equals(existingMessageOnPaperByAuthor.getCodTipMsg())) {
+                paperLogger.warn(
+                        "User ID: {} is in a private conversation on paper ID: {}. Cannot create a new public message here.",
+                        currentUserId, paperId);
+                return new ResponseEntity<>("{\"error\":\"Paper is in use for a private conversation.\"}",
+                        HttpStatus.CONFLICT);
+            }
+        }
+
+        // 4. Check if user has reached max number of active public messages (if such a
+        // limit exists beyond 5 papers)
+        // The 5 paper limit is more about slots. This check is about how many *active
+        // public messages* they can have.
+        // HomeRegController didn't seem to have a separate limit for this beyond the
+        // paper slot availability.
+        // For now, we assume if the paper slot is valid for writing (not used by their
+        // own PUB message), it's okay.
+
+        // 5. Call the service to insert the new public message
+        // String titMsg = messageRequest.getTitMsg(); // Optional title
+        try {
+            Messaggio createdMessage = messaggioCustomService.insertMsgAndTags(
+                    currentUserId,
+                    null, // idUteReply (null for new public message)
+                    messageRequest.getDesMsg(),
+                    // messageRequest.getTitMsg(), // Pass title if your service method supports it
+                    ConstantsDefinition.CODMSG_PUB,
+                    paperId,
+                    null, // idMsgReply (null for new public message)
+                    true // msgUteReg (message from registered user)
+            );
+
+            if (createdMessage == null || createdMessage.getIdMsg() == null) {
+                paperLogger.error("Failed to create message for user ID: {} on paper ID: {}. Service returned null.",
+                        currentUserId, paperId);
+                return new ResponseEntity<>("{\"error\":\"Failed to save message.\"}",
+                        HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            paperLogger.info("Message created successfully with ID: {} for user ID: {} on paper ID: {}",
+                    createdMessage.getIdMsg(), currentUserId, paperId);
+            return new ResponseEntity<>(createdMessage, HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            paperLogger.error("Exception creating message for user ID: {} on paper ID: {}: {}", currentUserId, paperId,
+                    e.getMessage(), e);
+            return new ResponseEntity<>("{\"error\":\"An internal error occurred while saving the message.\"}",
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

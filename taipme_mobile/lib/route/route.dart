@@ -33,7 +33,8 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         path: '/',
         pageBuilder: (context, state) => const MaterialPage(child: HomePage()),
-        redirect:(context, state) async => await ref.read(routeControllerProvider().future),
+        redirect: (context, state) async =>
+            await ref.read(routeControllerProvider().future),
       ),
       GoRoute(
         path: '/login-or-register',
@@ -92,8 +93,15 @@ GoRouter goRouter(Ref ref) {
         },
       ),
       GoRoute(
-        path: '/new-message-page',
-        pageBuilder: (context, state) => MaterialPage(child: NewMessagePage()),
+        path: '/new-message-page/:paperId',
+        pageBuilder: (context, state) {
+          final paperId = int.parse(state.pathParameters['paperId']!);
+          return MaterialPage(
+            child: NewMessagePage(
+              paperId: paperId,
+            ),
+          );
+        },
       ),
       GoRoute(
         path: '/report-confirmation-page',

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:taipme_mobile/src/model/data_model/paper_model_list/create_message_request_model/create_message_request_model.dart';
+import 'package:taipme_mobile/src/model/data_model/paper_model_list/message_model/message_model.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/paper_content_model/paper_content_model.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/user_papers_summary_model/user_papers_summary_model.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
@@ -54,7 +56,7 @@ class PaperService extends _$PaperService {
     debugPrint(
       "PaperService: Successfully fetched paper summary. Papers count: ${response.data!.papers.length}",
     );
-    
+
     return response;
   }
 
@@ -97,6 +99,49 @@ class PaperService extends _$PaperService {
     debugPrint(
       "PaperService: Successfully fetched content for paperId $paperId. Title: ${response.data!.paperTitle}",
     );
+    return response;
+  }
+
+  Future<ResultModel<MessageModel>> createMessageOnPaper({
+    required int paperId,
+    required CreateMessageRequestModel messageRequest,
+  }) async {
+    debugPrint(
+        "PaperService: createMessageOnPaper called for paperId: $paperId with content: ${messageRequest.desMsg}");
+
+    final tokenResult =
+        await ref.read(storageServiceProvider.notifier).getToken();
+    if (tokenResult.hasError() || tokenResult.data == null) {
+      debugPrint(
+          "PaperService: No token for createMessageOnPaper. Error: ${tokenResult.error}");
+      return ResultModel(error: "User not authenticated.", statusCode: 401);
+    }
+    final String token = tokenResult.data!;
+
+    final response = await RequestBuilder.post<MessageModel>(
+      endpoint:
+          "/papers/$paperId/messages", // POST to /mobile/papers/{paperId}/messages
+      body: messageRequest.toJson(), // CreateMessageRequestModel.toJson()
+      token: token,
+      parser: (json) {
+        if (json is Map<String, dynamic>) {
+          return MessageModel.fromJson(json);
+        }
+        throw FormatException(
+            "Expected a Map for the created Message, got ${json.runtimeType}");
+      },
+    );
+
+    if (response.hasError() || response.data == null) {
+      debugPrint(
+          "PaperService: createMessageOnPaper for paperId $paperId failed. Error: ${response.error}, Status: ${response.statusCode}");
+      return ResultModel(
+          error: response.error ?? "Failed to create message.",
+          statusCode: response.statusCode);
+    }
+
+    debugPrint(
+        "PaperService: Successfully created message on paperId $paperId. Message ID: ${response.data!.idMsg}");
     return response;
   }
 }

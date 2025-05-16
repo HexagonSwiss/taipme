@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/paper_status_model/paper_status_model.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/user_papers_summary_model/user_papers_summary_model.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
@@ -101,9 +102,14 @@ class PaperIndexCarousel extends ConsumerWidget {
                       ),
                     ),
                     child: Center(
-                      child: Icon(
-                        Icons.add,
-                        color: TaipmeStyle.primaryColor,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.add,
+                          color: TaipmeStyle.primaryColor,
+                        ),
+                        onPressed: () => ref
+                            .read(goRouterProvider)
+                            .go('/new-message-page/${selectedPaperId + 1}'),
                       ),
                     ),
                   ),

@@ -4,11 +4,14 @@ import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/component/button/primary_button.dart';
 import 'package:taipme_mobile/src/component/home_page/new_message_card.dart';
 import 'package:taipme_mobile/src/component/page_structure/logged_page_structure.dart';
+import 'package:taipme_mobile/src/controller/paper_controller/paper_controller.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewMessagePage extends ConsumerStatefulWidget {
-  const NewMessagePage({super.key});
+  const NewMessagePage({super.key, required this.paperId});
+
+  final int paperId;
 
   @override
   ConsumerState<NewMessagePage> createState() => _NewMessagePageState();
@@ -46,11 +49,14 @@ class _NewMessagePageState extends ConsumerState<NewMessagePage> {
           PrimaryButton(
             title: AppLocalizations.of(context)!.publish,
             onPressed: () async {
-              // await ref.read(messageControllerProvider.notifier).addMessage(
-              //   MessageModel(desMsg: textController.text, idUteAut: 49),
-              // );
+              await ref
+                  .read(paperActionsControllerProvider.notifier)
+                  .createNewMessage(
+                    paperId: widget.paperId,
+                    content: textController.text,
+                  );
 
-              ref.read(goRouterProvider).go('/home-page');
+              ref.read(goRouterProvider).go('/');
             },
           ),
         ],
