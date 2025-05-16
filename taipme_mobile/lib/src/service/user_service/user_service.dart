@@ -21,19 +21,19 @@ class UserService extends _$UserService {
   Future<ResultModel<UserModel>> authenticateUser({
     required UserLoginRequestModel userRequest,
   }) async {
+    
     debugPrint(
       "UserService: authenticateUser called with userRequest: $userRequest",
     );
 
-    final ResultModel<UserModel> response =
-        await ref.read(requestBuilderProvider.notifier).post<UserModel>(
-              endpoint: "/auth/login",
-              body: {
-                'username': userRequest.email,
-                'password': userRequest.password,
-              },
-              parser: (json) => UserModel.fromJson(json),
-            );
+    final response = await RequestBuilder.post<UserModel>(
+      endpoint: "/auth/login",
+      body: {
+        'username': userRequest.email,
+        'password': userRequest.password,
+      },
+      parser: (json) => UserModel.fromJson(json),
+    );
 
     if (response.error != null) {
       debugPrint(
@@ -89,13 +89,12 @@ class UserService extends _$UserService {
       body['username'] = userRequest.userName!;
     }
 
-    final ResultModel<UserRegisterResponseModel> response = await ref
-        .read(requestBuilderProvider.notifier)
-        .post<UserRegisterResponseModel>(
-          endpoint: "/auth/register",
-          body: body,
-          parser: (json) => UserRegisterResponseModel.fromJson(json),
-        );
+    final ResultModel<UserRegisterResponseModel> response =
+        await RequestBuilder.post<UserRegisterResponseModel>(
+      endpoint: "/auth/register",
+      body: body,
+      parser: (json) => UserRegisterResponseModel.fromJson(json),
+    );
 
     if (response.error != null) {
       debugPrint(
@@ -114,13 +113,12 @@ class UserService extends _$UserService {
     debugPrint("UserService: requestPasswordReset called for email: $email");
 
     try {
-      final ResultModel<UserRequestPasswordResponseModel> response = await ref
-          .read(requestBuilderProvider.notifier)
-          .post<UserRequestPasswordResponseModel>(
-            endpoint: "/auth/forgot-password",
-            body: {'email': email},
-            parser: (json) => UserRequestPasswordResponseModel.fromJson(json),
-          );
+      final ResultModel<UserRequestPasswordResponseModel> response =
+          await RequestBuilder.post<UserRequestPasswordResponseModel>(
+        endpoint: "/auth/forgot-password",
+        body: {'email': email},
+        parser: (json) => UserRequestPasswordResponseModel.fromJson(json),
+      );
 
       if (response.error != null) {
         debugPrint(
@@ -157,14 +155,13 @@ class UserService extends _$UserService {
 
     final String token = tk.data!;
 
-    final response = await ref
-        .read(requestBuilderProvider.notifier)
-        .post<UserRequestPasswordResponseModel>(
-          endpoint: "/auth/change-password",
-          body: changePasswordRequest.toJson(),
-          token: token,
-          parser: (json) => UserRequestPasswordResponseModel.fromJson(json),
-        );
+    final response =
+        await RequestBuilder.post<UserRequestPasswordResponseModel>(
+      endpoint: "/auth/change-password",
+      body: changePasswordRequest.toJson(),
+      token: token,
+      parser: (json) => UserRequestPasswordResponseModel.fromJson(json),
+    );
 
     if (response.hasError()) {
       debugPrint(

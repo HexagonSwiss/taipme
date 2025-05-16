@@ -12,9 +12,9 @@ class RequestBuilder extends _$RequestBuilder {
   @override
   void build() {}
 
-  String getMobileApiBaseUrl() => dotenv.env['API_URL']!;
+  static String getMobileApiBaseUrl() => dotenv.env['API_URL']!;
 
-  Map<String, String> buildHeaders({String? token}) {
+  static Map<String, String> buildHeaders({String? token}) {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -25,7 +25,7 @@ class RequestBuilder extends _$RequestBuilder {
     return headers;
   }
 
-  Future<ResultModel<T>> post<T>({
+  static Future<ResultModel<T>> post<T>({
     required String endpoint,
     required T Function(dynamic json) parser,
     Map<String, dynamic>? body,
@@ -64,7 +64,7 @@ class RequestBuilder extends _$RequestBuilder {
     }
   }
 
-  Future<ResultModel<T>> get<T>({
+  static Future<ResultModel<T>> get<T>({
     required String endpoint,
     required T Function(dynamic json) parser,
     String? token,
@@ -102,7 +102,7 @@ class RequestBuilder extends _$RequestBuilder {
     }
   }
 
-  ResultModel<T> _handleResponse<T>(
+  static ResultModel<T> _handleResponse<T>(
     http.Response response,
     T Function(dynamic json) parser,
   ) {

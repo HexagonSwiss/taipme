@@ -67,6 +67,24 @@ public class MobilePaperController {
         return existingMsg != null && ConstantsDefinition.CODMSG_PUB.equals(existingMsg.getCodTipMsg());
     }
 
+    private int getHighestPaperIdUsedByAuthor(Integer authorId) {
+        if (authorId == null)
+            return 1;
+        List<Messaggio> userMessages = messaggioCustomService.findMsgByAutore(authorId);
+        if (userMessages == null || userMessages.isEmpty()) {
+            return 0; // No papers used yet by authoring
+        }
+        int maxPaperId = 0;
+        for (Messaggio msg : userMessages) {
+            if (msg != null && msg.getIdFoglio() != null) {
+                if (msg.getIdFoglio() > maxPaperId) {
+                    maxPaperId = msg.getIdFoglio();
+                }
+            }
+        }
+        return maxPaperId;
+    }
+
     @RequestMapping(value = "/status", method = RequestMethod.GET)
     public ResponseEntity<?> getUserPapersSummary() {
         Integer currentUserId = getCurrentUserId();
@@ -80,12 +98,15 @@ public class MobilePaperController {
 
         List<Messaggio> userAuthoredMessages = messaggioCustomService.findMsgByAutore(currentUserId);
 
+        int highestPaperIdUsed = getHighestPaperIdUsedByAuthor(currentUserId);
+        int papersToDisplayInSummary = Math.max(1, highestPaperIdUsed);
+
         List<PaperStatusDto> paperStatuses = new ArrayList<>();
 
-        for (int i = 1; i <= ConstantsDefinition.NUM_MAX_FOGLI; i++) {
+        for (int i = 1; i <= papersToDisplayInSummary; i++) {
             int paperId = i;
             boolean hasReply = false;
-            boolean isMyTurnToReply = false;
+            boolean myTurnToReply = false;
 
             Messaggio messageOnThisPaper = null;
             if (userAuthoredMessages != null) {
@@ -100,23 +121,13 @@ public class MobilePaperController {
             if (messageOnThisPaper != null) {
                 hasReply = messageOnThisPaper.isPresenteRisposta();
                 if (ConstantsDefinition.CODMSG_LET.equals(messageOnThisPaper.getCodTipMsg())) {
-                    isMyTurnToReply = true;
+                    myTurnToReply = true;
                 }
             }
-            paperStatuses.add(new PaperStatusDto(paperId, hasReply, isMyTurnToReply));
+            paperStatuses.add(new PaperStatusDto(paperId, hasReply, myTurnToReply));
         }
 
-        int trulyUsedPapersByAuthoredMessages = 0;
-
-        if (userAuthoredMessages != null) {
-            trulyUsedPapersByAuthoredMessages = (int) userAuthoredMessages.stream()
-                    .filter(m -> m.getIdFoglio() != null)
-                    .map(Messaggio::getIdFoglio)
-                    .distinct()
-                    .count();
-        }
-
-        boolean canAddNewPaper = trulyUsedPapersByAuthoredMessages < ConstantsDefinition.NUM_MAX_FOGLI;
+        boolean canAddNewPaper = papersToDisplayInSummary < ConstantsDefinition.NUM_MAX_FOGLI;
 
         UserPapersSummaryDto summary = new UserPapersSummaryDto(
                 paperStatuses,
@@ -148,7 +159,7 @@ public class MobilePaperController {
         Messaggio userSpecificMessage = messaggioCustomService.findMsgByAutoreAndIdFoglio(currentUserId, paperId);
 
         if (userSpecificMessage != null) {
-            mainMessageForPaper = userSpecificMessage; 
+            mainMessageForPaper = userSpecificMessage;
 
             actionFlags.setCanWriteNewOnThisPaper(false);
             actionFlags.setCanReadOtherRandomMessages(false);
@@ -176,7 +187,7 @@ public class MobilePaperController {
                 actionFlags.setCanReplyToMainMessage(false); // Not their turn
             } else if (ConstantsDefinition.CODMSG_LET.equals(userSpecificMessage.getCodTipMsg())) {
                 actionFlags.setCanReplyToMainMessage(true);
-                paperContent.setPaperTitle(ConstantsDefinition.RIS_MSG_ALTRI); 
+                paperContent.setPaperTitle(ConstantsDefinition.RIS_MSG_ALTRI);
                 if (userSpecificMessage.getIdMsgReply() != null) {
                     Messaggio messageUserIsReplyingTo = messaggioService.findById(userSpecificMessage.getIdMsgReply());
                     if (messageUserIsReplyingTo != null) {

@@ -27,7 +27,7 @@ class FaqService extends _$FaqService {
     debugPrint("FaqService: Using token for request");
 
     final ResultModel<List<FaqModel>> response =
-        await ref.read(requestBuilderProvider.notifier).get<List<FaqModel>>(
+        await RequestBuilder.get<List<FaqModel>>(
               endpoint: "/faq/all",
               token: token,
               parser: _faqParser,

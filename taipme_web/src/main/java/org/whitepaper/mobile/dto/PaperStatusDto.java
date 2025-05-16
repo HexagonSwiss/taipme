@@ -1,9 +1,11 @@
 package org.whitepaper.mobile.dto; 
 
+import com.fasterxml.jackson.annotation.JsonProperty; // Import this
+
 public class PaperStatusDto {
-    private int paperId; // idFoglio
-    private boolean hasReply; // presenteRisposta
-    private boolean isMyTurnToReply; // sendReply (derived from CODMSG_LET)
+    private int paperId;
+    private boolean hasReply; 
+    private boolean isMyTurnToReply; 
 
     public PaperStatusDto(int paperId, boolean hasReply, boolean isMyTurnToReply) {
         this.paperId = paperId;
@@ -14,8 +16,12 @@ public class PaperStatusDto {
     // Getters and Setters
     public int getPaperId() { return paperId; }
     public void setPaperId(int paperId) { this.paperId = paperId; }
-    public boolean isHasReply() { return hasReply; }
+
+    @JsonProperty("hasReply") // Ensures this field is serialized as "hasReply"
+    public boolean isHasReply() { return hasReply; } 
     public void setHasReply(boolean hasReply) { this.hasReply = hasReply; }
-    public boolean isMyTurnToReply() { return isMyTurnToReply; }
+
+    @JsonProperty("myTurnToReply") // Ensures this field is serialized as "myTurnToReply"
+    public boolean isMyTurnToReply() { return isMyTurnToReply; } 
     public void setMyTurnToReply(boolean isMyTurnToReply) { this.isMyTurnToReply = isMyTurnToReply; }
 }

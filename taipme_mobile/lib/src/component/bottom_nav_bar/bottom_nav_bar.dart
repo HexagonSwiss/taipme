@@ -19,12 +19,12 @@ class BottomNavBar extends ConsumerWidget {
       ),
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          BottomNavBarItem(
-            route: '/chat-page',
-            bottomNavEnum: BottomNavEnum.chat,
-          ),
+          // BottomNavBarItem(
+          //   route: '/chat-page',
+          //   bottomNavEnum: BottomNavEnum.chat,
+          // ),
           BottomNavBarItem(
             route: '/home-page',
             bottomNavEnum: BottomNavEnum.home,

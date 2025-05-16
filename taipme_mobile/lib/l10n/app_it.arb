@@ -61,6 +61,12 @@
     "messageToBeReported": "Messaggio da segnalare",
     "motivationOptional": "Motivazione (opzionale)",
     "reportMessage": "segnala",
+    "read": "leggi",
+    "tear": "strappa",
+    "reply": "rispondi",
+    "writeNew": "scrivi",
+    "report": "segnala",
+    "thereAreNoPapers": "Non ci sono fogli",
     "introText1": "TaipMe è un foglio anonimo dove puoi scrivere e leggere pensieri senza like o notifiche. Un ambiente anti-social basato sulla qualità, non sulla quantità.",
     "introText2": "Hai 5 fogli a disposizione: scrivi, leggi e, se vuoi, rispondi. Le risposte creano conversazioni private, un messaggio alla volta. Puoi interromperle quando vuoi.",
     "introText3": "I fogli ti permettono di esprimerti liberamente, con leggerezza o profondità. Vivi l’esperienza senza stress, dentro e fuori lo schermo."
