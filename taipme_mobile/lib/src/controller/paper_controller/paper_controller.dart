@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/create_message_request_model/create_message_request_model.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/message_model/message_model.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/paper_content_model/paper_content_model.dart';
-import 'package:taipme_mobile/src/model/data_model/paper_model_list/user_papers_summary_model/user_papers_summary_model.dart';
+import 'package:taipme_mobile/src/model/data_model/paper_model_list/papers_summary_model/papers_summary_model.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 import 'package:taipme_mobile/src/service/paper_service/paper_service.dart';
 
@@ -14,9 +14,9 @@ part 'paper_controller.g.dart';
 class UserPapersSummarySyncController
     extends _$UserPapersSummarySyncController {
   @override
-  UserPapersSummaryModel? build() => null;
+  PapersSummaryModel? build() => null;
 
-  void setSummary(UserPapersSummaryModel summary) {
+  void setSummary(PapersSummaryModel summary) {
     state = summary;
     debugPrint(
         "UserPapersSummarySyncController: Summary updated. Papers: ${summary.papers.length}");
@@ -29,7 +29,7 @@ class UserPapersSummarySyncController
 }
 
 @riverpod
-Future<UserPapersSummaryModel> fetchUserPapersSummary(Ref ref) async {
+Future<PapersSummaryModel> fetchUserPapersSummary(Ref ref) async {
   debugPrint(
       "fetchUserPapersSummaryProvider: Fetching user papers summary from API...");
   final paperService = ref.watch(paperServiceProvider.notifier);

@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:http/http.dart' as http;
+import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 
 part 'request_builder.g.dart';
@@ -136,6 +138,10 @@ class RequestBuilder extends _$RequestBuilder {
             statusCode: response.statusCode,
           );
         }
+      }
+
+      if (response.statusCode == 401) {
+        debugPrint("RequestBuilder: Unauthorized (401) response received.");
       }
 
       // RESPONSE IS AN ERROR

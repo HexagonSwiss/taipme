@@ -4,7 +4,7 @@ import java.util.List;
 
 public class UserPapersSummaryDto {
     private List<PaperStatusDto> papers;
-    private int maxPapersAllowed;
+    private int maxPapersAllowed; // TODO: REMOVE THIS, IT'S NOT NEEDED
     private boolean canAddNewPaper; 
 
     public UserPapersSummaryDto(List<PaperStatusDto> papers, int maxPapersAllowed, boolean canAddNewPaper) {

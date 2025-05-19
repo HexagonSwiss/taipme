@@ -4,7 +4,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'user_papers_summary_model.dart';
+part of 'papers_summary_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,27 +14,27 @@ part of 'user_papers_summary_model.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$UserPapersSummaryModel {
+mixin _$PapersSummaryModel {
   List<PaperStatusModel> get papers;
   int get maxPapersAllowed;
   bool get canAddNewPaper;
 
-  /// Create a copy of UserPapersSummaryModel
+  /// Create a copy of PapersSummaryModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $UserPapersSummaryModelCopyWith<UserPapersSummaryModel> get copyWith =>
-      _$UserPapersSummaryModelCopyWithImpl<UserPapersSummaryModel>(
-          this as UserPapersSummaryModel, _$identity);
+  $PapersSummaryModelCopyWith<PapersSummaryModel> get copyWith =>
+      _$PapersSummaryModelCopyWithImpl<PapersSummaryModel>(
+          this as PapersSummaryModel, _$identity);
 
-  /// Serializes this UserPapersSummaryModel to a JSON map.
+  /// Serializes this PapersSummaryModel to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is UserPapersSummaryModel &&
+            other is PapersSummaryModel &&
             const DeepCollectionEquality().equals(other.papers, papers) &&
             (identical(other.maxPapersAllowed, maxPapersAllowed) ||
                 other.maxPapersAllowed == maxPapersAllowed) &&
@@ -52,15 +52,15 @@ mixin _$UserPapersSummaryModel {
 
   @override
   String toString() {
-    return 'UserPapersSummaryModel(papers: $papers, maxPapersAllowed: $maxPapersAllowed, canAddNewPaper: $canAddNewPaper)';
+    return 'PapersSummaryModel(papers: $papers, maxPapersAllowed: $maxPapersAllowed, canAddNewPaper: $canAddNewPaper)';
   }
 }
 
 /// @nodoc
-abstract mixin class $UserPapersSummaryModelCopyWith<$Res> {
-  factory $UserPapersSummaryModelCopyWith(UserPapersSummaryModel value,
-          $Res Function(UserPapersSummaryModel) _then) =
-      _$UserPapersSummaryModelCopyWithImpl;
+abstract mixin class $PapersSummaryModelCopyWith<$Res> {
+  factory $PapersSummaryModelCopyWith(
+          PapersSummaryModel value, $Res Function(PapersSummaryModel) _then) =
+      _$PapersSummaryModelCopyWithImpl;
   @useResult
   $Res call(
       {List<PaperStatusModel> papers,
@@ -69,14 +69,14 @@ abstract mixin class $UserPapersSummaryModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$UserPapersSummaryModelCopyWithImpl<$Res>
-    implements $UserPapersSummaryModelCopyWith<$Res> {
-  _$UserPapersSummaryModelCopyWithImpl(this._self, this._then);
+class _$PapersSummaryModelCopyWithImpl<$Res>
+    implements $PapersSummaryModelCopyWith<$Res> {
+  _$PapersSummaryModelCopyWithImpl(this._self, this._then);
 
-  final UserPapersSummaryModel _self;
-  final $Res Function(UserPapersSummaryModel) _then;
+  final PapersSummaryModel _self;
+  final $Res Function(PapersSummaryModel) _then;
 
-  /// Create a copy of UserPapersSummaryModel
+  /// Create a copy of PapersSummaryModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -104,14 +104,14 @@ class _$UserPapersSummaryModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _UserPapersSummaryModel implements UserPapersSummaryModel {
-  const _UserPapersSummaryModel(
+class _PapersSummaryModel implements PapersSummaryModel {
+  const _PapersSummaryModel(
       {required final List<PaperStatusModel> papers,
       required this.maxPapersAllowed,
       required this.canAddNewPaper})
       : _papers = papers;
-  factory _UserPapersSummaryModel.fromJson(Map<String, dynamic> json) =>
-      _$UserPapersSummaryModelFromJson(json);
+  factory _PapersSummaryModel.fromJson(Map<String, dynamic> json) =>
+      _$PapersSummaryModelFromJson(json);
 
   final List<PaperStatusModel> _papers;
   @override
@@ -126,18 +126,17 @@ class _UserPapersSummaryModel implements UserPapersSummaryModel {
   @override
   final bool canAddNewPaper;
 
-  /// Create a copy of UserPapersSummaryModel
+  /// Create a copy of PapersSummaryModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$UserPapersSummaryModelCopyWith<_UserPapersSummaryModel> get copyWith =>
-      __$UserPapersSummaryModelCopyWithImpl<_UserPapersSummaryModel>(
-          this, _$identity);
+  _$PapersSummaryModelCopyWith<_PapersSummaryModel> get copyWith =>
+      __$PapersSummaryModelCopyWithImpl<_PapersSummaryModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$UserPapersSummaryModelToJson(
+    return _$PapersSummaryModelToJson(
       this,
     );
   }
@@ -146,7 +145,7 @@ class _UserPapersSummaryModel implements UserPapersSummaryModel {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _UserPapersSummaryModel &&
+            other is _PapersSummaryModel &&
             const DeepCollectionEquality().equals(other._papers, _papers) &&
             (identical(other.maxPapersAllowed, maxPapersAllowed) ||
                 other.maxPapersAllowed == maxPapersAllowed) &&
@@ -164,16 +163,16 @@ class _UserPapersSummaryModel implements UserPapersSummaryModel {
 
   @override
   String toString() {
-    return 'UserPapersSummaryModel(papers: $papers, maxPapersAllowed: $maxPapersAllowed, canAddNewPaper: $canAddNewPaper)';
+    return 'PapersSummaryModel(papers: $papers, maxPapersAllowed: $maxPapersAllowed, canAddNewPaper: $canAddNewPaper)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$UserPapersSummaryModelCopyWith<$Res>
-    implements $UserPapersSummaryModelCopyWith<$Res> {
-  factory _$UserPapersSummaryModelCopyWith(_UserPapersSummaryModel value,
-          $Res Function(_UserPapersSummaryModel) _then) =
-      __$UserPapersSummaryModelCopyWithImpl;
+abstract mixin class _$PapersSummaryModelCopyWith<$Res>
+    implements $PapersSummaryModelCopyWith<$Res> {
+  factory _$PapersSummaryModelCopyWith(
+          _PapersSummaryModel value, $Res Function(_PapersSummaryModel) _then) =
+      __$PapersSummaryModelCopyWithImpl;
   @override
   @useResult
   $Res call(
@@ -183,14 +182,14 @@ abstract mixin class _$UserPapersSummaryModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$UserPapersSummaryModelCopyWithImpl<$Res>
-    implements _$UserPapersSummaryModelCopyWith<$Res> {
-  __$UserPapersSummaryModelCopyWithImpl(this._self, this._then);
+class __$PapersSummaryModelCopyWithImpl<$Res>
+    implements _$PapersSummaryModelCopyWith<$Res> {
+  __$PapersSummaryModelCopyWithImpl(this._self, this._then);
 
-  final _UserPapersSummaryModel _self;
-  final $Res Function(_UserPapersSummaryModel) _then;
+  final _PapersSummaryModel _self;
+  final $Res Function(_PapersSummaryModel) _then;
 
-  /// Create a copy of UserPapersSummaryModel
+  /// Create a copy of PapersSummaryModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -199,7 +198,7 @@ class __$UserPapersSummaryModelCopyWithImpl<$Res>
     Object? maxPapersAllowed = null,
     Object? canAddNewPaper = null,
   }) {
-    return _then(_UserPapersSummaryModel(
+    return _then(_PapersSummaryModel(
       papers: null == papers
           ? _self._papers
           : papers // ignore: cast_nullable_to_non_nullable

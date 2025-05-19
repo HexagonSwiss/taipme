@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/paper_status_model/paper_status_model.dart';
-import 'package:taipme_mobile/src/model/data_model/paper_model_list/user_papers_summary_model/user_papers_summary_model.dart';
+import 'package:taipme_mobile/src/model/data_model/paper_model_list/papers_summary_model/papers_summary_model.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 
 class PaperIndexCarousel extends ConsumerWidget {
@@ -13,7 +13,7 @@ class PaperIndexCarousel extends ConsumerWidget {
     required this.onPaperSelected,
   });
 
-  final UserPapersSummaryModel summaryData;
+  final PapersSummaryModel summaryData;
   final int selectedPaperId;
   final Function(int) onPaperSelected;
 

@@ -7,12 +7,12 @@ part of 'paper_controller.dart';
 // **************************************************************************
 
 String _$fetchUserPapersSummaryHash() =>
-    r'7cfb0d97e08968ac64164ccdd73264d82455d4e6';
+    r'60de15739162a72ae0ce0a00bc6333544ac258ef';
 
 /// See also [fetchUserPapersSummary].
 @ProviderFor(fetchUserPapersSummary)
 final fetchUserPapersSummaryProvider =
-    AutoDisposeFutureProvider<UserPapersSummaryModel>.internal(
+    AutoDisposeFutureProvider<PapersSummaryModel>.internal(
   fetchUserPapersSummary,
   name: r'fetchUserPapersSummaryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -25,7 +25,7 @@ final fetchUserPapersSummaryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FetchUserPapersSummaryRef
-    = AutoDisposeFutureProviderRef<UserPapersSummaryModel>;
+    = AutoDisposeFutureProviderRef<PapersSummaryModel>;
 String _$fetchPaperContentHash() => r'148e119b15038efcf600948f90fe60dc241be403';
 
 /// Copied from Dart SDK
@@ -180,12 +180,12 @@ class _FetchPaperContentProviderElement
 }
 
 String _$userPapersSummarySyncControllerHash() =>
-    r'ab5ebfc77abd42358689f6522958d861f9138e0e';
+    r'5a4e77e688f4a3c3c08cc3b66ee32bd4c78235db';
 
 /// See also [UserPapersSummarySyncController].
 @ProviderFor(UserPapersSummarySyncController)
 final userPapersSummarySyncControllerProvider = NotifierProvider<
-    UserPapersSummarySyncController, UserPapersSummaryModel?>.internal(
+    UserPapersSummarySyncController, PapersSummaryModel?>.internal(
   UserPapersSummarySyncController.new,
   name: r'userPapersSummarySyncControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -195,7 +195,7 @@ final userPapersSummarySyncControllerProvider = NotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$UserPapersSummarySyncController = Notifier<UserPapersSummaryModel?>;
+typedef _$UserPapersSummarySyncController = Notifier<PapersSummaryModel?>;
 String _$paperContentSyncControllerHash() =>
     r'87093328a717974f0d4b57a064af3169ef53bc42';
 

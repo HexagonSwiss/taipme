@@ -6,7 +6,7 @@ part of 'paper_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$paperServiceHash() => r'36a50f3584621674cba7dd1a9a3aef04c00e4b8f';
+String _$paperServiceHash() => r'6db46d1e23ab3b18d3658b40d4a4b6957b313065';
 
 /// See also [PaperService].
 @ProviderFor(PaperService)

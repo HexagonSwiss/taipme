@@ -7,7 +7,7 @@ import 'package:taipme_mobile/src/component/home_page/home_message_card.dart';
 import 'package:taipme_mobile/src/component/home_page/paper_index_carousel.dart';
 import 'package:taipme_mobile/src/component/home_page/search_field.dart';
 import 'package:taipme_mobile/src/controller/paper_controller/paper_controller.dart';
-import 'package:taipme_mobile/src/model/data_model/paper_model_list/user_papers_summary_model/user_papers_summary_model.dart';
+import 'package:taipme_mobile/src/model/data_model/paper_model_list/papers_summary_model/papers_summary_model.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -26,8 +26,12 @@ class HomePage extends ConsumerWidget {
       bottomNavigationBar: BottomNavBar(),
       body: summaryAsync.when(
         loading: () => CircularProgressIndicator(),
-        error: (e, st) => Text(AppLocalizations.of(context)!.thereAreNoPapers),
-        data: (UserPapersSummaryModel summaryData) {
+        error: (e, st) => Center(
+            child: Text(
+          AppLocalizations.of(context)!.thereAreNoPapers,
+          style: TextStyle(color: TaipmeStyle.primaryColor, fontSize: TaipmeStyle.largeTextSize),
+        )),
+        data: (PapersSummaryModel summaryData) {
           final bool isSelectedPaperIdValid =
               summaryData.papers.any((p) => p.paperId == selectedPaperId) ||
                   summaryData.papers.isEmpty && selectedPaperId == 1;

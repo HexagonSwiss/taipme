@@ -6,7 +6,7 @@ part of 'request_builder.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$requestBuilderHash() => r'e40aaf19fc7da0d7d2b2f0ae54418ce493599869';
+String _$requestBuilderHash() => r'506e24932267778d9c0fa18db3522748c3f00f5f';
 
 /// See also [RequestBuilder].
 @ProviderFor(RequestBuilder)

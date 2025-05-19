@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/create_message_request_model/create_message_request_model.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/message_model/message_model.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/paper_content_model/paper_content_model.dart';
-import 'package:taipme_mobile/src/model/data_model/paper_model_list/user_papers_summary_model/user_papers_summary_model.dart';
+import 'package:taipme_mobile/src/model/data_model/paper_model_list/papers_summary_model/papers_summary_model.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 import 'package:taipme_mobile/src/service/storage_service/storage_service.dart';
 import 'package:taipme_mobile/src/util/helper/request_builder/request_builder.dart';
@@ -15,7 +15,7 @@ class PaperService extends _$PaperService {
   @override
   void build() {}
 
-  Future<ResultModel<UserPapersSummaryModel>> getUserPapersSummary() async {
+  Future<ResultModel<PapersSummaryModel>> getUserPapersSummary() async {
     debugPrint("PaperService: getUserPapersSummary called");
 
     final tokenResult =
@@ -30,12 +30,12 @@ class PaperService extends _$PaperService {
 
     final String token = tokenResult.data!;
 
-    final response = await RequestBuilder.get<UserPapersSummaryModel>(
+    final response = await RequestBuilder.get<PapersSummaryModel>(
       endpoint: "/papers/status",
       token: token,
       parser: (json) {
         if (json is Map<String, dynamic>) {
-          return UserPapersSummaryModel.fromJson(json);
+          return PapersSummaryModel.fromJson(json);
         }
         throw FormatException(
           "Expected a Map for UserPapersSummary, got ${json.runtimeType}",

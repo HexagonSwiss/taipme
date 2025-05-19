@@ -112,6 +112,7 @@ public class MobilePaperController {
             boolean myTurnToReply = false;
 
             Messaggio messageOnThisPaper = null;
+
             if (userAuthoredMessages != null) {
                 for (Messaggio msg : userAuthoredMessages) {
                     if (msg.getIdFoglio() != null && msg.getIdFoglio() == paperId) {
@@ -127,14 +128,16 @@ public class MobilePaperController {
                     myTurnToReply = true;
                 }
             }
+
             paperStatuses.add(new PaperStatusDto(paperId, hasReply, myTurnToReply));
         }
 
         boolean canAddNewPaper = papersToDisplayInSummary < ConstantsDefinition.NUM_MAX_FOGLI;
 
+        
         UserPapersSummaryDto summary = new UserPapersSummaryDto(
                 paperStatuses,
-                ConstantsDefinition.NUM_MAX_FOGLI,
+                ConstantsDefinition.NUM_MAX_FOGLI, // TODO: REMOVE THIS, IT'S NOT NEEDED
                 canAddNewPaper);
 
         return ResponseEntity.ok(summary);
@@ -240,12 +243,10 @@ public class MobilePaperController {
             // If it's a private conversation they are part of (either their message or a
             // reply to them): they can tear.
             // If it's a random public message: they cannot tear it.
-            if (userSpecificMessage != null) { // Implies it's related to the user (their message or a conversation they
-                                               // are in)
+            if (userSpecificMessage != null) {
                 actionFlags.setCanTearMainMessage(true);
             } else if (mainMessageForPaper != null
                     && ConstantsDefinition.CODMSG_PUB.equals(mainMessageForPaper.getCodTipMsg())) {
-                // It's a random public message they are reading, they can't tear it.
                 actionFlags.setCanTearMainMessage(false);
             }
 
@@ -297,8 +298,7 @@ public class MobilePaperController {
             // to (making it PRI/LET)
             // If it's still their own PUB message, they can't post another one on top.
             if (ConstantsDefinition.CODMSG_PUB.equals(existingMessageOnPaperByAuthor.getCodTipMsg()) &&
-                    existingMessageOnPaperByAuthor.getIdMsgReply() == null) { // Check if it's their unreplied public
-                                                                              // message
+                    existingMessageOnPaperByAuthor.getIdMsgReply() == null) {
                 paperLogger.warn("User ID: {} already has a public message on paper ID: {}. Cannot create another.",
                         currentUserId, paperId);
                 return new ResponseEntity<>("{\"error\":\"Paper is already in use by your public message.\"}",
@@ -317,28 +317,16 @@ public class MobilePaperController {
             }
         }
 
-        // 4. Check if user has reached max number of active public messages (if such a
-        // limit exists beyond 5 papers)
-        // The 5 paper limit is more about slots. This check is about how many *active
-        // public messages* they can have.
-        // HomeRegController didn't seem to have a separate limit for this beyond the
-        // paper slot availability.
-        // For now, we assume if the paper slot is valid for writing (not used by their
-        // own PUB message), it's okay.
-
-        // 5. Call the service to insert the new public message
-        // String titMsg = messageRequest.getTitMsg(); // Optional title
+        // 4. Call the service to insert the new public message
         try {
             Messaggio createdMessage = messaggioCustomService.insertMsgAndTags(
                     currentUserId,
                     null, // idUteReply (null for new public message)
                     messageRequest.getDesMsg(),
-                    // messageRequest.getTitMsg(), // Pass title if your service method supports it
                     ConstantsDefinition.CODMSG_PUB,
                     paperId,
                     null, // idMsgReply (null for new public message)
-                    true // msgUteReg (message from registered user)
-            );
+                    true);
 
             if (createdMessage == null || createdMessage.getIdMsg() == null) {
                 paperLogger.error("Failed to create message for user ID: {} on paper ID: {}. Service returned null.",
@@ -358,5 +346,4 @@ public class MobilePaperController {
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }
