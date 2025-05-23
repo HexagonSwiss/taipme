@@ -26,7 +26,7 @@ class UserService extends _$UserService {
       "UserService: authenticateUser called with userRequest: $userRequest",
     );
 
-    final response = await RequestBuilder.post<UserModel>(
+    final response = await ref.read(requestBuilderProvider.notifier).post<UserModel>(
       endpoint: "/auth/login",
       body: {
         'username': userRequest.email,
@@ -90,7 +90,7 @@ class UserService extends _$UserService {
     }
 
     final ResultModel<UserRegisterResponseModel> response =
-        await RequestBuilder.post<UserRegisterResponseModel>(
+        await ref.read(requestBuilderProvider.notifier).post<UserRegisterResponseModel>(
       endpoint: "/auth/register",
       body: body,
       parser: (json) => UserRegisterResponseModel.fromJson(json),
@@ -114,7 +114,7 @@ class UserService extends _$UserService {
 
     try {
       final ResultModel<UserRequestPasswordResponseModel> response =
-          await RequestBuilder.post<UserRequestPasswordResponseModel>(
+          await ref.read(requestBuilderProvider.notifier).post<UserRequestPasswordResponseModel>(
         endpoint: "/auth/forgot-password",
         body: {'email': email},
         parser: (json) => UserRequestPasswordResponseModel.fromJson(json),
@@ -156,7 +156,7 @@ class UserService extends _$UserService {
     final String token = tk.data!;
 
     final response =
-        await RequestBuilder.post<UserRequestPasswordResponseModel>(
+        await ref.read(requestBuilderProvider.notifier).post<UserRequestPasswordResponseModel>(
       endpoint: "/auth/change-password",
       body: changePasswordRequest.toJson(),
       token: token,

@@ -30,7 +30,7 @@ class PaperService extends _$PaperService {
 
     final String token = tokenResult.data!;
 
-    final response = await RequestBuilder.get<PapersSummaryModel>(
+    final response = await ref.read(requestBuilderProvider.notifier).get<PapersSummaryModel>(
       endpoint: "/papers/status",
       token: token,
       parser: (json) {
@@ -73,7 +73,7 @@ class PaperService extends _$PaperService {
     }
     final String token = tokenResult.data!;
 
-    final response = await RequestBuilder.get<PaperContentModel>(
+    final response = await ref.read(requestBuilderProvider.notifier).get<PaperContentModel>(
       endpoint: "/papers/$paperId",
       token: token,
       parser: (json) {
@@ -118,7 +118,7 @@ class PaperService extends _$PaperService {
     }
     final String token = tokenResult.data!;
 
-    final response = await RequestBuilder.post<MessageModel>(
+    final response = await ref.read(requestBuilderProvider.notifier).post<MessageModel>(
       endpoint:
           "/papers/$paperId/messages", // POST to /mobile/papers/{paperId}/messages
       body: messageRequest.toJson(), // CreateMessageRequestModel.toJson()

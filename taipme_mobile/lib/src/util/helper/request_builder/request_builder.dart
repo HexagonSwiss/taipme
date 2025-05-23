@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:http/http.dart' as http;
 import 'package:taipme_mobile/route/route.dart';
@@ -14,9 +13,9 @@ class RequestBuilder extends _$RequestBuilder {
   @override
   void build() {}
 
-  static String getMobileApiBaseUrl() => dotenv.env['API_URL']!;
+   String getMobileApiBaseUrl() => dotenv.env['API_URL']!;
 
-  static Map<String, String> buildHeaders({String? token}) {
+   Map<String, String> buildHeaders({String? token}) {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -27,7 +26,7 @@ class RequestBuilder extends _$RequestBuilder {
     return headers;
   }
 
-  static Future<ResultModel<T>> post<T>({
+   Future<ResultModel<T>> post<T>({
     required String endpoint,
     required T Function(dynamic json) parser,
     Map<String, dynamic>? body,
@@ -66,7 +65,7 @@ class RequestBuilder extends _$RequestBuilder {
     }
   }
 
-  static Future<ResultModel<T>> get<T>({
+   Future<ResultModel<T>> get<T>({
     required String endpoint,
     required T Function(dynamic json) parser,
     String? token,
@@ -104,7 +103,7 @@ class RequestBuilder extends _$RequestBuilder {
     }
   }
 
-  static ResultModel<T> _handleResponse<T>(
+   ResultModel<T> _handleResponse<T>(
     http.Response response,
     T Function(dynamic json) parser,
   ) {
@@ -142,6 +141,7 @@ class RequestBuilder extends _$RequestBuilder {
 
       if (response.statusCode == 401) {
         debugPrint("RequestBuilder: Unauthorized (401) response received.");
+        ref.read(goRouterProvider).go('/login');
       }
 
       // RESPONSE IS AN ERROR
