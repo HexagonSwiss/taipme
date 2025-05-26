@@ -104,6 +104,22 @@ GoRouter goRouter(Ref ref) {
         },
       ),
       GoRoute(
+        name: 'reply-message',
+        path:
+            '/reply-message-page/:paperId/:messageIdToReplyTo', 
+        pageBuilder: (context, state) {
+          final paperId = int.parse(state.pathParameters['paperId']!);
+          final messageIdToReplyTo =
+              int.parse(state.pathParameters['messageIdToReplyTo']!);
+          return MaterialPage(
+            child: NewMessagePage(
+              paperId: paperId,
+              messageIdToReplyTo: messageIdToReplyTo,
+            ),
+          );
+        },
+      ),
+      GoRoute(
         path: '/report-confirmation-page',
         pageBuilder: (context, state) =>
             const MaterialPage(child: ReportConfirmationPage()),

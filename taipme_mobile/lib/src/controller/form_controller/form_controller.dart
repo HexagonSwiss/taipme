@@ -3,7 +3,7 @@ import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taipme_mobile/l10n/app_localizations.dart';
 import 'package:taipme_mobile/src/util/helper/snackbar/snackbar.dart';
 
 part 'form_controller.g.dart';

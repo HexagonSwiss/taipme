@@ -18,6 +18,7 @@ import org.whitepaper.mobile.dto.CreateMessageRequestDto;
 import org.whitepaper.mobile.dto.PaperActionFlagsDto;
 import org.whitepaper.mobile.dto.PaperContentDto;
 import org.whitepaper.mobile.dto.PaperStatusDto;
+import org.whitepaper.mobile.dto.ReplyMessageRequestDto;
 import org.whitepaper.mobile.dto.UserPapersSummaryDto;
 import org.whitepaper.utility.ConstantsDefinition;
 import org.whitepaper.utility.UtilityFunction;
@@ -44,8 +45,6 @@ public class MobilePaperController {
     @Autowired
     private MessaggioService messaggioService;
 
-    // Helper method to get current authenticated user's ID
-    // TODO: THIS IS NOT A RESPONSABILITY OF THIS CONTROLLER
     private Integer getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()
@@ -62,20 +61,24 @@ public class MobilePaperController {
         return null;
     }
 
-    // Helper method from HomeRegController: isFoglioGiaUsato
-    private boolean isPaperUsedByAuthorForPublicMessage(Integer userId, Integer paperId) {
+    private boolean isPaperUsedByAuthorForNewPublicMessage(Integer userId, Integer paperId) {
         if (userId == null || paperId == null)
-            return false;
+            return true;
         Messaggio existingMsg = messaggioCustomService.findMsgByAutoreAndIdFoglio(userId, paperId);
-        return existingMsg != null && ConstantsDefinition.CODMSG_PUB.equals(existingMsg.getCodTipMsg());
+        // A paper is considered "used" for a *new public message* if the user already
+        // has
+        // any message they authored on it (PUB, or even PRI/LET if it originated from
+        // them on this paper).
+        return existingMsg != null;
     }
 
-    private int getHighestPaperIdUsedByAuthor(Integer authorId) {
+    // Renamed for clarity and to match usage in HomeRegController
+    private int getHighestPaperIdActiveForUser(Integer authorId) {
         if (authorId == null)
-            return 1;
+            return 0;
         List<Messaggio> userMessages = messaggioCustomService.findMsgByAutore(authorId);
         if (userMessages == null || userMessages.isEmpty()) {
-            return 0; // No papers used yet by authoring
+            return 0;
         }
         int maxPaperId = 0;
         for (Messaggio msg : userMessages) {
@@ -101,7 +104,7 @@ public class MobilePaperController {
 
         List<Messaggio> userAuthoredMessages = messaggioCustomService.findMsgByAutore(currentUserId);
 
-        int highestPaperIdUsed = getHighestPaperIdUsedByAuthor(currentUserId);
+        int highestPaperIdUsed = getHighestPaperIdActiveForUser(currentUserId);
         int papersToDisplayInSummary = Math.max(1, highestPaperIdUsed);
 
         List<PaperStatusDto> paperStatuses = new ArrayList<>();
@@ -134,7 +137,6 @@ public class MobilePaperController {
 
         boolean canAddNewPaper = papersToDisplayInSummary < ConstantsDefinition.NUM_MAX_FOGLI;
 
-        
         UserPapersSummaryDto summary = new UserPapersSummaryDto(
                 paperStatuses,
                 ConstantsDefinition.NUM_MAX_FOGLI, // TODO: REMOVE THIS, IT'S NOT NEEDED
@@ -143,15 +145,12 @@ public class MobilePaperController {
         return ResponseEntity.ok(summary);
     }
 
-    // NEW ENDPOINT to get content of a specific paper
     @RequestMapping(value = "/{paperId}", method = RequestMethod.GET)
     public ResponseEntity<?> getPaperContent(@PathVariable("paperId") Integer paperId) {
         Integer currentUserId = getCurrentUserId();
-
         if (currentUserId == null) {
             return new ResponseEntity<>("{\"error\":\"User not authenticated.\"}", HttpStatus.UNAUTHORIZED);
         }
-
         paperLogger.info("Fetching content for paper ID: {} for user ID: {}", paperId, currentUserId);
 
         if (paperId == null || paperId < 1 || paperId > ConstantsDefinition.NUM_MAX_FOGLI) {
@@ -159,105 +158,183 @@ public class MobilePaperController {
             return new ResponseEntity<>("{\"error\":\"Invalid paper ID.\"}", HttpStatus.BAD_REQUEST);
         }
 
+        int highestPaperIdActive = getHighestPaperIdActiveForUser(currentUserId);
+        int maxAccessiblePaperId = Math.max(1, highestPaperIdActive);
+        if (highestPaperIdActive < ConstantsDefinition.NUM_MAX_FOGLI) {
+            maxAccessiblePaperId = Math.max(maxAccessiblePaperId, highestPaperIdActive + 1);
+        }
+
+        if (paperId > maxAccessiblePaperId) {
+            paperLogger.warn(
+                    "Attempt to access paperId {} which is not yet accessible for user {}. Highest active: {}, Max accessible based on summary: {}",
+                    paperId, currentUserId, highestPaperIdActive, maxAccessiblePaperId);
+            return new ResponseEntity<>("{\"error\":\"Cannot access this paper ID yet.\"}", HttpStatus.FORBIDDEN);
+        }
+
         PaperContentDto paperContent = new PaperContentDto(paperId);
         PaperActionFlagsDto actionFlags = paperContent.getActionFlags();
         Messaggio mainMessageForPaper = null;
-        Messaggio userSpecificMessage = messaggioCustomService.findMsgByAutoreAndIdFoglio(currentUserId, paperId);
+        Messaggio usersAnchorMessageOnPaper = messaggioCustomService.findMsgByAutoreAndIdFoglio(currentUserId, paperId);
 
-        if (userSpecificMessage != null) {
-            mainMessageForPaper = userSpecificMessage;
-
+        if (usersAnchorMessageOnPaper != null) {
+            mainMessageForPaper = usersAnchorMessageOnPaper;
             actionFlags.setCanWriteNewOnThisPaper(false);
             actionFlags.setCanReadOtherRandomMessages(false);
             paperContent.setPaperTitle(ConstantsDefinition.TIT_MSG_TUO);
 
-            if (ConstantsDefinition.CODMSG_PUB.equals(userSpecificMessage.getCodTipMsg())) {
+            String anchorMsgType = usersAnchorMessageOnPaper.getCodTipMsg();
+            Integer anchorMsgReplyId = usersAnchorMessageOnPaper.getIdMsgReply();
+            Integer anchorMsgAuthorId = usersAnchorMessageOnPaper.getIdUteAut(); // Author of usersAnchorMessageOnPaper
+            Integer anchorMsgReplierId = usersAnchorMessageOnPaper.getIdUteReply(); // User who replied to
+                                                                                    // usersAnchorMessageOnPaper
+
+            if (ConstantsDefinition.CODMSG_PUB.equals(anchorMsgType)) {
                 paperContent.setPaperTitle(ConstantsDefinition.TIT_MSG_TUO_PUB);
-                if (userSpecificMessage.getIdMsgReply() == null) {
+                if (anchorMsgReplyId == null) {
                     actionFlags.setCanReplyToMainMessage(false);
                 } else {
-                    Messaggio replyMessage = messaggioService.findById(userSpecificMessage.getIdMsgReply());
-                    if (replyMessage != null && replyMessage.getIdUteAut() != null &&
-                            replyMessage.getIdUteAut().equals(userSpecificMessage.getIdUteReply())) {
+                    // Fetch the actual reply message
+                    Messaggio replyToUsersPublicMessage = messaggioCustomService.findMsgPerConversazionePrivata(
+                            anchorMsgReplyId, // ID of the reply message
+                            anchorMsgReplierId, // Author of the reply message
+                            anchorMsgAuthorId, // Recipient of the reply (current user, who authored
+                                               // usersAnchorMessageOnPaper)
+                            // ConstantsDefinition.CODMSG_PRI, // This was the incorrect 4th param,
+                            // findMsgPerConversazionePrivata expects idMsgReply here
+                            usersAnchorMessageOnPaper.getIdMsg() // The message ID that this reply is for
+                    );
 
-                        mainMessageForPaper = replyMessage;
-                        mainMessageForPaper.setTitMsg(ConstantsDefinition.RIS_MSG_ALTRI);
-                        actionFlags.setCanReplyToMainMessage(true);
+                    if (replyToUsersPublicMessage != null) {
+                        mainMessageForPaper = replyToUsersPublicMessage;
+                        paperContent.setPaperTitle(ConstantsDefinition.RIS_MSG_ALTRI);
+                        // Mark user's original public message as read (LET) because they are viewing
+                        // its reply
+                        messaggioCustomService.updateCodTipMsgAndFindMsgReply(usersAnchorMessageOnPaper.getIdMsg(),
+                                ConstantsDefinition.CODMSG_LET);
+                        actionFlags.setCanReplyToMainMessage(true); // Now it's current user's turn to reply to this
+                                                                    // reply
                     } else {
-                        actionFlags.setCanReplyToMainMessage(false); // Reply chain issue
+                        actionFlags.setCanReplyToMainMessage(false);
+                        mainMessageForPaper = usersAnchorMessageOnPaper;
+                        paperLogger.warn(
+                                "Could not fetch the specific reply (ID: {}) to user's public message (ID: {}).",
+                                anchorMsgReplyId, usersAnchorMessageOnPaper.getIdMsg());
                     }
                 }
-            } else if (ConstantsDefinition.CODMSG_PRI.equals(userSpecificMessage.getCodTipMsg())) {
-                // User's last message was PRI (they sent the last message in the conversation)
-                paperContent.setPaperTitle(ConstantsDefinition.TIT_MSG_TUO_PRIV); // "You replied"
-                actionFlags.setCanReplyToMainMessage(false); // Not their turn
-            } else if (ConstantsDefinition.CODMSG_LET.equals(userSpecificMessage.getCodTipMsg())) {
+            } else if (ConstantsDefinition.CODMSG_PRI.equals(anchorMsgType)) {
+                // usersAnchorMessageOnPaper is PRI.
+                // This means current user sent the last message in this thread (if it's their
+                // message),
+                // OR it's their original message that was replied to, and they haven't "viewed"
+                // that reply yet
+                // (to change usersAnchorMessageOnPaper to LET).
+
+                if (anchorMsgAuthorId.equals(currentUserId)) { // Current user authored this PRI message
+                    mainMessageForPaper = usersAnchorMessageOnPaper;
+                    paperContent.setPaperTitle(ConstantsDefinition.TIT_MSG_TUO_PRIV);
+                    actionFlags.setCanReplyToMainMessage(false); // Not their turn, they sent the last one
+                } else if (anchorMsgReplierId != null && anchorMsgReplierId.equals(currentUserId)
+                        && anchorMsgReplyId != null) {
+                    // This PRI message was sent BY THE OTHER USER (anchorMsgAuthorId) TO THE
+                    // CURRENT USER (anchorMsgReplierId)
+                    // And anchorMsgReplyId points to the message the other user replied to (which
+                    // should be one of current user's messages)
+                    // This is the message the current user needs to see.
+                    mainMessageForPaper = usersAnchorMessageOnPaper; // Display the other user's PRI message
+                    paperContent.setPaperTitle(ConstantsDefinition.RIS_MSG_ALTRI); // "Message Received"
+
+                    // Mark this received message (usersAnchorMessageOnPaper) as LET from the
+                    // perspective of the *other user's message it replied to*.
+                    // The message that needs to be marked LET is the one identified by
+                    // usersAnchorMessageOnPaper.getIdMsgReply(),
+                    // and it should be marked LET because currentUserId
+                    // (usersAnchorMessageOnPaper.getIdUteReply()) is viewing it.
+                    if (usersAnchorMessageOnPaper.getIdMsgReply() != null) {
+                        messaggioCustomService.updateCodTipMsgAndFindMsgReply(usersAnchorMessageOnPaper.getIdMsgReply(),
+                                ConstantsDefinition.CODMSG_LET);
+                    }
+                    actionFlags.setCanReplyToMainMessage(true); // Now it's current user's turn.
+                } else {
+                    // Fallback or unclear state
+                    mainMessageForPaper = usersAnchorMessageOnPaper;
+                    paperContent.setPaperTitle(ConstantsDefinition.TIT_MSG_TUO_PRIV); // Default to "you replied"
+                    actionFlags.setCanReplyToMainMessage(false);
+                    paperLogger.warn("CODMSG_PRI state for message {} is ambiguous for user {}.",
+                            usersAnchorMessageOnPaper.getIdMsg(), currentUserId);
+                }
+
+            } else if (ConstantsDefinition.CODMSG_LET.equals(anchorMsgType)) {
+                // usersAnchorMessageOnPaper is LET. This means current user (author of this LET
+                // message)
+                // has read the other person's reply, and it's now their turn to reply.
+                // The message to display is the one they are replying TO (the other person's
+                // last message).
                 actionFlags.setCanReplyToMainMessage(true);
                 paperContent.setPaperTitle(ConstantsDefinition.RIS_MSG_ALTRI);
-                if (userSpecificMessage.getIdMsgReply() != null) {
-                    Messaggio messageUserIsReplyingTo = messaggioService.findById(userSpecificMessage.getIdMsgReply());
-                    if (messageUserIsReplyingTo != null) {
-                        mainMessageForPaper = messageUserIsReplyingTo; // Display the message they are replying to
-                    } else {
-                        paperLogger.error(
-                                "Data inconsistency: User's message {} (paper {}) is LET, implying a reply with id {}, but that reply was not found.",
-                                userSpecificMessage.getIdMsg(), paperId, userSpecificMessage.getIdMsgReply());
+
+                if (anchorMsgReplyId != null) {
+                    // Fetch the actual message they are replying to.
+                    // Its author should be anchorMsgReplierId. Its recipient currentUserId.
+                    mainMessageForPaper = messaggioCustomService.findMsgPerConversazionePrivata(
+                            anchorMsgReplyId, // ID of the message from other user
+                            anchorMsgReplierId, // Author of that message (other user)
+                            anchorMsgAuthorId, // Recipient (current user, author of the LET message)
+                            // ConstantsDefinition.CODMSG_PRI, // This was the error, remove
+                            usersAnchorMessageOnPaper.getIdMsg() // This LET message is a reply to anchorMsgReplyId
+                    );
+                    if (mainMessageForPaper == null) {
+                        mainMessageForPaper = messaggioService.findById(anchorMsgReplyId);
+                        if (mainMessageForPaper == null) {
+                            paperLogger.error(
+                                    "Data inconsistency: User's message {} is LET, but the reply (ID: {}) it points to was not found by any means.",
+                                    usersAnchorMessageOnPaper.getIdMsg(), anchorMsgReplyId);
+                            mainMessageForPaper = usersAnchorMessageOnPaper;
+                            actionFlags.setCanReplyToMainMessage(false);
+                        }
                     }
                 } else {
-                    paperLogger.error(
-                            "Data inconsistency: User's message {} (paper {}) is LET, but idMsgReply is null.",
-                            userSpecificMessage.getIdMsg(), paperId);
+                    paperLogger.error("Data inconsistency: User's message {} is LET, but idMsgReply is null.",
+                            usersAnchorMessageOnPaper.getIdMsg());
+                    mainMessageForPaper = usersAnchorMessageOnPaper;
+                    actionFlags.setCanReplyToMainMessage(false);
                 }
             }
         } else {
-            // Paper is "empty" for this user - load a random public message
-            actionFlags.setCanWriteNewOnThisPaper(!isPaperUsedByAuthorForPublicMessage(currentUserId, paperId));
+            actionFlags.setCanWriteNewOnThisPaper(!isPaperUsedByAuthorForNewPublicMessage(currentUserId, paperId));
             actionFlags.setCanReadOtherRandomMessages(true);
-
             mainMessageForPaper = messaggioCustomService.findMsgRandomNoReplyAutoreDiverso(currentUserId,
                     ConstantsDefinition.CODMSG_PUB);
-
             if (mainMessageForPaper != null) {
-                mainMessageForPaper.setTitMsg(ConstantsDefinition.TIT_MSG_ALTRI);
+                paperContent.setPaperTitle(ConstantsDefinition.TIT_MSG_ALTRI);
                 actionFlags.setCanReplyToMainMessage(true);
-                paperContent.setPaperTitle("Public Message"); // Or similar
             } else {
                 paperContent.setPaperTitle("Write New or Read Public");
                 actionFlags.setCanReplyToMainMessage(false);
+                actionFlags.setCanReadOtherRandomMessages(false);
             }
         }
 
         paperContent.setMainMessage(mainMessageForPaper);
 
         if (mainMessageForPaper != null && mainMessageForPaper.getIdMsg() != null) {
-            boolean isCurrentUserAuthorOfMain = mainMessageForPaper.getIdUteAut() != null
+            boolean isCurrentUserAuthorOfMainDisplayedMessage = mainMessageForPaper.getIdUteAut() != null
                     && mainMessageForPaper.getIdUteAut().equals(currentUserId);
 
-            // Tear logic: User can tear if they are the author of the main message shown,
-            // OR if the main message shown is a reply TO their message (meaning they are
-            // part of the conversation).
-            // The original strappaMsg logic was more complex, checking if user is idUteAut
-            // or idUteReply of the *specific message being torn*.
-            // For a simplified approach here:
-            // If it's their public message: they can tear.
-            // If it's a private conversation they are part of (either their message or a
-            // reply to them): they can tear.
-            // If it's a random public message: they cannot tear it.
-            if (userSpecificMessage != null) {
+            if (usersAnchorMessageOnPaper != null) {
                 actionFlags.setCanTearMainMessage(true);
-            } else if (mainMessageForPaper != null
-                    && ConstantsDefinition.CODMSG_PUB.equals(mainMessageForPaper.getCodTipMsg())) {
+            } else {
                 actionFlags.setCanTearMainMessage(false);
             }
 
-            if (!isCurrentUserAuthorOfMain
-                    && ConstantsDefinition.CODMSG_PUB.equals(mainMessageForPaper.getCodTipMsg())) {
+            if (!isCurrentUserAuthorOfMainDisplayedMessage &&
+                    mainMessageForPaper.getCodTipMsg() != null &&
+                    ConstantsDefinition.CODMSG_PUB.equals(mainMessageForPaper.getCodTipMsg())) {
                 actionFlags.setCanReportMainMessage(true);
             }
         }
 
         if (mainMessageForPaper == null && !actionFlags.isCanWriteNewOnThisPaper()) {
-            paperContent.setPaperTitle("Paper is currently empty");
+            paperContent.setPaperTitle("Paper is currently empty and cannot write new.");
         }
 
         return ResponseEntity.ok(paperContent);
@@ -343,6 +420,146 @@ public class MobilePaperController {
             paperLogger.error("Exception creating message for user ID: {} on paper ID: {}: {}", currentUserId, paperId,
                     e.getMessage(), e);
             return new ResponseEntity<>("{\"error\":\"An internal error occurred while saving the message.\"}",
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/{paperId}/messages/{messageIdToReplyTo}/reply", method = RequestMethod.POST)
+    public ResponseEntity<?> replyToMessage(
+            @PathVariable("paperId") Integer paperId,
+            @PathVariable("messageIdToReplyTo") Integer messageIdToReplyTo,
+            @RequestBody ReplyMessageRequestDto replyRequest) {
+
+        Integer currentUserId = getCurrentUserId();
+        if (currentUserId == null) {
+            return new ResponseEntity<>("{\"error\":\"User not authenticated.\"}", HttpStatus.UNAUTHORIZED);
+        }
+        paperLogger.info("User ID: {} attempting to reply to message ID: {} on paper ID: {}", currentUserId,
+                messageIdToReplyTo, paperId);
+
+        // 1. Validate inputs
+        if (paperId == null || messageIdToReplyTo == null || UtilityFunction.isFieldBlank(replyRequest.getDesMsg())) {
+            return new ResponseEntity<>(
+                    "{\"error\":\"Paper ID, message ID to reply to, and reply content are required.\"}",
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        // 2. Fetch the original message being replied to
+        Messaggio originalMessage = messaggioService.findById(messageIdToReplyTo);
+        if (originalMessage == null) {
+            paperLogger.warn("Reply attempt to non-existent message ID: {}", messageIdToReplyTo);
+            return new ResponseEntity<>("{\"error\":\"Message being replied to not found.\"}", HttpStatus.NOT_FOUND);
+        }
+
+        // 3. Perform validations (inspired by
+        // HomeRegController.isCheckConversazioneValida and savereply)
+
+        // 3.a. Cannot reply to your own message to start a conversation
+        if (originalMessage.getIdUteAut() != null && originalMessage.getIdUteAut().equals(currentUserId) &&
+                ConstantsDefinition.CODMSG_PUB.equals(originalMessage.getCodTipMsg())
+                && originalMessage.getIdMsgReply() == null) {
+            paperLogger.warn("User {} cannot reply to their own initial public message ID: {}", currentUserId,
+                    messageIdToReplyTo);
+            return new ResponseEntity<>("{\"error\":\"Cannot reply to your own initial message.\"}",
+                    HttpStatus.FORBIDDEN);
+        }
+
+        // 3.b. If replying to a public message (first reply)
+        if (ConstantsDefinition.CODMSG_PUB.equals(originalMessage.getCodTipMsg())) {
+            if (originalMessage.getIdMsgReply() != null) { // Should not happen if it's PUB, but as a safeguard
+                paperLogger.warn("Attempting to reply to a public message ID {} that already has a reply.",
+                        messageIdToReplyTo);
+                return new ResponseEntity<>("{\"error\":\"This public message has already been replied to.\"}",
+                        HttpStatus.CONFLICT);
+            }
+            // Check if the paperId is free for the current user (replier) to use for this
+            // new conversation
+            Messaggio existingMessageOnPaperByReplier = messaggioCustomService.findMsgByAutoreAndIdFoglio(currentUserId,
+                    paperId);
+            if (existingMessageOnPaperByReplier != null) {
+                paperLogger.warn("User {} trying to use paperId {} for a new reply, but it's already in use by them.",
+                        currentUserId, paperId);
+                return new ResponseEntity<>("{\"error\":\"Selected paper is already in use by you.\"}",
+                        HttpStatus.CONFLICT);
+            }
+        }
+        // 3.c. If replying within an existing private conversation
+        else if (ConstantsDefinition.CODMSG_PRI.equals(originalMessage.getCodTipMsg())
+                || ConstantsDefinition.CODMSG_LET.equals(originalMessage.getCodTipMsg())) {
+            // Ensure current user is part of this conversation
+            boolean isParticipant = (originalMessage.getIdUteAut() != null
+                    && originalMessage.getIdUteAut().equals(currentUserId)) ||
+                    (originalMessage.getIdUteReply() != null && originalMessage.getIdUteReply().equals(currentUserId));
+            if (!isParticipant) {
+                paperLogger.warn("User {} is not a participant in the conversation of message ID: {}", currentUserId,
+                        messageIdToReplyTo);
+                return new ResponseEntity<>("{\"error\":\"You are not part of this conversation.\"}",
+                        HttpStatus.FORBIDDEN);
+            }
+            // Ensure it's the current user's turn.
+            // If originalMessage.codTipMsg is PRI, it means originalMessage.idUteAut sent
+            // it.
+            // Reply is allowed if currentUserId is originalMessage.idUteReply.
+            // If originalMessage.codTipMsg is LET, it means originalMessage.idUteAut (who
+            // received a reply) read it.
+            // Reply is allowed if currentUserId is originalMessage.idUteAut.
+            boolean isMyTurn = false;
+            if (ConstantsDefinition.CODMSG_PRI.equals(originalMessage.getCodTipMsg()) &&
+                    originalMessage.getIdUteReply() != null && originalMessage.getIdUteReply().equals(currentUserId)) {
+                isMyTurn = true;
+            } else if (ConstantsDefinition.CODMSG_LET.equals(originalMessage.getCodTipMsg()) &&
+                    originalMessage.getIdUteAut() != null && originalMessage.getIdUteAut().equals(currentUserId)) {
+                isMyTurn = true;
+            }
+
+            if (!isMyTurn) {
+                paperLogger.warn("User {} trying to reply out of turn to message ID: {}", currentUserId,
+                        messageIdToReplyTo);
+                return new ResponseEntity<>("{\"error\":\"It's not your turn to reply in this conversation.\"}",
+                        HttpStatus.FORBIDDEN);
+            }
+            // Ensure the paperId in path matches the conversation's paperId
+            if (originalMessage.getIdFoglio() == null || !originalMessage.getIdFoglio().equals(paperId)) {
+                paperLogger.warn("Paper ID mismatch for reply. Path paperId: {}, Message paperId: {}", paperId,
+                        originalMessage.getIdFoglio());
+                return new ResponseEntity<>("{\"error\":\"Paper ID mismatch for this conversation.\"}",
+                        HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            paperLogger.warn("Attempting to reply to a message (ID: {}) with an unhandled type: {}", messageIdToReplyTo,
+                    originalMessage.getCodTipMsg());
+            return new ResponseEntity<>("{\"error\":\"Cannot reply to this type of message.\"}",
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        // 4. Call the service to insert the reply
+        try {
+            Messaggio createdReply = messaggioCustomService.insertReplyMsg(
+                    messageIdToReplyTo, // ID of the message being replied to
+                    originalMessage.getIdUteAut(), // Author of that original message
+                    currentUserId, // Author of this new reply (current user)
+                    replyRequest.getDesMsg(), // Content of the reply
+                    paperId // The paper ID where this conversation takes place
+            );
+
+            if (createdReply == null) {
+                paperLogger.error(
+                        "Failed to create reply for user ID: {} to message ID: {}. Service returned null (possibly conversation deleted).",
+                        currentUserId, messageIdToReplyTo);
+                // This message is from HomeRegController.savereply
+                return new ResponseEntity<>(
+                        "{\"error\":\"Sorry: the conversation was deleted by the other person...\"}", HttpStatus.GONE); // 410
+                                                                                                                        // Gone
+            }
+
+            paperLogger.info("Reply created successfully with ID: {} for user ID: {} on paper ID: {}",
+                    createdReply.getIdMsg(), currentUserId, paperId);
+            return new ResponseEntity<>(createdReply, HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            paperLogger.error("Exception creating reply for user ID: {} to message ID: {}: {}", currentUserId,
+                    messageIdToReplyTo, e.getMessage(), e);
+            return new ResponseEntity<>("{\"error\":\"An internal error occurred while saving the reply.\"}",
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

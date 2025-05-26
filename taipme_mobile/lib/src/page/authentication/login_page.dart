@@ -10,7 +10,7 @@ import 'package:taipme_mobile/src/controller/user_controller/user_controller.dar
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:taipme_mobile/src/component/input_field.dart';
 import 'package:taipme_mobile/src/util/key/key.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taipme_mobile/l10n/app_localizations.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});

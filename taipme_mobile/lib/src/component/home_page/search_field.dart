@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taipme_mobile/l10n/app_localizations.dart';
 
 class SearchField extends ConsumerWidget {
   const SearchField({super.key});
@@ -9,7 +9,7 @@ class SearchField extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
-      width: MediaQuery.sizeOf(context).width * 0.80,
+      width: MediaQuery.sizeOf(context).width * 0.9,
       child: TextField(
         style: const TextStyle(
           color: TaipmeStyle.primaryColor,

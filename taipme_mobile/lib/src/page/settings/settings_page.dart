@@ -7,7 +7,7 @@ import 'package:taipme_mobile/src/component/text/page_title.dart';
 import 'package:taipme_mobile/src/controller/form_controller/form_controller.dart';
 import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
 import 'package:taipme_mobile/src/util/key/key.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taipme_mobile/l10n/app_localizations.dart';
 
 class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
@@ -27,6 +27,12 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   final _newPasswordConfirmationFocusNode = FocusNode();
 
   @override
+  void initState() {
+    _init();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _emailFocusNode.dispose();
     _passwordFocusNode.dispose();
@@ -39,8 +45,15 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     super.dispose();
   }
 
+  _init() {
+    final user = ref.read(userControllerProvider);
+    debugPrint('SettingsPage: user is $user');
+    _emailController.text = user?.username ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return LoggedPageStructure(
       child: Form(
         key: profileKey,
@@ -55,6 +68,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               ),
               SizedBox(height: 16),
               InputField(
+                isReadOnly: true,
                 controller: _emailController,
                 focusNode: _emailFocusNode,
                 nextFocusNode: _passwordFocusNode,

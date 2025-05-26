@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taipme_mobile/l10n/app_localizations.dart';
 
 class NewMessageCard extends ConsumerStatefulWidget {
-  const NewMessageCard({super.key, required this.controller});
+  const NewMessageCard({
+    super.key,
+    required this.controller,
+    this.isReply = false,
+  });
 
   final TextEditingController controller;
+  final bool isReply;
 
   @override
   ConsumerState<NewMessageCard> createState() => _NewMessageCardState();
@@ -41,7 +46,9 @@ class _NewMessageCardState extends ConsumerState<NewMessageCard> {
         color: TaipmeStyle.primaryColor,
       ),
       decoration: InputDecoration(
-        hintText: AppLocalizations.of(context)!.shareYourThoughts,
+        hintText: !widget.isReply
+            ? AppLocalizations.of(context)!.shareYourThoughts
+            : AppLocalizations.of(context)!.replyToMessage,
         hintStyle: TextStyle(color: TaipmeStyle.primaryColor),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(TaipmeStyle.lightRadius),

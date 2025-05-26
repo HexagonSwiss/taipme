@@ -6,7 +6,7 @@ import 'package:taipme_mobile/src/component/text/type_writter.dart';
 import 'package:taipme_mobile/src/controller/typing_controller/typing_controller.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
 import 'package:taipme_mobile/src/util/helper/translated_text/translated_text.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taipme_mobile/l10n/app_localizations.dart';
 
 class WhatIsPage extends ConsumerWidget {
   const WhatIsPage({super.key});

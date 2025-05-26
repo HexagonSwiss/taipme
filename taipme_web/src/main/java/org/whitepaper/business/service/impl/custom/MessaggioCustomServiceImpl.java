@@ -223,69 +223,132 @@ public class MessaggioCustomServiceImpl implements MessaggioCustomService {
 	
 	
 	//inserimento messaggio di risposta e aggiornamento stato
-	@Override
-	public Messaggio insertReplyMsg(Integer idMsg, Integer idAut, Integer idUteReply, String desMsg, Integer idFoglio) {
-		Messaggio msgNew = null;
-		MessaggioEntity messaggioEntitySaved = null;
-		try {
-			
-			//load messaggio iniziale
-			Messaggio msgIniziale = messaggioService.findById(idMsg);
-			if ( null==msgIniziale )
-				return null;
-						
-			if ( msgIniziale.getIdUteAut().intValue()!=idAut.intValue() ) {
-				//errore				
-				return null;
-			}
-			
-			//////////////////////////////////////////////////////////////////////////
-			//la prima risposta, inserisco messaggio REPLY
-			//le volte successive, aggiorna descrizione della rispota utente corrente
-			//////////////////////////////////////////////////////////////////////////			
-			if ( null==msgIniziale.getIdMsgReply() ) {
-						
-				//inserimentor messaggio risposta (privata) con idMsgReply = idMsg iniziale (no save tags)			
-				msgNew = insertMsgAndTags(idUteReply, idAut, desMsg, ConstantsDefinition.CODMSG_PRI, idFoglio, idMsg, false);
-				
-				//aggiornamento messaggio originale con info messaggio REPLY												
-				msgIniziale.setIdUteReply(msgNew.getIdUteAut());
-				msgIniziale.setIdMsgReply(msgNew.getIdMsg());
-				msgIniziale.setCodTipMsg(ConstantsDefinition.CODMSG_PRI);
-				MessaggioEntity messaggioEntity = new MessaggioEntity();
-				messaggioServiceMapper.mapMessaggioToMessaggioEntity(msgIniziale, messaggioEntity);
-				messaggioEntitySaved = messaggioJpaRepository.save(messaggioEntity);				
-				
-			} else {
+    @Override
+    public Messaggio insertReplyMsg(Integer idMsgOriginale, Integer idUteAutOriginale, Integer idUteReplier, String desMsgReply, Integer idFoglio) {
+        Messaggio newlySentOrUpdatedMessage = null;
+        
+        try {
+            // Load the message being replied to (M_Other)
+            Messaggio mOther = messaggioService.findById(idMsgOriginale);
 
-				//pulizia tag html (no br)
-				String desMsgNoHtml = UtilityFunction.noHtmlWithBr(desMsg);
+            if (mOther == null) {
+                logger.error("******insertReplyMsg: Original message (ID: {}) not found.", idMsgOriginale);
+                return null;
+            }
+
+            // Validate that idUteAutOriginale matches the author of mOther
+            if (mOther.getIdUteAut() == null || !mOther.getIdUteAut().equals(idUteAutOriginale)) {
+                logger.error("******insertReplyMsg: Author mismatch for original message (ID: {}). Expected: {}, Found: {}", idMsgOriginale, idUteAutOriginale, mOther.getIdUteAut());
+                return null; 
+            }
+
+            String desMsgNoHtml = UtilityFunction.noHtmlWithBr(desMsgReply);
+
+            // Scenario 1: First reply to a public message (mOther.idMsgReply is null)
+            // This creates the initial private pair.
+            if (mOther.getIdMsgReply() == null && ConstantsDefinition.CODMSG_PUB.equals(mOther.getCodTipMsg())) {
+                logger.debug("insertReplyMsg: First reply to public message ID {}.", idMsgOriginale);
+
+                // 1. Create the new reply message (M_Replier_New)
+                // Author of this new reply is idUteReplier (current user)
+                // It replies to mOther (idMsgOriginale), whose author is idUteAutOriginale
+                newlySentOrUpdatedMessage = insertMsgAndTags(
+                    idUteReplier,        // Author of this new reply
+                    idUteAutOriginale,   // Recipient of this new reply
+                    desMsgNoHtml,
+                    ConstantsDefinition.CODMSG_PRI, // New reply is Private
+                    idFoglio,            // Paper for this conversation
+                    idMsgOriginale,      // This new message is a reply to mOther
+                    false             
+                );
+
+                if (newlySentOrUpdatedMessage == null || newlySentOrUpdatedMessage.getIdMsg() == null) {
+                    logger.error("******insertReplyMsg: Failed to create new reply message record for M_Other ID {}.", idMsgOriginale);
+                    throw new Exception("Failed to create reply message record.");
+                }
+
+                // 2. Update the original message (mOther) to link to this new reply and become private (or LET)
+                mOther.setIdUteReply(idUteReplier); // The user who just replied
+                mOther.setIdMsgReply(newlySentOrUpdatedMessage.getIdMsg()); // Link to the new reply
+                mOther.setCodTipMsg(ConstantsDefinition.CODMSG_LET); // Mark mOther as "read" by its author, as it now has a reply they need to see.
+                                                                     // Or PRI if you want the author to "view" it to turn it to LET.
+                                                                     // LET is more direct for turn-taking.
+                mOther.setDatUltMov(Calendar.getInstance().getTime());
+                messaggioService.save(mOther); // Save the updated original message
+
+                logger.info("insertReplyMsg: First reply created (ID: {}). Original message (ID: {}) updated.", newlySentOrUpdatedMessage.getIdMsg(), idMsgOriginale);
+
+            } 
+            // Scenario 2: Subsequent reply in an existing private conversation (ping-pong update)
+            else if (mOther.getIdMsgReply() != null && 
+                     (ConstantsDefinition.CODMSG_PRI.equals(mOther.getCodTipMsg()) || ConstantsDefinition.CODMSG_LET.equals(mOther.getCodTipMsg())) ) {
+                
+                logger.debug("insertReplyMsg: Subsequent reply in private conversation. Replying to M_Other (ID: {}). M_Other's reply pointer: {}", idMsgOriginale, mOther.getIdMsgReply());
+
+                // mOther is the message from the other user (e.g., User B's message)
+                // mOther.getIdMsgReply() points to the current user's (User A's) message slot in this conversation (M_Current_Slot)
+                
+                Messaggio mCurrentSlot = messaggioService.findById(mOther.getIdMsgReply());
 				
-				//aggiornamento descrizione (risposta) messaggio REPLY e STATO da LETTO a PRIVATO
-				Messaggio msgReply = messaggioService.findById(msgIniziale.getIdMsgReply());
-				msgReply.setDatUltMov( Calendar.getInstance().getTime() );								
-				msgReply.setDesMsg(desMsgNoHtml);
-				msgReply.setCodTipMsg(ConstantsDefinition.CODMSG_PRI);
-				MessaggioEntity messaggioEntityReply = new MessaggioEntity();
-				messaggioServiceMapper.mapMessaggioToMessaggioEntity(msgReply, messaggioEntityReply);
-				messaggioEntitySaved = messaggioJpaRepository.save(messaggioEntityReply);
-				
-				//incrementa numero di risposte salvate per giornata (statistica)
-				utenteActionCustomService.saveNumActionPerIdUteAndData(idUteReply, ConstantsDefinition.COD_TIP_OPERAZ_REPLY, new Date());
-			}
-			
-			//cancellazione tags del messaggio originale e risposta (ora sono messaggi PRIVATI)
-			messaggioTagCustomService.deleteTagsPerIdMsg(idMsg);
-			
-						                            					
-		} catch (Exception ex) {
-			logger.error("******insertReplyMsg: errore: " + ex.getMessage() );
-		}	
-		if ( null!=messaggioEntitySaved)
-			msgNew = messaggioServiceMapper.mapMessaggioEntityToMessaggio(messaggioEntitySaved);
-		
-		return msgNew;
-	}
+                if (mCurrentSlot == null) {
+                    logger.error("******insertReplyMsg: Current user's message slot (ID: {}) not found for M_Other ID {}.", mOther.getIdMsgReply(), idMsgOriginale);
+                    throw new Exception("Conversation state error: user's message slot not found.");
+                }
+
+                // Ensure current user is indeed the author of this slot they are about to update
+                if (mCurrentSlot.getIdUteAut() == null || !mCurrentSlot.getIdUteAut().equals(idUteReplier)) {
+                     logger.error("******insertReplyMsg: Current user {} is not the author of message slot ID {} they are trying to update.", idUteReplier, mCurrentSlot.getIdMsg());
+                     throw new Exception("Conversation state error: user mismatch on message slot.");
+                }
+
+                // 1. Update the current user's message slot (mCurrentSlot) with the new reply content
+                mCurrentSlot.setDesMsg(desMsgNoHtml);
+                mCurrentSlot.setCodTipMsg(ConstantsDefinition.CODMSG_PRI); // Current user just sent this, so it's PRI
+                mCurrentSlot.setDatUltMov(Calendar.getInstance().getTime());
+                // idMsgReply, idUteAut, idUteReply on mCurrentSlot should remain pointing to mOther's details
+                newlySentOrUpdatedMessage = messaggioService.save(mCurrentSlot); // Save updated M_Current_Slot
+                
+                if (newlySentOrUpdatedMessage == null) {
+                     logger.error("******insertReplyMsg: Failed to update current user's message slot (ID: {}).", mCurrentSlot.getIdMsg());
+                    throw new Exception("Failed to update user's message slot.");
+                }
+
+                // 2. Update the other user's message (mOther) to mark it as "read" (LET)
+                //    and ensure its idMsgReply points to the (now updated) mCurrentSlot.
+                mOther.setCodTipMsg(ConstantsDefinition.CODMSG_LET);
+                mOther.setIdMsgReply(newlySentOrUpdatedMessage.getIdMsg()); // Link to the newly updated reply
+                mOther.setIdUteReply(idUteReplier); // The user who just replied
+                mOther.setDatUltMov(Calendar.getInstance().getTime()); // Also update its last movement
+                messaggioService.save(mOther); // Save the updated M_Other
+
+                logger.info("insertReplyMsg: Subsequent reply updated in M_Current_Slot (ID: {}). M_Other (ID: {}) updated to LET.", newlySentOrUpdatedMessage.getIdMsg(), idMsgOriginale);
+                
+                // Increment reply count statistic
+                utenteActionCustomService.saveNumActionPerIdUteAndData(idUteReplier, ConstantsDefinition.COD_TIP_OPERAZ_REPLY, new Date());
+            } else {
+                logger.error("******insertReplyMsg: Cannot reply to message ID {} with current state (codTipMsg: {}, idMsgReply: {}).", idMsgOriginale, mOther.getCodTipMsg(), mOther.getIdMsgReply());
+                return null; // Or throw specific exception
+            }
+            
+            // Tags are usually not associated with private messages, but if they were,
+            // one might clear them here as the conversation becomes private.
+            // The original code did this for idMsgOriginale.
+            messaggioTagCustomService.deleteTagsPerIdMsg(idMsgOriginale);
+            if (newlySentOrUpdatedMessage != null && newlySentOrUpdatedMessage.getIdMsg() != null && 
+                !newlySentOrUpdatedMessage.getIdMsg().equals(idMsgOriginale)) {
+                messaggioTagCustomService.deleteTagsPerIdMsg(newlySentOrUpdatedMessage.getIdMsg());
+            }
+                                                                        
+        } catch (Exception ex) {
+            logger.error("******insertReplyMsg: General error processing reply to message ID {}: {}", idMsgOriginale, ex.getMessage(), ex);
+            // Re-throw or handle as appropriate, potentially returning null or throwing a service-specific exception
+            // For now, let it be caught by @Transactional for rollback
+            if (ex instanceof RuntimeException) throw (RuntimeException)ex; // Avoid wrapping RuntimeExceptions
+            throw new RuntimeException("Error processing reply: " + ex.getMessage(), ex);
+        }   
+        
+        return newlySentOrUpdatedMessage; // Return the message that was just sent/updated by the current user
+    }
 
 	//conta numero messaggi di autori diversi e senza risposta
 	public int countNumMessaggiAutDiversiPerTipoNoReply(Integer idUte, String codTipMsg) {

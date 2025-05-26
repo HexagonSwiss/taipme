@@ -230,7 +230,7 @@ final currentPaperIdProvider =
 
 typedef _$CurrentPaperId = AutoDisposeNotifier<int>;
 String _$paperActionsControllerHash() =>
-    r'6ea591d93efb3564bde88ffa292c2592c4808425';
+    r'ab18521a0163b3af2736a86be6f7c4490962e310';
 
 /// See also [PaperActionsController].
 @ProviderFor(PaperActionsController)

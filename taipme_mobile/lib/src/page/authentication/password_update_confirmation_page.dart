@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/component/button/footer_actions.dart';
 import 'package:taipme_mobile/src/component/page_structure/static_page_structure.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taipme_mobile/l10n/app_localizations.dart';
 
 // TODO: ADD BUSINESS LOGIC TO CONFIRM PASSWORD UPDATE
 

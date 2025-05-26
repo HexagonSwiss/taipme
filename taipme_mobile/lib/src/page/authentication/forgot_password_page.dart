@@ -8,7 +8,7 @@ import 'package:taipme_mobile/src/component/button/footer_actions.dart';
 import 'package:taipme_mobile/src/controller/form_controller/form_controller.dart';
 import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taipme_mobile/l10n/app_localizations.dart';
 import 'package:taipme_mobile/src/util/key/key.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {

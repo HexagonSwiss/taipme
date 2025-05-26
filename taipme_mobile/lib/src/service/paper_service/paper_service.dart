@@ -4,6 +4,7 @@ import 'package:taipme_mobile/src/model/data_model/paper_model_list/create_messa
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/message_model/message_model.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/paper_content_model/paper_content_model.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/papers_summary_model/papers_summary_model.dart';
+import 'package:taipme_mobile/src/model/data_model/paper_model_list/reply_message_request_model/reply_message_request_model.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 import 'package:taipme_mobile/src/service/storage_service/storage_service.dart';
 import 'package:taipme_mobile/src/util/helper/request_builder/request_builder.dart';
@@ -144,4 +145,41 @@ class PaperService extends _$PaperService {
         "PaperService: Successfully created message on paperId $paperId. Message ID: ${response.data!.idMsg}");
     return response;
   }
+
+    Future<ResultModel<MessageModel>> replyToMessage({
+    required int paperId,
+    required int messageIdToReplyTo,
+    required ReplyMessageRequestModel replyRequest,
+  }) async {
+    debugPrint("PaperService: replyToMessage called for paperId: $paperId, messageIdToReplyTo: $messageIdToReplyTo");
+
+    final tokenResult = await ref.read(storageServiceProvider.notifier).getToken();
+    if (tokenResult.hasError() || tokenResult.data == null) {
+      debugPrint("PaperService: No token for replyToMessage. Error: ${tokenResult.error}");
+      return ResultModel(error: "User not authenticated.", statusCode: 401);
+    }
+    final String token = tokenResult.data!;
+
+    final response = await ref.read(requestBuilderProvider.notifier).post<MessageModel>(
+      endpoint: "/papers/$paperId/messages/$messageIdToReplyTo/reply",
+      body: replyRequest.toJson(), // ReplyMessageRequestModel.toJson()
+      token: token,
+      parser: (json) {
+        // Backend returns the created reply (Messaggio object) on success (201 Created)
+        if (json is Map<String, dynamic>) {
+          return MessageModel.fromJson(json);
+        }
+        throw FormatException("Expected a Map for the created Reply Message, got ${json.runtimeType}");
+      },
+    );
+
+    if (response.hasError() || response.data == null) {
+      debugPrint("PaperService: replyToMessage for paperId $paperId, messageId $messageIdToReplyTo failed. Error: ${response.error}, Status: ${response.statusCode}");
+      return ResultModel(error: response.error ?? "Failed to send reply.", statusCode: response.statusCode);
+    }
+    
+    debugPrint("PaperService: Successfully sent reply on paperId $paperId to messageId $messageIdToReplyTo. Reply ID: ${response.data!.idMsg}");
+    return response;
+  }
+
 }

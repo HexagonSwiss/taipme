@@ -10,6 +10,9 @@ GlobalKey<NavigatorState> navigatorKey(Ref ref) => GlobalKey<NavigatorState>();
 
 // FORM KEYS
 
+// MESSAGE
+GlobalKey<FormState> messageKey = GlobalKey<FormState>();
+
 // PROFILE
 GlobalKey<FormState> profileKey = GlobalKey<FormState>();
 

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taipme_mobile/route/route.dart';
 import 'package:taipme_mobile/src/component/page_structure/static_page_structure.dart';
 import 'package:taipme_mobile/src/component/button/footer_actions.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taipme_mobile/l10n/app_localizations.dart';
 
 class ForgotPasswordSentPage extends ConsumerWidget {
   const ForgotPasswordSentPage({super.key});

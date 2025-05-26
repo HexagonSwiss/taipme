@@ -32,7 +32,7 @@ class PaperIndexCarousel extends ConsumerWidget {
         GestureDetector(
           onTap: () => onPaperSelected(paperId),
           child: Container(
-            width: 40,
+            width: 50,
             margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
             decoration: BoxDecoration(
               color: isSelected
@@ -58,7 +58,7 @@ class PaperIndexCarousel extends ConsumerWidget {
                       fontSize: 18,
                     ),
                   ),
-                  if (currentPaperStatus.hasReply ||
+/*                   if (currentPaperStatus.hasReply ||
                       currentPaperStatus.myTurnToReply)
                     Icon(
                       currentPaperStatus.myTurnToReply
@@ -68,7 +68,7 @@ class PaperIndexCarousel extends ConsumerWidget {
                           ? TaipmeStyle.inputFieldReadOnlyColor
                           : TaipmeStyle.backgroundColor,
                       size: 16,
-                    )
+                    ) */
                 ],
               ),
             ),
@@ -78,7 +78,7 @@ class PaperIndexCarousel extends ConsumerWidget {
     }
 
     return Container(
-      height: 70,
+      height: 80,
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

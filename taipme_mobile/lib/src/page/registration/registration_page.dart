@@ -6,7 +6,7 @@ import 'package:taipme_mobile/src/component/button/primary_button.dart';
 import 'package:taipme_mobile/src/component/input_field.dart';
 import 'package:taipme_mobile/src/component/page_structure/form_page_structure.dart';
 import 'package:taipme_mobile/src/controller/form_controller/form_controller.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taipme_mobile/l10n/app_localizations.dart';
 import 'package:taipme_mobile/src/controller/input_error_controller/input_error_controller.dart';
 import 'package:taipme_mobile/src/controller/user_controller/user_controller.dart';
 import 'package:taipme_mobile/src/util/key/key.dart';

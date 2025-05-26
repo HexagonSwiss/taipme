@@ -5,6 +5,7 @@ import 'package:taipme_mobile/src/model/data_model/paper_model_list/create_messa
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/message_model/message_model.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/paper_content_model/paper_content_model.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/papers_summary_model/papers_summary_model.dart';
+import 'package:taipme_mobile/src/model/data_model/paper_model_list/reply_message_request_model/reply_message_request_model.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
 import 'package:taipme_mobile/src/service/paper_service/paper_service.dart';
 
@@ -144,4 +145,30 @@ class PaperActionsController extends _$PaperActionsController {
     }
     return result; // Return the original result for the UI to handle
   }
+
+  Future<ResultModel<MessageModel>> replyToExistingMessage({
+    required int paperId,
+    required int messageIdToReplyTo,
+    required String replyContent,
+  }) async {
+    debugPrint("PaperActionsController: replyToExistingMessage on paper $paperId to message $messageIdToReplyTo");
+    final paperService = ref.read(paperServiceProvider.notifier);
+    final requestModel = ReplyMessageRequestModel(desMsg: replyContent);
+
+    final result = await paperService.replyToMessage(
+      paperId: paperId,
+      messageIdToReplyTo: messageIdToReplyTo,
+      replyRequest: requestModel,
+    );
+
+    if (!result.hasError() && result.data != null) {
+      debugPrint("PaperActionsController: Reply sent successfully. Refreshing paper content $paperId and summary.");
+      ref.refresh(fetchPaperContentProvider(paperId));
+      ref.refresh(fetchUserPapersSummaryProvider);
+    } else {
+       debugPrint("PaperActionsController: Failed to send reply: ${result.error}");
+    }
+    return result;
+  }
+
 }

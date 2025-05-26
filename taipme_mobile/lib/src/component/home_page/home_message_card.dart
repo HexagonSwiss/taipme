@@ -9,7 +9,7 @@ import 'package:taipme_mobile/src/model/data_model/paper_model_list/message_mode
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/paper_action_flags_model/paper_action_flags_model.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/paper_content_model/paper_content_model.dart';
 import 'package:taipme_mobile/src/theme/styles.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taipme_mobile/l10n/app_localizations.dart';
 
 class HomeMessageCard extends ConsumerStatefulWidget {
   const HomeMessageCard({super.key, required this.selectedPaperId});
@@ -41,7 +41,7 @@ class _HomeMessageCardState extends ConsumerState<HomeMessageCard> {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
         child: paperContentAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
           error: (Object e, StackTrace st) {
             debugPrint(
               "HomeMessageCard: Error loading content for paper ${widget.selectedPaperId}: $e\n$st",
@@ -200,7 +200,7 @@ class _HomeMessageCardState extends ConsumerState<HomeMessageCard> {
               debugPrint(
                 "Action: Tear paper/message $mainMessageId on paper $currentPaperId",
               );
-              // TODO: Implement call to a service method for tearing the paper/message
+              // TODO: Implement call to a controller method for tearing the paper/message
             },
           ),
         ),
