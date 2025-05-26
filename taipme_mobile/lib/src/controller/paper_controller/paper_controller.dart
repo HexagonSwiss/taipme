@@ -20,7 +20,8 @@ class UserPapersSummarySyncController
   void setSummary(PapersSummaryModel summary) {
     state = summary;
     debugPrint(
-        "UserPapersSummarySyncController: Summary updated. Papers: ${summary.papers.length}");
+      "UserPapersSummarySyncController: Summary updated. Papers: ${summary.papers.length}",
+    );
   }
 
   void clearSummary() {
@@ -32,7 +33,8 @@ class UserPapersSummarySyncController
 @riverpod
 Future<PapersSummaryModel> fetchUserPapersSummary(Ref ref) async {
   debugPrint(
-      "fetchUserPapersSummaryProvider: Fetching user papers summary from API...");
+    "fetchUserPapersSummaryProvider: Fetching user papers summary from API...",
+  );
   final paperService = ref.watch(paperServiceProvider.notifier);
 
   final result = await paperService.getUserPapersSummary();
@@ -40,14 +42,17 @@ Future<PapersSummaryModel> fetchUserPapersSummary(Ref ref) async {
   if (result.hasError() || result.data == null) {
     debugPrint(
         "fetchUserPapersSummaryProvider: Error fetching summary: ${result.error}");
-    throw Exception(result.error ?? "Failed to fetch paper summary");
+    throw Exception(
+      result.error ?? "Failed to fetch paper summary",
+    );
   }
 
   ref
       .read(userPapersSummarySyncControllerProvider.notifier)
       .setSummary(result.data!);
   debugPrint(
-      "fetchUserPapersSummaryProvider: Summary fetched and sync state updated.");
+    "fetchUserPapersSummaryProvider: Summary fetched and sync state updated.",
+  );
   return result.data!;
 }
 
@@ -59,18 +64,22 @@ class PaperContentSyncController extends _$PaperContentSyncController {
   void setPaperContent(int paperId, PaperContentModel content) {
     state = {...state, paperId: content};
     debugPrint(
-        "PaperContentSyncController: Content updated for paperId $paperId.");
+      "PaperContentSyncController: Content updated for paperId $paperId.",
+    );
   }
 
   void clearPaperContent(int paperId) {
     state = {...state..remove(paperId)};
     debugPrint(
-        "PaperContentSyncController: Content cleared for paperId $paperId.");
+      "PaperContentSyncController: Content cleared for paperId $paperId.",
+    );
   }
 
   void clearAllPaperContents() {
     state = {};
-    debugPrint("PaperContentSyncController: All paper contents cleared.");
+    debugPrint(
+      "PaperContentSyncController: All paper contents cleared.",
+    );
   }
 
   PaperContentModel? getContentForId(int paperId) => state[paperId];
@@ -79,23 +88,27 @@ class PaperContentSyncController extends _$PaperContentSyncController {
 @riverpod
 Future<PaperContentModel> fetchPaperContent(Ref ref, int paperId) async {
   debugPrint(
-      "fetchPaperContentProvider: Fetching content for paperId: $paperId from API...");
+    "fetchPaperContentProvider: Fetching content for paperId: $paperId from API...",
+  );
   final paperService = ref.watch(paperServiceProvider.notifier);
 
   final result = await paperService.getPaperContent(paperId);
 
   if (result.hasError() || result.data == null) {
     debugPrint(
-        "fetchPaperContentProvider: Error fetching content for paperId $paperId: ${result.error}");
+      "fetchPaperContentProvider: Error fetching content for paperId $paperId: ${result.error}",
+    );
     throw Exception(
-        result.error ?? "Failed to fetch content for paper $paperId");
+      result.error ?? "Failed to fetch content for paper $paperId",
+    );
   }
 
   ref
       .read(paperContentSyncControllerProvider.notifier)
       .setPaperContent(paperId, result.data!);
   debugPrint(
-      "fetchPaperContentProvider: Content for paperId $paperId fetched and sync state updated.");
+    "fetchPaperContentProvider: Content for paperId $paperId fetched and sync state updated.",
+  );
   return result.data!;
 }
 
@@ -151,7 +164,9 @@ class PaperActionsController extends _$PaperActionsController {
     required int messageIdToReplyTo,
     required String replyContent,
   }) async {
-    debugPrint("PaperActionsController: replyToExistingMessage on paper $paperId to message $messageIdToReplyTo");
+    debugPrint(
+      "PaperActionsController: replyToExistingMessage on paper $paperId to message $messageIdToReplyTo",
+    );
     final paperService = ref.read(paperServiceProvider.notifier);
     final requestModel = ReplyMessageRequestModel(desMsg: replyContent);
 
@@ -162,13 +177,41 @@ class PaperActionsController extends _$PaperActionsController {
     );
 
     if (!result.hasError() && result.data != null) {
-      debugPrint("PaperActionsController: Reply sent successfully. Refreshing paper content $paperId and summary.");
+      debugPrint(
+        "PaperActionsController: Reply sent successfully. Refreshing paper content $paperId and summary.",
+      );
       ref.refresh(fetchPaperContentProvider(paperId));
       ref.refresh(fetchUserPapersSummaryProvider);
     } else {
-       debugPrint("PaperActionsController: Failed to send reply: ${result.error}");
+      debugPrint(
+        "PaperActionsController: Failed to send reply: ${result.error}",
+      );
     }
     return result;
   }
 
+  Future<ResultModel<void>> tearMessage({
+    required int messageId,
+    required int paperId,
+  }) async {
+    debugPrint(
+      "PaperActionsController: tearMessage called for messageId $messageId on paper $paperId",
+    );
+    final paperService = ref.read(paperServiceProvider.notifier);
+
+    final result = await paperService.tearMessage(messageId: messageId);
+
+    if (!result.hasError()) {
+      debugPrint(
+        "PaperActionsController: Message torn successfully. Refreshing paper content $paperId and summary.",
+      );
+      ref.refresh(fetchPaperContentProvider(paperId));
+      ref.refresh(fetchUserPapersSummaryProvider);
+    } else {
+      debugPrint(
+        "PaperActionsController: Failed to tear message: ${result.error}",
+      );
+    }
+    return result;
+  }
 }

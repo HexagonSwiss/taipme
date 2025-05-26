@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.whitepaper.bean.Messaggio;
 import org.whitepaper.business.service.MessaggioService;
 import org.whitepaper.business.service.custom.MessaggioCustomService;
+import org.whitepaper.business.service.custom.UtenteActionCustomService;
 import org.whitepaper.mobile.dto.CreateMessageRequestDto;
 import org.whitepaper.mobile.dto.PaperActionFlagsDto;
 import org.whitepaper.mobile.dto.PaperContentDto;
@@ -26,7 +27,9 @@ import org.whitepaper.bean.AnaUtente;
 import org.whitepaper.business.service.AnaUtenteService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +47,9 @@ public class MobilePaperController {
 
     @Autowired
     private MessaggioService messaggioService;
+
+    @Autowired
+    private UtenteActionCustomService utenteActionCustomService;
 
     private Integer getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -65,14 +71,9 @@ public class MobilePaperController {
         if (userId == null || paperId == null)
             return true;
         Messaggio existingMsg = messaggioCustomService.findMsgByAutoreAndIdFoglio(userId, paperId);
-        // A paper is considered "used" for a *new public message* if the user already
-        // has
-        // any message they authored on it (PUB, or even PRI/LET if it originated from
-        // them on this paper).
         return existingMsg != null;
     }
 
-    // Renamed for clarity and to match usage in HomeRegController
     private int getHighestPaperIdActiveForUser(Integer authorId) {
         if (authorId == null)
             return 0;
@@ -560,6 +561,93 @@ public class MobilePaperController {
             paperLogger.error("Exception creating reply for user ID: {} to message ID: {}: {}", currentUserId,
                     messageIdToReplyTo, e.getMessage(), e);
             return new ResponseEntity<>("{\"error\":\"An internal error occurred while saving the reply.\"}",
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/messages/{messageId}/tear", method = RequestMethod.POST) 
+    public ResponseEntity<?> tearMessage(@PathVariable("messageId") Integer messageId) {
+        Integer currentUserId = getCurrentUserId();
+        if (currentUserId == null) {
+            return new ResponseEntity<>("{\"error\":\"User not authenticated.\"}", HttpStatus.UNAUTHORIZED);
+        }
+        paperLogger.info("User ID: {} attempting to tear message ID: {}", currentUserId, messageId);
+
+        if (messageId == null) {
+            return new ResponseEntity<>("{\"error\":\"Message ID is required.\"}", HttpStatus.BAD_REQUEST);
+        }
+
+        Messaggio messageToTear = messaggioService.findById(messageId);
+        if (messageToTear == null) {
+            paperLogger.warn("Attempt to tear non-existent message ID: {}", messageId);
+            return new ResponseEntity<>("{\"error\":\"Message not found.\"}", HttpStatus.NOT_FOUND);
+        }
+
+        // Authorization: User must be author or replier of the message to tear it
+        boolean isAuthor = messageToTear.getIdUteAut() != null && messageToTear.getIdUteAut().equals(currentUserId);
+        boolean isReplier = messageToTear.getIdUteReply() != null
+                && messageToTear.getIdUteReply().equals(currentUserId);
+
+        // In a two-message ping-pong, if messageToTear is one part, its idMsgReply
+        // points to the other.
+        // The user tearing should be the author of messageToTear OR the author of the
+        // message it replies to (if messageToTear is a reply).
+        // The original HomeRegController.strappaMsg checked if current user was
+        // message.idUteAut OR message.idUteReply.
+        // This implies the user can tear either their own message or a reply they
+        // received.
+
+        if (!isAuthor) { // If not the direct author of this specific message record
+            // Check if they are the other participant in the conversation this message
+            // belongs to
+            if (messageToTear.getIdMsgReply() != null) {
+                Messaggio counterpartMessage = messaggioService.findById(messageToTear.getIdMsgReply());
+                if (counterpartMessage != null && counterpartMessage.getIdUteAut() != null
+                        && counterpartMessage.getIdUteAut().equals(currentUserId)) {
+                    // Current user is the author of the message this one replies to. They can tear.
+                } else {
+                    paperLogger.warn(
+                            "User ID: {} is not authorized to tear message ID: {}. Not author or direct participant in reply.",
+                            currentUserId, messageId);
+                    return new ResponseEntity<>("{\"error\":\"You are not authorized to tear this message.\"}",
+                            HttpStatus.FORBIDDEN);
+                }
+            } else if (!isReplier) { // Not author, not a reply to their message, and not the designated replier on
+                                     // this message record
+                paperLogger.warn(
+                        "User ID: {} is not authorized to tear message ID: {}. Not author or designated replier.",
+                        currentUserId, messageId);
+                return new ResponseEntity<>("{\"error\":\"You are not authorized to tear this message.\"}",
+                        HttpStatus.FORBIDDEN);
+            }
+        }
+
+        // Daily limit check
+        boolean isStrappaGreaterMax = utenteActionCustomService.checkNumStrappaGreaterMax(currentUserId, new Date());
+        if (isStrappaGreaterMax) {
+            paperLogger.warn("User ID: {} has exceeded daily tear limit.", currentUserId);
+            return new ResponseEntity<>("{\"error\":\"You have reached the daily limit for tearing papers.\"}",
+                    HttpStatus.FORBIDDEN);
+        }
+
+        try {
+            // The service method `strappoMsg` takes (idUte, idMsg, idMsgReply of
+            // messageToTear)
+            boolean isError = messaggioCustomService.strappoMsg(currentUserId, messageId,
+                    messageToTear.getIdMsgReply());
+            if (isError) {
+                paperLogger.error("Failed to tear message ID: {} for user ID: {}. Service returned error.", messageId,
+                        currentUserId);
+                return new ResponseEntity<>("{\"error\":\"Failed to tear message.\"}",
+                        HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            paperLogger.info("Message ID: {} successfully torn by user ID: {}", messageId, currentUserId);
+            return new ResponseEntity<>("{\"message\":\"Message successfully torn.\"}", HttpStatus.OK); 
+        } catch (Exception e) {
+            paperLogger.error("Exception tearing message ID: {} for user ID: {}: {}", messageId, currentUserId,
+                    e.getMessage(), e);
+            return new ResponseEntity<>("{\"error\":\"An internal error occurred while tearing the message.\"}",
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

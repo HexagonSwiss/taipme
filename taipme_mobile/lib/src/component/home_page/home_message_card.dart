@@ -41,7 +41,8 @@ class _HomeMessageCardState extends ConsumerState<HomeMessageCard> {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
         child: paperContentAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+          loading: () =>
+              const Center(child: CircularProgressIndicator.adaptive()),
           error: (Object e, StackTrace st) {
             debugPrint(
               "HomeMessageCard: Error loading content for paper ${widget.selectedPaperId}: $e\n$st",
@@ -200,7 +201,13 @@ class _HomeMessageCardState extends ConsumerState<HomeMessageCard> {
               debugPrint(
                 "Action: Tear paper/message $mainMessageId on paper $currentPaperId",
               );
-              // TODO: Implement call to a controller method for tearing the paper/message
+              final result = await ref
+                  .read(paperActionsControllerProvider.notifier)
+                  .tearMessage(
+                    messageId: mainMessageId,
+                    paperId: currentPaperId,
+                  );
+              debugPrint("Tear message result: ${result.error ?? 'Success'}");
             },
           ),
         ),

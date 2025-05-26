@@ -13,9 +13,9 @@ class RequestBuilder extends _$RequestBuilder {
   @override
   void build() {}
 
-   String getMobileApiBaseUrl() => dotenv.env['API_URL']!;
+  String getMobileApiBaseUrl() => dotenv.env['API_URL']!;
 
-   Map<String, String> buildHeaders({String? token}) {
+  Map<String, String> buildHeaders({String? token}) {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
       "Accept": "application/json",
@@ -26,7 +26,7 @@ class RequestBuilder extends _$RequestBuilder {
     return headers;
   }
 
-   Future<ResultModel<T>> post<T>({
+  Future<ResultModel<T>> post<T>({
     required String endpoint,
     required T Function(dynamic json) parser,
     Map<String, dynamic>? body,
@@ -65,7 +65,7 @@ class RequestBuilder extends _$RequestBuilder {
     }
   }
 
-   Future<ResultModel<T>> get<T>({
+  Future<ResultModel<T>> get<T>({
     required String endpoint,
     required T Function(dynamic json) parser,
     String? token,
@@ -103,12 +103,19 @@ class RequestBuilder extends _$RequestBuilder {
     }
   }
 
-   ResultModel<T> _handleResponse<T>(
+  ResultModel<T> _handleResponse<T>(
     http.Response response,
     T Function(dynamic json) parser,
   ) {
     try {
       if (response.statusCode >= 200 && response.statusCode < 300) {
+        if (T == Null && response.body.isEmpty) {
+          return ResultModel<T>(
+            data: null as T,
+            statusCode: response.statusCode,
+          );
+        }
+
         // RESPONSE IS A SUCCESS BUT THE BODY IS EMPTY
         if (response.body.isEmpty) {
           debugPrint(
