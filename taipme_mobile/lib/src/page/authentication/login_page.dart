@@ -79,7 +79,7 @@ class _LoginOrRegisterPage extends ConsumerState<LoginPage> {
             await ref.read(formControllerProvider.notifier).handleForm(
               actions: [
                 () async =>
-                    await ref.read(userControllerProvider.notifier).loginUser(
+                    await ref.watch(userControllerProvider.notifier).loginUser(
                           email: _emailController.text,
                           password: _passwordController.text,
                         ),
