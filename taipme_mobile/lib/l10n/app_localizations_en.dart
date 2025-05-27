@@ -213,6 +213,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get replyToMessage => 'Reply to message';
 
   @override
+  String get reportReasonHint => 'Explain the reason for the report';
+
+  @override
+  String get reportButton => 'Report';
+
+  @override
+  String get snackbarFailedToCreateMessage => 'Failed to create message.';
+
+  @override
+  String get snackbarFailedToSendReply => 'Failed to send reply.';
+
+  @override
+  String get snackbarFailedToTearMessage => 'Failed to tear message.';
+
+  @override
+  String get snackbarFailedToReportMessage => 'Failed to report message.';
+
+  @override
   String get introText1 => 'TaipMe is an anonymous sheet where you can write and read thoughts without likes or notifications. An anti-social environment based on quality, not quantity.';
 
   @override

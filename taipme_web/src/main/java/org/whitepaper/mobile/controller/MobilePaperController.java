@@ -12,14 +12,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.whitepaper.bean.Messaggio;
+import org.whitepaper.bean.MessaggioSegnalato;
 import org.whitepaper.business.service.MessaggioService;
 import org.whitepaper.business.service.custom.MessaggioCustomService;
+import org.whitepaper.business.service.custom.MessaggioSegnalatoCustomService;
 import org.whitepaper.business.service.custom.UtenteActionCustomService;
 import org.whitepaper.mobile.dto.CreateMessageRequestDto;
 import org.whitepaper.mobile.dto.PaperActionFlagsDto;
 import org.whitepaper.mobile.dto.PaperContentDto;
 import org.whitepaper.mobile.dto.PaperStatusDto;
 import org.whitepaper.mobile.dto.ReplyMessageRequestDto;
+import org.whitepaper.mobile.dto.ReportMessageRequestDto;
 import org.whitepaper.mobile.dto.UserPapersSummaryDto;
 import org.whitepaper.utility.ConstantsDefinition;
 import org.whitepaper.utility.UtilityFunction;
@@ -50,6 +53,9 @@ public class MobilePaperController {
 
     @Autowired
     private UtenteActionCustomService utenteActionCustomService;
+
+    @Autowired
+    private MessaggioSegnalatoCustomService messaggioSegnalatoCustomService;
 
     private Integer getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -114,13 +120,14 @@ public class MobilePaperController {
             int paperId = i;
             boolean hasReply = false;
             boolean myTurnToReply = false;
-
+            boolean isUserAuthoredSlot = false;
             Messaggio messageOnThisPaper = null;
 
             if (userAuthoredMessages != null) {
                 for (Messaggio msg : userAuthoredMessages) {
                     if (msg.getIdFoglio() != null && msg.getIdFoglio() == paperId) {
                         messageOnThisPaper = msg;
+                        isUserAuthoredSlot = true;
                         break;
                     }
                 }
@@ -133,14 +140,23 @@ public class MobilePaperController {
                 }
             }
 
-            paperStatuses.add(new PaperStatusDto(paperId, hasReply, myTurnToReply));
+            paperStatuses.add(new PaperStatusDto(paperId, hasReply, myTurnToReply, isUserAuthoredSlot));
         }
 
         boolean canAddNewPaper = papersToDisplayInSummary < ConstantsDefinition.NUM_MAX_FOGLI;
 
+        if (canAddNewPaper) {
+            int length = paperStatuses.size();
+            paperStatuses.add(new PaperStatusDto(
+                    length + 1, // This is the "virtual" paper ID for adding new real papers
+                    false, // No replies on this virtual paper
+                    false, // Not the user's turn to reply on this virtual paper
+                    false // This is not a user-authored slot, it's a new paper slot
+            ));
+        }
+
         UserPapersSummaryDto summary = new UserPapersSummaryDto(
                 paperStatuses,
-                ConstantsDefinition.NUM_MAX_FOGLI, // TODO: REMOVE THIS, IT'S NOT NEEDED
                 canAddNewPaper);
 
         return ResponseEntity.ok(summary);
@@ -565,7 +581,7 @@ public class MobilePaperController {
         }
     }
 
-    @RequestMapping(value = "/messages/{messageId}/tear", method = RequestMethod.POST) 
+    @RequestMapping(value = "/messages/{messageId}/tear", method = RequestMethod.POST)
     public ResponseEntity<?> tearMessage(@PathVariable("messageId") Integer messageId) {
         Integer currentUserId = getCurrentUserId();
         if (currentUserId == null) {
@@ -643,7 +659,7 @@ public class MobilePaperController {
             }
 
             paperLogger.info("Message ID: {} successfully torn by user ID: {}", messageId, currentUserId);
-            return new ResponseEntity<>("{\"message\":\"Message successfully torn.\"}", HttpStatus.OK); 
+            return new ResponseEntity<>("{\"message\":\"Message successfully torn.\"}", HttpStatus.OK);
         } catch (Exception e) {
             paperLogger.error("Exception tearing message ID: {} for user ID: {}: {}", messageId, currentUserId,
                     e.getMessage(), e);
@@ -651,4 +667,63 @@ public class MobilePaperController {
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RequestMapping(value = "/messages/{messageId}/report", method = RequestMethod.POST)
+    public ResponseEntity<?> reportMessage(
+            @PathVariable("messageId") Integer messageId,
+            @RequestBody ReportMessageRequestDto reportRequest) {
+
+        Integer currentUserId = getCurrentUserId();
+        if (currentUserId == null) {
+            return new ResponseEntity<>("{\"error\":\"User not authenticated.\"}", HttpStatus.UNAUTHORIZED);
+        }
+        paperLogger.info("User ID: {} attempting to report message ID: {} for reason: {}", currentUserId, messageId,
+                reportRequest.getReason());
+
+        if (messageId == null || UtilityFunction.isFieldBlank(reportRequest.getReason())) {
+            return new ResponseEntity<>("{\"error\":\"Message ID and reason are required.\"}", HttpStatus.BAD_REQUEST);
+        }
+
+        Messaggio messageToReport = messaggioService.findById(messageId);
+        if (messageToReport == null) {
+            paperLogger.warn("Attempt to report non-existent message ID: {}", messageId);
+            return new ResponseEntity<>("{\"error\":\"Message to report not found.\"}", HttpStatus.NOT_FOUND);
+        }
+
+        // Validation: Must be public, user cannot report their own message
+        if (!ConstantsDefinition.CODMSG_PUB.equals(messageToReport.getCodTipMsg())) {
+            paperLogger.warn("User ID: {} attempting to report non-public message ID: {}", currentUserId, messageId);
+            return new ResponseEntity<>("{\"error\":\"Only public messages can be reported.\"}",
+                    HttpStatus.BAD_REQUEST);
+        }
+        if (messageToReport.getIdUteAut() != null && messageToReport.getIdUteAut().equals(currentUserId)) {
+            paperLogger.warn("User ID: {} attempting to report their own message ID: {}", currentUserId, messageId);
+            return new ResponseEntity<>("{\"error\":\"You cannot report your own message.\"}", HttpStatus.FORBIDDEN);
+        }
+
+        try {
+            MessaggioSegnalato report = messaggioSegnalatoCustomService.insertMsgSegnalato(
+                    messageId,
+                    reportRequest.getReason(),
+                    currentUserId);
+
+            if (report == null || report.getIdMsgSegn() == null) {
+                paperLogger.error("Failed to submit report for message ID: {} by user ID: {}.", messageId,
+                        currentUserId);
+                return new ResponseEntity<>("{\"error\":\"Failed to submit report.\"}",
+                        HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            paperLogger.info("Report submitted successfully for message ID: {} by user ID: {}. Report ID: {}",
+                    messageId, currentUserId, report.getIdMsgSegn());
+            return new ResponseEntity<>("{\"message\":\"Message reported successfully.\"}", HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            paperLogger.error("Exception submitting report for message ID: {} by user ID: {}: {}", messageId,
+                    currentUserId, e.getMessage(), e);
+            return new ResponseEntity<>("{\"error\":\"An internal error occurred while submitting the report.\"}",
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

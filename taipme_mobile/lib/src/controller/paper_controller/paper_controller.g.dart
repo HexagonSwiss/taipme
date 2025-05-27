@@ -7,7 +7,7 @@ part of 'paper_controller.dart';
 // **************************************************************************
 
 String _$fetchUserPapersSummaryHash() =>
-    r'60de15739162a72ae0ce0a00bc6333544ac258ef';
+    r'd1a9f6ad2e9c128066dbf70a88d1df43d0ce8330';
 
 /// See also [fetchUserPapersSummary].
 @ProviderFor(fetchUserPapersSummary)
@@ -26,7 +26,7 @@ final fetchUserPapersSummaryProvider =
 // ignore: unused_element
 typedef FetchUserPapersSummaryRef
     = AutoDisposeFutureProviderRef<PapersSummaryModel>;
-String _$fetchPaperContentHash() => r'148e119b15038efcf600948f90fe60dc241be403';
+String _$fetchPaperContentHash() => r'e0bd10b79b6c3bb890b3fd86810cea0b15f71836';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -179,58 +179,153 @@ class _FetchPaperContentProviderElement
   int get paperId => (origin as FetchPaperContentProvider).paperId;
 }
 
-String _$userPapersSummarySyncControllerHash() =>
-    r'5a4e77e688f4a3c3c08cc3b66ee32bd4c78235db';
+String _$currentPaperIdHash() => r'657dbf1d9c130d050d4d634aed33ea5625835e86';
 
-/// See also [UserPapersSummarySyncController].
-@ProviderFor(UserPapersSummarySyncController)
-final userPapersSummarySyncControllerProvider = NotifierProvider<
-    UserPapersSummarySyncController, PapersSummaryModel?>.internal(
-  UserPapersSummarySyncController.new,
-  name: r'userPapersSummarySyncControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$userPapersSummarySyncControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+abstract class _$CurrentPaperId extends BuildlessAutoDisposeNotifier<int> {
+  late final PapersSummaryModel summaryData;
 
-typedef _$UserPapersSummarySyncController = Notifier<PapersSummaryModel?>;
-String _$paperContentSyncControllerHash() =>
-    r'87093328a717974f0d4b57a064af3169ef53bc42';
-
-/// See also [PaperContentSyncController].
-@ProviderFor(PaperContentSyncController)
-final paperContentSyncControllerProvider = NotifierProvider<
-    PaperContentSyncController, Map<int, PaperContentModel?>>.internal(
-  PaperContentSyncController.new,
-  name: r'paperContentSyncControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$paperContentSyncControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$PaperContentSyncController = Notifier<Map<int, PaperContentModel?>>;
-String _$currentPaperIdHash() => r'96136354aa8a6060311b685fd402ab038ccfe654';
+  int build(
+    PapersSummaryModel summaryData,
+  );
+}
 
 /// See also [CurrentPaperId].
 @ProviderFor(CurrentPaperId)
-final currentPaperIdProvider =
-    AutoDisposeNotifierProvider<CurrentPaperId, int>.internal(
-  CurrentPaperId.new,
-  name: r'currentPaperIdProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$currentPaperIdHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+const currentPaperIdProvider = CurrentPaperIdFamily();
 
-typedef _$CurrentPaperId = AutoDisposeNotifier<int>;
+/// See also [CurrentPaperId].
+class CurrentPaperIdFamily extends Family<int> {
+  /// See also [CurrentPaperId].
+  const CurrentPaperIdFamily();
+
+  /// See also [CurrentPaperId].
+  CurrentPaperIdProvider call(
+    PapersSummaryModel summaryData,
+  ) {
+    return CurrentPaperIdProvider(
+      summaryData,
+    );
+  }
+
+  @override
+  CurrentPaperIdProvider getProviderOverride(
+    covariant CurrentPaperIdProvider provider,
+  ) {
+    return call(
+      provider.summaryData,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'currentPaperIdProvider';
+}
+
+/// See also [CurrentPaperId].
+class CurrentPaperIdProvider
+    extends AutoDisposeNotifierProviderImpl<CurrentPaperId, int> {
+  /// See also [CurrentPaperId].
+  CurrentPaperIdProvider(
+    PapersSummaryModel summaryData,
+  ) : this._internal(
+          () => CurrentPaperId()..summaryData = summaryData,
+          from: currentPaperIdProvider,
+          name: r'currentPaperIdProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$currentPaperIdHash,
+          dependencies: CurrentPaperIdFamily._dependencies,
+          allTransitiveDependencies:
+              CurrentPaperIdFamily._allTransitiveDependencies,
+          summaryData: summaryData,
+        );
+
+  CurrentPaperIdProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.summaryData,
+  }) : super.internal();
+
+  final PapersSummaryModel summaryData;
+
+  @override
+  int runNotifierBuild(
+    covariant CurrentPaperId notifier,
+  ) {
+    return notifier.build(
+      summaryData,
+    );
+  }
+
+  @override
+  Override overrideWith(CurrentPaperId Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: CurrentPaperIdProvider._internal(
+        () => create()..summaryData = summaryData,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        summaryData: summaryData,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeNotifierProviderElement<CurrentPaperId, int> createElement() {
+    return _CurrentPaperIdProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is CurrentPaperIdProvider && other.summaryData == summaryData;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, summaryData.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin CurrentPaperIdRef on AutoDisposeNotifierProviderRef<int> {
+  /// The parameter `summaryData` of this provider.
+  PapersSummaryModel get summaryData;
+}
+
+class _CurrentPaperIdProviderElement
+    extends AutoDisposeNotifierProviderElement<CurrentPaperId, int>
+    with CurrentPaperIdRef {
+  _CurrentPaperIdProviderElement(super.provider);
+
+  @override
+  PapersSummaryModel get summaryData =>
+      (origin as CurrentPaperIdProvider).summaryData;
+}
+
 String _$paperActionsControllerHash() =>
-    r'ab18521a0163b3af2736a86be6f7c4490962e310';
+    r'6540b397decc105c1199691ca155f7ccff9d1952';
 
 /// See also [PaperActionsController].
 @ProviderFor(PaperActionsController)

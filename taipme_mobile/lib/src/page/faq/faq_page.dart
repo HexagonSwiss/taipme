@@ -23,7 +23,7 @@ class FaqPage extends ConsumerWidget {
           child: faqController.when(
             data: (data) => FaqBody(),
             error: (error, stackTrace) => Center(child: Text('')),
-            loading: () => CircularProgressIndicator(),
+            loading: () => CircularProgressIndicator.adaptive(),
           ),
         ),
       ),

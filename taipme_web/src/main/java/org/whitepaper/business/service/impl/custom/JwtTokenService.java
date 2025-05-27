@@ -28,7 +28,7 @@ public class JwtTokenService {
     @Value("${jwt.secret}")
     private String secret;
 
-    public static final long JWT_TOKEN_VALIDITY = 12 * 60 * 60 * 1000; // 12 hours
+    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60 * 1000; // 720 hours = 24h * 30 days
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();

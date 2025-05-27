@@ -5,8 +5,9 @@ import 'package:taipme_mobile/src/model/data_model/paper_model_list/message_mode
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/paper_content_model/paper_content_model.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/papers_summary_model/papers_summary_model.dart';
 import 'package:taipme_mobile/src/model/data_model/paper_model_list/reply_message_request_model/reply_message_request_model.dart';
+import 'package:taipme_mobile/src/model/data_model/paper_model_list/report_message_request_model/report_message_request_model.dart';
 import 'package:taipme_mobile/src/model/data_model/result_model/result_model.dart';
-import 'package:taipme_mobile/src/service/storage_service/storage_service.dart';
+import 'package:taipme_mobile/src/service/token_service/token_service.dart';
 import 'package:taipme_mobile/src/util/helper/request_builder/request_builder.dart';
 
 part 'paper_service.g.dart';
@@ -19,22 +20,21 @@ class PaperService extends _$PaperService {
   Future<ResultModel<PapersSummaryModel>> getUserPapersSummary() async {
     debugPrint("PaperService: getUserPapersSummary called");
 
-    final tokenResult =
-        await ref.read(storageServiceProvider.notifier).getToken();
+    final token = await ref.read(tokenServiceProvider.notifier).getValidToken();
 
-    if (tokenResult.hasError() || tokenResult.data == null) {
-      debugPrint(
-        "PaperService: No token for getUserPapersSummary. Error: ${tokenResult.error}",
+    if (token.hasError() || token.data == null) {
+      return ResultModel(
+        error: token.error,
+        statusCode: token.statusCode,
       );
-      return ResultModel(error: "User not authenticated.", statusCode: 401);
     }
 
-    final String token = tokenResult.data!;
+    final String tokenData = token.data!;
 
     final response =
         await ref.read(requestBuilderProvider.notifier).get<PapersSummaryModel>(
               endpoint: "/papers/status",
-              token: token,
+              token: tokenData,
               parser: (json) {
                 if (json is Map<String, dynamic>) {
                   return PapersSummaryModel.fromJson(json);
@@ -65,20 +65,21 @@ class PaperService extends _$PaperService {
   Future<ResultModel<PaperContentModel>> getPaperContent(int paperId) async {
     debugPrint("PaperService: getPaperContent called for paperId: $paperId");
 
-    final tokenResult =
-        await ref.read(storageServiceProvider.notifier).getToken();
-    if (tokenResult.hasError() || tokenResult.data == null) {
-      debugPrint(
-        "PaperService: No token for getPaperContent. Error: ${tokenResult.error}",
+    final token = await ref.read(tokenServiceProvider.notifier).getValidToken();
+
+    if (token.hasError() || token.data == null) {
+      return ResultModel(
+        error: token.error,
+        statusCode: token.statusCode,
       );
-      return ResultModel(error: "User not authenticated.", statusCode: 401);
     }
-    final String token = tokenResult.data!;
+
+    final String tokenData = token.data!;
 
     final response =
         await ref.read(requestBuilderProvider.notifier).get<PaperContentModel>(
               endpoint: "/papers/$paperId",
-              token: token,
+              token: tokenData,
               parser: (json) {
                 if (json is Map<String, dynamic>) {
                   return PaperContentModel.fromJson(json);
@@ -110,43 +111,47 @@ class PaperService extends _$PaperService {
     required CreateMessageRequestModel messageRequest,
   }) async {
     debugPrint(
-        "PaperService: createMessageOnPaper called for paperId: $paperId with content: ${messageRequest.desMsg}");
+      "PaperService: createMessageOnPaper called for paperId: $paperId with content: ${messageRequest.desMsg}",
+    );
 
-    final tokenResult =
-        await ref.read(storageServiceProvider.notifier).getToken();
-    if (tokenResult.hasError() || tokenResult.data == null) {
-      debugPrint(
-          "PaperService: No token for createMessageOnPaper. Error: ${tokenResult.error}");
-      return ResultModel(error: "User not authenticated.", statusCode: 401);
+    final token = await ref.read(tokenServiceProvider.notifier).getValidToken();
+
+    if (token.hasError() || token.data == null) {
+      return ResultModel(
+        error: token.error,
+        statusCode: token.statusCode,
+      );
     }
-    final String token = tokenResult.data!;
 
-    final response = await ref
-        .read(requestBuilderProvider.notifier)
-        .post<MessageModel>(
-          endpoint:
-              "/papers/$paperId/messages", // POST to /mobile/papers/{paperId}/messages
-          body: messageRequest.toJson(), // CreateMessageRequestModel.toJson()
-          token: token,
-          parser: (json) {
-            if (json is Map<String, dynamic>) {
-              return MessageModel.fromJson(json);
-            }
-            throw FormatException(
-                "Expected a Map for the created Message, got ${json.runtimeType}");
-          },
-        );
+    final String tokenData = token.data!;
+
+    final response =
+        await ref.read(requestBuilderProvider.notifier).post<MessageModel>(
+              endpoint: "/papers/$paperId/messages",
+              body: messageRequest.toJson(),
+              token: tokenData,
+              parser: (json) {
+                if (json is Map<String, dynamic>) {
+                  return MessageModel.fromJson(json);
+                }
+                throw FormatException(
+                    "Expected a Map for the created Message, got ${json.runtimeType}");
+              },
+            );
 
     if (response.hasError() || response.data == null) {
       debugPrint(
-          "PaperService: createMessageOnPaper for paperId $paperId failed. Error: ${response.error}, Status: ${response.statusCode}");
+        "PaperService: createMessageOnPaper for paperId $paperId failed. Error: ${response.error}, Status: ${response.statusCode}",
+      );
       return ResultModel(
-          error: response.error ?? "Failed to create message.",
-          statusCode: response.statusCode);
+        error: response.error ?? "Failed to create message.",
+        statusCode: response.statusCode,
+      );
     }
 
     debugPrint(
-        "PaperService: Successfully created message on paperId $paperId. Message ID: ${response.data!.idMsg}");
+      "PaperService: Successfully created message on paperId $paperId. Message ID: ${response.data!.idMsg}",
+    );
     return response;
   }
 
@@ -158,40 +163,45 @@ class PaperService extends _$PaperService {
     debugPrint(
         "PaperService: replyToMessage called for paperId: $paperId, messageIdToReplyTo: $messageIdToReplyTo");
 
-    final tokenResult =
-        await ref.read(storageServiceProvider.notifier).getToken();
-    if (tokenResult.hasError() || tokenResult.data == null) {
-      debugPrint(
-          "PaperService: No token for replyToMessage. Error: ${tokenResult.error}");
-      return ResultModel(error: "User not authenticated.", statusCode: 401);
+    final token = await ref.read(tokenServiceProvider.notifier).getValidToken();
+
+    if (token.hasError() || token.data == null) {
+      return ResultModel(
+        error: token.error,
+        statusCode: token.statusCode,
+      );
     }
-    final String token = tokenResult.data!;
+
+    final String tokenData = token.data!;
 
     final response =
         await ref.read(requestBuilderProvider.notifier).post<MessageModel>(
               endpoint: "/papers/$paperId/messages/$messageIdToReplyTo/reply",
               body: replyRequest.toJson(), // ReplyMessageRequestModel.toJson()
-              token: token,
+              token: tokenData,
               parser: (json) {
-                // Backend returns the created reply (Messaggio object) on success (201 Created)
                 if (json is Map<String, dynamic>) {
                   return MessageModel.fromJson(json);
                 }
                 throw FormatException(
-                    "Expected a Map for the created Reply Message, got ${json.runtimeType}");
+                  "Expected a Map for the created Reply Message, got ${json.runtimeType}",
+                );
               },
             );
 
     if (response.hasError() || response.data == null) {
       debugPrint(
-          "PaperService: replyToMessage for paperId $paperId, messageId $messageIdToReplyTo failed. Error: ${response.error}, Status: ${response.statusCode}");
+        "PaperService: replyToMessage for paperId $paperId, messageId $messageIdToReplyTo failed. Error: ${response.error}, Status: ${response.statusCode}",
+      );
       return ResultModel(
-          error: response.error ?? "Failed to send reply.",
-          statusCode: response.statusCode);
+        error: response.error ?? "Failed to send reply.",
+        statusCode: response.statusCode,
+      );
     }
 
     debugPrint(
-        "PaperService: Successfully sent reply on paperId $paperId to messageId $messageIdToReplyTo. Reply ID: ${response.data!.idMsg}");
+      "PaperService: Successfully sent reply on paperId $paperId to messageId $messageIdToReplyTo. Reply ID: ${response.data!.idMsg}",
+    );
     return response;
   }
 
@@ -200,20 +210,20 @@ class PaperService extends _$PaperService {
   }) async {
     debugPrint("PaperService: tearMessage called for messageId: $messageId");
 
-    final tokenResult =
-        await ref.read(storageServiceProvider.notifier).getToken();
+    final token = await ref.read(tokenServiceProvider.notifier).getValidToken();
 
-    if (tokenResult.hasError() || tokenResult.data == null) {
-      debugPrint(
-        "PaperService: No token for tearMessage. Error: ${tokenResult.error}",
+    if (token.hasError() || token.data == null) {
+      return ResultModel(
+        error: token.error,
+        statusCode: token.statusCode,
       );
-      return ResultModel(error: "User not authenticated.", statusCode: 401);
     }
-    final String token = tokenResult.data!;
+
+    final String tokenData = token.data!;
 
     final response = await ref.read(requestBuilderProvider.notifier).post<void>(
           endpoint: "/papers/messages/$messageId/tear",
-          token: token,
+          token: tokenData,
           parser: (_) {},
         );
 
@@ -228,6 +238,50 @@ class PaperService extends _$PaperService {
     }
 
     debugPrint("PaperService: Successfully tore message with ID: $messageId");
+    return const ResultModel(data: null);
+  }
+
+  Future<ResultModel<void>> reportMessage({
+    required ReportMessageRequestModel reportRequest,
+  }) async {
+    final int messageId = reportRequest.messageId;
+    final String reason = reportRequest.reason;
+
+    debugPrint(
+      "PaperService: reportMessage called for messageId: $messageId, reason: $reason",
+    );
+
+    final token = await ref.read(tokenServiceProvider.notifier).getValidToken();
+
+    if (token.hasError() || token.data == null) {
+      return ResultModel(
+        error: token.error,
+        statusCode: token.statusCode,
+      );
+    }
+
+    final String tokenData = token.data!;
+
+    final response = await ref.read(requestBuilderProvider.notifier).post<void>(
+          endpoint: "/papers/messages/$messageId/report",
+          token: tokenData,
+          body: {"reason": reason},
+          parser: (_) {},
+        );
+
+    if (response.hasError()) {
+      debugPrint(
+        "PaperService: reportMessage failed for messageId $messageId. Error: ${response.error}, Status: ${response.statusCode}",
+      );
+      return ResultModel(
+        error: response.error ?? "Failed to report message.",
+        statusCode: response.statusCode,
+      );
+    }
+
+    debugPrint(
+      "PaperService: Successfully reported message with ID: $messageId",
+    );
     return const ResultModel(data: null);
   }
 }

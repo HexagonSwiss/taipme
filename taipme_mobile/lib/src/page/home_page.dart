@@ -17,7 +17,6 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final summaryAsync = ref.watch(fetchUserPapersSummaryProvider);
-    final int selectedPaperId = ref.watch(currentPaperIdProvider);
 
     return Scaffold(
       backgroundColor: TaipmeStyle.backgroundColor,
@@ -25,7 +24,7 @@ class HomePage extends ConsumerWidget {
       endDrawer: const EndDrawer(),
       bottomNavigationBar: BottomNavBar(),
       body: summaryAsync.when(
-        loading: () => CircularProgressIndicator(),
+        loading: () => CircularProgressIndicator.adaptive(),
         error: (e, st) => Center(
           child: Text(
             AppLocalizations.of(context)!.thereAreNoPapers,
@@ -36,56 +35,46 @@ class HomePage extends ConsumerWidget {
           ),
         ),
         data: (PapersSummaryModel summaryData) {
-          final bool isSelectedPaperIdValid =
-              summaryData.papers.any((p) => p.paperId == selectedPaperId) ||
-                  summaryData.papers.isEmpty && selectedPaperId == 1;
+          return Consumer(
+            builder: (context, ref, child) {
+              final paperId = ref.watch(currentPaperIdProvider(summaryData));
 
-          final int effectiveSelectedPaperId = isSelectedPaperIdValid
-              ? selectedPaperId
-              : (summaryData.papers.isNotEmpty
-                  ? summaryData.papers.first.paperId
-                  : 1);
-
-          if (selectedPaperId != effectiveSelectedPaperId) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              ref
-                  .read(currentPaperIdProvider.notifier)
-                  .setCurrentPaperId(effectiveSelectedPaperId);
-            });
-          }
-
-          return Column(
-            children: [
-              SizedBox(height: 16),
-              Expanded(
-                flex: 10,
-                child: SearchField(),
-              ),
-              Expanded(
-                flex: 65,
-                child: HomeMessageCard(
-                    selectedPaperId: selectedPaperId,
-                    key: ValueKey(effectiveSelectedPaperId)),
-              ),
-              Expanded(
-                flex: 25,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    PaperIndexCarousel(
-                      summaryData: summaryData,
-                      selectedPaperId: effectiveSelectedPaperId,
-                      onPaperSelected: (paperId) {
-                        ref
-                            .read(currentPaperIdProvider.notifier)
-                            .setCurrentPaperId(paperId);
-                      },
+              return Column(
+                children: [
+                  SizedBox(height: 16),
+                  Expanded(
+                    flex: 10,
+                    child: SearchField(),
+                  ),
+                  Expanded(
+                    flex: 65,
+                    child: HomeMessageCard(
+                      selectedPaperId: paperId,
+                      key: ValueKey(paperId),
                     ),
-                  ],
-                ),
-              ),
-            ],
+                  ),
+                  Expanded(
+                    flex: 25,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        PaperIndexCarousel(
+                          summaryData: summaryData,
+                          selectedPaperId: paperId,
+                          onPaperSelected: (paperId) {
+                            ref
+                                .read(currentPaperIdProvider(summaryData)
+                                    .notifier)
+                                .setCurrentPaperId(paperId);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
           );
         },
       ),

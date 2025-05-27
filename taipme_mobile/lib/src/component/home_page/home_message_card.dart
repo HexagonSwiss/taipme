@@ -39,7 +39,7 @@ class _HomeMessageCardState extends ConsumerState<HomeMessageCard> {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+        padding: const EdgeInsets.fromLTRB(12, 16, 12, 12),
         child: paperContentAsync.when(
           loading: () =>
               const Center(child: CircularProgressIndicator.adaptive()),
@@ -239,10 +239,7 @@ class _HomeMessageCardState extends ConsumerState<HomeMessageCard> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: buttons
           .map(
-            (button) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: button,
-            ),
+            (button) => button,
           )
           .toList(),
     );

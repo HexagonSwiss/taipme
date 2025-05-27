@@ -503,6 +503,42 @@ abstract class AppLocalizations {
   /// **'Rispondi al messaggio'**
   String get replyToMessage;
 
+  /// No description provided for @reportReasonHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Spiega il motivo della segnalazione'**
+  String get reportReasonHint;
+
+  /// No description provided for @reportButton.
+  ///
+  /// In it, this message translates to:
+  /// **'Segnala'**
+  String get reportButton;
+
+  /// No description provided for @snackbarFailedToCreateMessage.
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile creare il messaggio.'**
+  String get snackbarFailedToCreateMessage;
+
+  /// No description provided for @snackbarFailedToSendReply.
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile inviare la risposta.'**
+  String get snackbarFailedToSendReply;
+
+  /// No description provided for @snackbarFailedToTearMessage.
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile strappare il messaggio.'**
+  String get snackbarFailedToTearMessage;
+
+  /// No description provided for @snackbarFailedToReportMessage.
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile segnalare il messaggio.'**
+  String get snackbarFailedToReportMessage;
+
   /// No description provided for @introText1.
   ///
   /// In it, this message translates to:

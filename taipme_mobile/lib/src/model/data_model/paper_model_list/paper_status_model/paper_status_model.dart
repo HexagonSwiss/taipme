@@ -9,6 +9,7 @@ abstract class PaperStatusModel with _$PaperStatusModel {
     required int paperId,
     required bool hasReply,
     required bool myTurnToReply,
+    required bool isUserAuthoredSlot,
   }) = _PaperStatusModel;
 
   factory PaperStatusModel.fromJson(Map<String, dynamic> json) =>

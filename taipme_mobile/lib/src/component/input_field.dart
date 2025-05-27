@@ -24,6 +24,8 @@ class InputField extends ConsumerStatefulWidget {
     this.top = 0,
     this.right = 0,
     this.bottom = 0,
+    this.minLines = 1,
+    this.maxLines = 1,
   });
 
   final TextEditingController controller;
@@ -42,6 +44,8 @@ class InputField extends ConsumerStatefulWidget {
   final double top;
   final double right;
   final double bottom;
+  final int minLines;
+  final int maxLines;
   final TextCapitalization textCapitalization;
 
   @override
@@ -71,8 +75,11 @@ class _TextInputState extends ConsumerState<InputField> {
       ),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        height: hasError != null ? 76 : 56,
+        height: hasError != null ? 76 : 66,
         child: TextFormField(
+          minLines: widget.minLines,
+          maxLines: widget.maxLines,
+          maxLength: 300,
           autovalidateMode: AutovalidateMode.onUnfocus,
           readOnly: widget.isReadOnly,
           focusNode: widget.focusNode,

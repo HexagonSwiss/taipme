@@ -16,7 +16,6 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PapersSummaryModel {
   List<PaperStatusModel> get papers;
-  int get maxPapersAllowed;
   bool get canAddNewPaper;
 
   /// Create a copy of PapersSummaryModel
@@ -36,8 +35,6 @@ mixin _$PapersSummaryModel {
         (other.runtimeType == runtimeType &&
             other is PapersSummaryModel &&
             const DeepCollectionEquality().equals(other.papers, papers) &&
-            (identical(other.maxPapersAllowed, maxPapersAllowed) ||
-                other.maxPapersAllowed == maxPapersAllowed) &&
             (identical(other.canAddNewPaper, canAddNewPaper) ||
                 other.canAddNewPaper == canAddNewPaper));
   }
@@ -45,14 +42,11 @@ mixin _$PapersSummaryModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(papers),
-      maxPapersAllowed,
-      canAddNewPaper);
+      runtimeType, const DeepCollectionEquality().hash(papers), canAddNewPaper);
 
   @override
   String toString() {
-    return 'PapersSummaryModel(papers: $papers, maxPapersAllowed: $maxPapersAllowed, canAddNewPaper: $canAddNewPaper)';
+    return 'PapersSummaryModel(papers: $papers, canAddNewPaper: $canAddNewPaper)';
   }
 }
 
@@ -62,10 +56,7 @@ abstract mixin class $PapersSummaryModelCopyWith<$Res> {
           PapersSummaryModel value, $Res Function(PapersSummaryModel) _then) =
       _$PapersSummaryModelCopyWithImpl;
   @useResult
-  $Res call(
-      {List<PaperStatusModel> papers,
-      int maxPapersAllowed,
-      bool canAddNewPaper});
+  $Res call({List<PaperStatusModel> papers, bool canAddNewPaper});
 }
 
 /// @nodoc
@@ -82,7 +73,6 @@ class _$PapersSummaryModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? papers = null,
-    Object? maxPapersAllowed = null,
     Object? canAddNewPaper = null,
   }) {
     return _then(_self.copyWith(
@@ -90,10 +80,6 @@ class _$PapersSummaryModelCopyWithImpl<$Res>
           ? _self.papers
           : papers // ignore: cast_nullable_to_non_nullable
               as List<PaperStatusModel>,
-      maxPapersAllowed: null == maxPapersAllowed
-          ? _self.maxPapersAllowed
-          : maxPapersAllowed // ignore: cast_nullable_to_non_nullable
-              as int,
       canAddNewPaper: null == canAddNewPaper
           ? _self.canAddNewPaper
           : canAddNewPaper // ignore: cast_nullable_to_non_nullable
@@ -107,7 +93,6 @@ class _$PapersSummaryModelCopyWithImpl<$Res>
 class _PapersSummaryModel implements PapersSummaryModel {
   const _PapersSummaryModel(
       {required final List<PaperStatusModel> papers,
-      required this.maxPapersAllowed,
       required this.canAddNewPaper})
       : _papers = papers;
   factory _PapersSummaryModel.fromJson(Map<String, dynamic> json) =>
@@ -121,8 +106,6 @@ class _PapersSummaryModel implements PapersSummaryModel {
     return EqualUnmodifiableListView(_papers);
   }
 
-  @override
-  final int maxPapersAllowed;
   @override
   final bool canAddNewPaper;
 
@@ -147,23 +130,18 @@ class _PapersSummaryModel implements PapersSummaryModel {
         (other.runtimeType == runtimeType &&
             other is _PapersSummaryModel &&
             const DeepCollectionEquality().equals(other._papers, _papers) &&
-            (identical(other.maxPapersAllowed, maxPapersAllowed) ||
-                other.maxPapersAllowed == maxPapersAllowed) &&
             (identical(other.canAddNewPaper, canAddNewPaper) ||
                 other.canAddNewPaper == canAddNewPaper));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_papers),
-      maxPapersAllowed,
-      canAddNewPaper);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_papers), canAddNewPaper);
 
   @override
   String toString() {
-    return 'PapersSummaryModel(papers: $papers, maxPapersAllowed: $maxPapersAllowed, canAddNewPaper: $canAddNewPaper)';
+    return 'PapersSummaryModel(papers: $papers, canAddNewPaper: $canAddNewPaper)';
   }
 }
 
@@ -175,10 +153,7 @@ abstract mixin class _$PapersSummaryModelCopyWith<$Res>
       __$PapersSummaryModelCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {List<PaperStatusModel> papers,
-      int maxPapersAllowed,
-      bool canAddNewPaper});
+  $Res call({List<PaperStatusModel> papers, bool canAddNewPaper});
 }
 
 /// @nodoc
@@ -195,7 +170,6 @@ class __$PapersSummaryModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? papers = null,
-    Object? maxPapersAllowed = null,
     Object? canAddNewPaper = null,
   }) {
     return _then(_PapersSummaryModel(
@@ -203,10 +177,6 @@ class __$PapersSummaryModelCopyWithImpl<$Res>
           ? _self._papers
           : papers // ignore: cast_nullable_to_non_nullable
               as List<PaperStatusModel>,
-      maxPapersAllowed: null == maxPapersAllowed
-          ? _self.maxPapersAllowed
-          : maxPapersAllowed // ignore: cast_nullable_to_non_nullable
-              as int,
       canAddNewPaper: null == canAddNewPaper
           ? _self.canAddNewPaper
           : canAddNewPaper // ignore: cast_nullable_to_non_nullable

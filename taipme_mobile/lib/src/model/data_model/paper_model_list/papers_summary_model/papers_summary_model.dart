@@ -8,7 +8,6 @@ part 'papers_summary_model.g.dart';
 abstract class PapersSummaryModel with _$PapersSummaryModel {
   const factory PapersSummaryModel({
     required List<PaperStatusModel> papers,
-    required int maxPapersAllowed,
     required bool canAddNewPaper,
   }) = _PapersSummaryModel;
 

@@ -59,9 +59,12 @@ class RequestBuilder extends _$RequestBuilder {
 
       return _handleResponse<T>(response, parser);
     } catch (e) {
-      debugPrint("RequestBuilder POST Network Error: $e");
+      debugPrint(
+        "RequestBuilder POST Network Error: $e",
+      );
       return ResultModel<T>(
-          error: "Network error. Please check connection: ${e.toString()}");
+        error: "Network error. Please check connection: ${e.toString()}",
+      );
     }
   }
 

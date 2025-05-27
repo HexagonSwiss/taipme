@@ -11,6 +11,7 @@ _PaperStatusModel _$PaperStatusModelFromJson(Map<String, dynamic> json) =>
       paperId: (json['paperId'] as num).toInt(),
       hasReply: json['hasReply'] as bool,
       myTurnToReply: json['myTurnToReply'] as bool,
+      isUserAuthoredSlot: json['isUserAuthoredSlot'] as bool,
     );
 
 Map<String, dynamic> _$PaperStatusModelToJson(_PaperStatusModel instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$PaperStatusModelToJson(_PaperStatusModel instance) =>
       'paperId': instance.paperId,
       'hasReply': instance.hasReply,
       'myTurnToReply': instance.myTurnToReply,
+      'isUserAuthoredSlot': instance.isUserAuthoredSlot,
     };

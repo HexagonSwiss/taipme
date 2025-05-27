@@ -18,6 +18,7 @@ mixin _$PaperStatusModel {
   int get paperId;
   bool get hasReply;
   bool get myTurnToReply;
+  bool get isUserAuthoredSlot;
 
   /// Create a copy of PaperStatusModel
   /// with the given fields replaced by the non-null parameter values.
@@ -39,17 +40,19 @@ mixin _$PaperStatusModel {
             (identical(other.hasReply, hasReply) ||
                 other.hasReply == hasReply) &&
             (identical(other.myTurnToReply, myTurnToReply) ||
-                other.myTurnToReply == myTurnToReply));
+                other.myTurnToReply == myTurnToReply) &&
+            (identical(other.isUserAuthoredSlot, isUserAuthoredSlot) ||
+                other.isUserAuthoredSlot == isUserAuthoredSlot));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, paperId, hasReply, myTurnToReply);
+  int get hashCode => Object.hash(
+      runtimeType, paperId, hasReply, myTurnToReply, isUserAuthoredSlot);
 
   @override
   String toString() {
-    return 'PaperStatusModel(paperId: $paperId, hasReply: $hasReply, myTurnToReply: $myTurnToReply)';
+    return 'PaperStatusModel(paperId: $paperId, hasReply: $hasReply, myTurnToReply: $myTurnToReply, isUserAuthoredSlot: $isUserAuthoredSlot)';
   }
 }
 
@@ -59,7 +62,11 @@ abstract mixin class $PaperStatusModelCopyWith<$Res> {
           PaperStatusModel value, $Res Function(PaperStatusModel) _then) =
       _$PaperStatusModelCopyWithImpl;
   @useResult
-  $Res call({int paperId, bool hasReply, bool myTurnToReply});
+  $Res call(
+      {int paperId,
+      bool hasReply,
+      bool myTurnToReply,
+      bool isUserAuthoredSlot});
 }
 
 /// @nodoc
@@ -78,6 +85,7 @@ class _$PaperStatusModelCopyWithImpl<$Res>
     Object? paperId = null,
     Object? hasReply = null,
     Object? myTurnToReply = null,
+    Object? isUserAuthoredSlot = null,
   }) {
     return _then(_self.copyWith(
       paperId: null == paperId
@@ -92,6 +100,10 @@ class _$PaperStatusModelCopyWithImpl<$Res>
           ? _self.myTurnToReply
           : myTurnToReply // ignore: cast_nullable_to_non_nullable
               as bool,
+      isUserAuthoredSlot: null == isUserAuthoredSlot
+          ? _self.isUserAuthoredSlot
+          : isUserAuthoredSlot // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -102,7 +114,8 @@ class _PaperStatusModel implements PaperStatusModel {
   const _PaperStatusModel(
       {required this.paperId,
       required this.hasReply,
-      required this.myTurnToReply});
+      required this.myTurnToReply,
+      required this.isUserAuthoredSlot});
   factory _PaperStatusModel.fromJson(Map<String, dynamic> json) =>
       _$PaperStatusModelFromJson(json);
 
@@ -112,6 +125,8 @@ class _PaperStatusModel implements PaperStatusModel {
   final bool hasReply;
   @override
   final bool myTurnToReply;
+  @override
+  final bool isUserAuthoredSlot;
 
   /// Create a copy of PaperStatusModel
   /// with the given fields replaced by the non-null parameter values.
@@ -137,17 +152,19 @@ class _PaperStatusModel implements PaperStatusModel {
             (identical(other.hasReply, hasReply) ||
                 other.hasReply == hasReply) &&
             (identical(other.myTurnToReply, myTurnToReply) ||
-                other.myTurnToReply == myTurnToReply));
+                other.myTurnToReply == myTurnToReply) &&
+            (identical(other.isUserAuthoredSlot, isUserAuthoredSlot) ||
+                other.isUserAuthoredSlot == isUserAuthoredSlot));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, paperId, hasReply, myTurnToReply);
+  int get hashCode => Object.hash(
+      runtimeType, paperId, hasReply, myTurnToReply, isUserAuthoredSlot);
 
   @override
   String toString() {
-    return 'PaperStatusModel(paperId: $paperId, hasReply: $hasReply, myTurnToReply: $myTurnToReply)';
+    return 'PaperStatusModel(paperId: $paperId, hasReply: $hasReply, myTurnToReply: $myTurnToReply, isUserAuthoredSlot: $isUserAuthoredSlot)';
   }
 }
 
@@ -159,7 +176,11 @@ abstract mixin class _$PaperStatusModelCopyWith<$Res>
       __$PaperStatusModelCopyWithImpl;
   @override
   @useResult
-  $Res call({int paperId, bool hasReply, bool myTurnToReply});
+  $Res call(
+      {int paperId,
+      bool hasReply,
+      bool myTurnToReply,
+      bool isUserAuthoredSlot});
 }
 
 /// @nodoc
@@ -178,6 +199,7 @@ class __$PaperStatusModelCopyWithImpl<$Res>
     Object? paperId = null,
     Object? hasReply = null,
     Object? myTurnToReply = null,
+    Object? isUserAuthoredSlot = null,
   }) {
     return _then(_PaperStatusModel(
       paperId: null == paperId
@@ -191,6 +213,10 @@ class __$PaperStatusModelCopyWithImpl<$Res>
       myTurnToReply: null == myTurnToReply
           ? _self.myTurnToReply
           : myTurnToReply // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isUserAuthoredSlot: null == isUserAuthoredSlot
+          ? _self.isUserAuthoredSlot
+          : isUserAuthoredSlot // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }

@@ -25,6 +25,11 @@ class StorageService extends _$StorageService {
     try {
       debugPrint("StorageService: Retrieving token");
       final token = await state.read(key: 'jwt');
+      if (token == null) {
+        debugPrint("StorageService: No token found");
+        return const ResultModel(data: null);
+      }
+      debugPrint("StorageService: Token retrieved successfully: $token");
       return ResultModel(data: token);
     } catch (e) {
       debugPrint("StorageService: Failed to retrieve token. Error: $e");

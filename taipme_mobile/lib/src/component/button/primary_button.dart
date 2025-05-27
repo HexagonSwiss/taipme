@@ -24,7 +24,7 @@ class PrimaryButton extends ConsumerWidget {
               await onPressed();
             },
       child: !canClick
-          ? CircularProgressIndicator()
+          ? CircularProgressIndicator.adaptive()
           : Text(
               textAlign: TextAlign.center,
               title,
