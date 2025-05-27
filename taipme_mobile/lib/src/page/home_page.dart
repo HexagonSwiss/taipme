@@ -24,7 +24,7 @@ class HomePage extends ConsumerWidget {
       endDrawer: const EndDrawer(),
       bottomNavigationBar: BottomNavBar(),
       body: summaryAsync.when(
-        loading: () => CircularProgressIndicator.adaptive(),
+        loading: () => Center(child: CircularProgressIndicator.adaptive()),
         error: (e, st) => Center(
           child: Text(
             AppLocalizations.of(context)!.thereAreNoPapers,

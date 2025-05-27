@@ -40,14 +40,15 @@ class _ReportPageState extends ConsumerState<ReportPage> {
       backgroundColor: TaipmeStyle.backgroundColor,
       appBar: CustomHeader(),
       endDrawer: const EndDrawer(),
-      body: Column(
-        children: [
-          SizedBox(
-            width: MediaQuery.sizeOf(context).width * 0.85,
-            child: Align(
+      body: SizedBox(
+        width: MediaQuery.sizeOf(context).width,
+        child: Column(
+          children: [
+            SizedBox(height: 16),
+            Align(
               alignment: Alignment.centerLeft,
               child: TextButton(
-                onPressed: () => ref.read(goRouterProvider).go('/home-page'),
+                onPressed: () => ref.read(goRouterProvider).go('/'),
                 child: Text(
                   AppLocalizations.of(context)!.goBack,
                   style: TextStyle(
@@ -56,58 +57,65 @@ class _ReportPageState extends ConsumerState<ReportPage> {
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 16),
-          Expanded(
-            flex: 30,
-            child: MessageCard(
-              message: AppLocalizations.of(context)!.messageToBeReported,
-              textAlign: TextAlign.start,
-              showReportButton: false,
-              icon: Icons.info_outline,
-              shouldRotate: false,
-              isReadOnly: true,
-              preLoadedMessage: widget.message.desMsg,
-            ),
-          ),
-          SizedBox(height: 24),
-          Expanded(
-            child: Form(
-              key: reportKey,
-              child: InputField(
-                minLines: 3,
-                maxLines: 5,
-                controller: controller,
-                focusNode: focusNode,
-                hintText: AppLocalizations.of(context)!.reportReasonHint,
+            SizedBox(height: 16),
+            Expanded(
+              flex: 30,
+              child: MessageCard(
+                message: AppLocalizations.of(context)!.messageToBeReported,
+                textAlign: TextAlign.start,
+                showReportButton: false,
                 icon: Icons.info_outline,
-                validator: (value) => ref
-                    .read(formControllerProvider.notifier)
-                    .validateEmptyOrNull(value, context),
+                shouldRotate: false,
+                isReadOnly: true,
+                preLoadedMessage: widget.message.desMsg,
               ),
             ),
-          ),
-          SizedBox(height: 24),
-          PrimaryButton(
-            title: AppLocalizations.of(context)!.reportButton,
-            onPressed: () async {
-              await ref
-                  .read(formControllerProvider.notifier)
-                  .handleForm(globalKey: reportKey, context: context, actions: [
-                () async => await ref
-                    .read(paperActionsControllerProvider.notifier)
-                    .reportMessage(
-                      messageId: widget.message.idMsg,
-                      paperId: widget.message.idFoglio,
-                      reason: controller.text,
-                    ),
-              ], onEnd: [
-                () =>
-                    ref.read(goRouterProvider).go('/report-confirmation-page'),
-              ]);
-            },
-          ),
-        ],
+            SizedBox(height: 24),
+            Expanded(
+              flex: 30,
+              child: Form(
+                key: reportKey,
+                child: SizedBox(
+                  width: MediaQuery.sizeOf(context).width * 0.85,
+                  child: InputField(
+                    minLines: 5,
+                    maxLines: 5,
+                    controller: controller,
+                    focusNode: focusNode,
+                    hintText: AppLocalizations.of(context)!.reportReasonHint,
+                    icon: Icons.info_outline,
+                    validator: (value) => ref
+                        .read(formControllerProvider.notifier)
+                        .validateEmptyOrNull(value, context),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 24),
+            Expanded(
+              flex: 40,
+              child: PrimaryButton(
+                title: '_${AppLocalizations.of(context)!.reportButton}',
+                onPressed: () async {
+                  await ref
+                      .read(formControllerProvider.notifier)
+                      .handleForm(globalKey: reportKey, context: context, actions: [
+                    () async => await ref
+                        .read(paperActionsControllerProvider.notifier)
+                        .reportMessage(
+                          messageId: widget.message.idMsg,
+                          paperId: widget.message.idFoglio,
+                          reason: controller.text,
+                        ),
+                  ], onEnd: [
+                    () =>
+                        ref.read(goRouterProvider).go('/report-confirmation-page'),
+                  ]);
+                },
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavBar(),
     );

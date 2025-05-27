@@ -26,7 +26,7 @@ class BottomNavBar extends ConsumerWidget {
           //   bottomNavEnum: BottomNavEnum.chat,
           // ),
           BottomNavBarItem(
-            route: '/home-page',
+            route: '/',
             bottomNavEnum: BottomNavEnum.home,
           ),
           BottomNavBarItem(

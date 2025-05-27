@@ -74,7 +74,7 @@ class WhatIsPage extends ConsumerWidget {
               if (clickCount >= 2)
                 PrimaryButton(
                   title: '_${AppLocalizations.of(context)!.goBack}',
-                  onPressed: () => ref.read(goRouterProvider).go('/home-page'),
+                  onPressed: () => ref.read(goRouterProvider).go('/'),
                 ),
             ],
           ),

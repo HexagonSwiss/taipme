@@ -23,7 +23,7 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
                     ref
                         .read(bottomNavControllerProvider.notifier)
                         .setBottomNav(BottomNavEnum.home);
-                    ref.read(goRouterProvider).go('/home-page');
+                    ref.read(goRouterProvider).go('/');
                   },
                   child: Image.asset(
                     'assets/logo/taipme.jpg',

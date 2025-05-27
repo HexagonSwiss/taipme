@@ -216,7 +216,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get reportReasonHint => 'Spiega il motivo della segnalazione';
 
   @override
-  String get reportButton => 'Segnala';
+  String get reportButton => 'segnala';
 
   @override
   String get snackbarFailedToCreateMessage => 'Impossibile creare il messaggio.';
@@ -229,6 +229,12 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get snackbarFailedToReportMessage => 'Impossibile segnalare il messaggio.';
+
+  @override
+  String get reportConfirmationMessage => 'Hai segnalato correttamente un messaggio offensivo.';
+
+  @override
+  String get reportConfirmationThanks => 'Grazie!';
 
   @override
   String get introText1 => 'TaipMe è un foglio anonimo dove puoi scrivere e leggere pensieri senza like o notifiche. Un ambiente anti-social basato sulla qualità, non sulla quantità.';

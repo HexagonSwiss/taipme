@@ -35,7 +35,7 @@ class EndDrawer extends ConsumerWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          ref.read(goRouterProvider).go('/home-page');
+                          ref.read(goRouterProvider).go('/');
                         },
                         child: Container(
                           alignment: Alignment.centerLeft,

@@ -84,7 +84,7 @@ class _LoginOrRegisterPage extends ConsumerState<LoginPage> {
                           password: _passwordController.text,
                         ),
               ],
-              route: '/home-page',
+              route: '/',
               globalKey: loginKey,
               context: context,
             );

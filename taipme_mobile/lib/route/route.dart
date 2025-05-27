@@ -82,7 +82,7 @@ GoRouter goRouter(Ref ref) {
         },
       ),
       GoRoute(
-        path: '/home-page',
+        path: '/',
         pageBuilder: (context, state) => const MaterialPage(child: HomePage()),
       ),
       GoRoute(

@@ -512,7 +512,7 @@ abstract class AppLocalizations {
   /// No description provided for @reportButton.
   ///
   /// In it, this message translates to:
-  /// **'Segnala'**
+  /// **'segnala'**
   String get reportButton;
 
   /// No description provided for @snackbarFailedToCreateMessage.
@@ -538,6 +538,18 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Impossibile segnalare il messaggio.'**
   String get snackbarFailedToReportMessage;
+
+  /// No description provided for @reportConfirmationMessage.
+  ///
+  /// In it, this message translates to:
+  /// **'Hai segnalato correttamente un messaggio offensivo.'**
+  String get reportConfirmationMessage;
+
+  /// No description provided for @reportConfirmationThanks.
+  ///
+  /// In it, this message translates to:
+  /// **'Grazie!'**
+  String get reportConfirmationThanks;
 
   /// No description provided for @introText1.
   ///
